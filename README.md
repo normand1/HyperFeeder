@@ -4,6 +4,11 @@ This application generates dynamic podcasts based on the latest news. The app fe
 
 Currently, the only source available for building dynamic podcasts from is the HackerNews API. The plan is to expand this tool to ingest many different configurable sources for building podcast content from as well as new sources for augmenting the source content. See the Issues tab for the planned and in-progress roadmap. Also, feel free to open new issues for feature requests or pull requests for new features you'd like to contribute back.
 
+## Project Goals
+- The podcasts produced by this framework should be fully autonomous and need no human intervention to search for content, generate audio, compose audio segments, produce instrospective metadata about podcast content and publish to a podcast feed. (In progress)
+- Anyone should be able to submit easily composable new features that can help make all autonomous podcasts better. (In Progress)
+- Any source of data can be a source of podcast content. (In Progress)
+
 ## Prerequisites
 
 - You will need Python version 3.9.5 or newer. If your Python version is older, you can use `pyenv` to manage multiple versions of Python on your system. Here's how to do it:
