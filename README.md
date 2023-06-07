@@ -1,4 +1,4 @@
-# HyperFeeder - Podcast Generator
+# HyperFeeder - Autonomous Podcast Generator
 
 This application generates dynamic podcasts based on the latest news. The app fetches relevant content, generates an intro, summarizes stories, and even writes podcast descriptions and chapters.
 
