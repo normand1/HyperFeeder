@@ -88,12 +88,19 @@ python app.py
 
 ## podcastTextGenerationApp Details
 
-The podcastTextGenerationApp is the heart of this framework. When modifying and creating your own podcasts this is most likely where you will want to start. The podcastTextGenerationApp uses a plugin architecture so you can extend the functionality of this app and easily contribute your own plugins! 
+The `podcastTextGenerationApp` is the heart of this framework. When modifying and creating your own podcasts this is most likely where you will want to start. The `podcastTextGenerationApp` uses a plugin architecture so you can extend the functionality of this app and easily contribute your own plugins! 
 
 When the app is run by the ./generatePodcast.sh script it will proceed to generate text for a podcast by invoking plugins in the following order:
 
-- podcastDataSourcePlugins: These plugins will be invoked to generate the raw text for a set of "Stories" that will be used to generate the rest of the podcast. Any plugin used here must return data in the form of a ["Story" class](). 
+- [podcastDataSourcePlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastDataSourcePlugins): These plugins will be invoked to generate the urls for a set of "Stories" that will be used to generate the rest of the podcast. Any plugin used here must return data in the form of a ["Story" class](https://github.com/normand1/HyperFeeder/blob/master/podcastTextGenerationApp/story.py). Subclasses of Story are valid outputs of this plugin as well, see the [HackerNewsStory class](https://github.com/normand1/HyperFeeder/blob/master/podcastTextGenerationApp/podcastDataSourcePlugins/models/hackerNewsStory.py) as an example.
 
+- [podcastIntroPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastIntroPlugins): These plugins will be invoked to write the Intro for the podcast based on the "stories" picked by the `podcastDataSourcePlugins`.
+
+- [podcastScraperPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastScraperPlugins): These plugins will be invoked to scrape the text from the urls determined by the `podcastDataSourcePlugins`. This plugin adds a 'raw_text' directory filled with the raw text scraped from these urls that will be used by the next set of plugins.
+
+- [podcastSummaryPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSummaryPlugins): These plugins summarize the raw text returned from the `podcastScraperPlugins`.
+
+- [podcastSegmentWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSegmentWriterPlugins): These plugins generate the final text that will be used to produce spoken audio for the podcast. The output of this plugin will be written to the podcast's `segment_text` directory.
 
 ## Easy Podcast Modification Points
 ### Background Music
