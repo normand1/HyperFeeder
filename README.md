@@ -86,6 +86,15 @@ cd podcastTextGenerationApp
 python app.py
 ```
 
+## podcastTextGenerationApp Details
+
+The podcastTextGenerationApp is the heart of this framework. When modifying and creating your own podcasts this is most likely where you will want to start. The podcastTextGenerationApp uses a plugin architecture so you can extend the functionality of this app and easily contribute your own plugins! 
+
+When the app is run by the ./generatePodcast.sh script it will proceed to generate text for a podcast by invoking plugins in the following order:
+
+- podcastDataSourcePlugins: These plugins will be invoked to generate the raw text for a set of "Stories" that will be used to generate the rest of the podcast. Any plugin used here must return data in the form of a ["Story" class](). 
+
+
 ## Easy Podcast Modification Points
 ### Background Music
 - You can easily change the intro background music by replacing the file `podcast_intro_music.mp3` with your own music. This file was generated with [Google's experimental Music LM](https://aitestkitchen.withgoogle.com/experiments/music-lm).
