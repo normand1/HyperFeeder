@@ -59,7 +59,7 @@ if [ "$?" -ne 0 ]; then
     exit 1
 fi
 
-Read the content from the file
+# Read the content from the file
 config=$(cat "./${FOLDER}/uploadJsonBody.json")
 echo "config: ${config}"
 npm --prefix install
