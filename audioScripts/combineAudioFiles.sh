@@ -2,7 +2,9 @@
 
 rootDir=$1
 dir="${rootDir}/audio"
-outputDir=$1
+echo "current directory: $PWD"
+echo "looking in: $dir"
+output_file="${rootDir}/final-podcast-to-upload.mp3"
 fade_duration=1  # fade duration in seconds, adjust as needed
 
 # Get the sorted list of files
@@ -30,7 +32,10 @@ for f in "${files[@]}"; do
 done > mylist.txt
 
 # Concatenate the files
-ffmpeg -f concat -safe 0 -i mylist.txt -c copy "${outputDir}/${rootDir}-podcast.mp3"
+echo "rootDir: ${rootDir}"
+echo "output_file: ${output_file}"
+echo "Concatenate the files ${output_file}"
+ffmpeg -f concat -safe 0 -i mylist.txt -c copy "${output_file}"
 
 # Clean up
 rm mylist.txt "${dir}/1_fadeout.mp3" "${dir}/2_fadein.mp3"

@@ -1,115 +1,67 @@
 import os
-import sys
 import yaml
 import json
+import sys
+import datetime
 
-from langchain.text_splitter import CharacterTextSplitter
 from dotenv import load_dotenv
 from newsScraper import NewsScraper
 from storySummarizer import StorySummarizer
 from storySegmentWriter import StorySegmentWriter
-from hackerNewsAPI import HackerNewsAPI
 from podcastIntroWriter import PodcastIntroWriter
+from pluginTypes import PluginType
+
+from pluginManager import PluginManager
+
+# TODO: Add this back in some time
+# topStories.insert(0, {"title": "Presented by the Hypercatcher Podcast App", "link": "https://hypercatcher.com/", "hackerNewsRank": 0})
 
 
 class App:
     def __init__(self):
         load_dotenv()
+        self.pluginManager = PluginManager()
+        self.dataSourcePlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastDataSourcePlugins', PluginType.DATA_SOURCE)
+        self.introPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastIntroPlugins', PluginType.INTRO)
+        self.scraperPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastScraperPlugins', PluginType.SCRAPER)
+        self.summarizerPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSummaryPlugins', PluginType.SUMMARY)
+        self.segmentWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSegmentWriterPlugins', PluginType.SEGMENT_WRITER)
 
     def run(self, podcastName):
-        hackerNewsAPI = HackerNewsAPI()
-        top_stories = hackerNewsAPI.fetch_top_stories()
-        top_stories.insert(0, {"title": "Presented by the Hypercatcher Podcast App", "link": "https://hypercatcher.com/", "hackerNewsRank": 0})
+        topStories = self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins)
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", 'w') as file:
-            json.dump(top_stories, file)
-
-        file_name_intro = podcastName + "/intro_text/" + "intro.txt" 
-        storyTitles = list(map(lambda story: story["title"], top_stories[1:]))
-
-        self.writeIntroSegment(storyTitles, file_name_intro) # Write the Intro to disk
-
-        for story in top_stories[1:]:
-            url = story["link"]
-            print("Scraping: " + url)
-            file_name_summary = podcastName + "/summary_text/" + str(story["hackerNewsRank"]) + "-" + url.split("/")[-2] + ".txt" 
-            file_name_story = podcastName + "/text/" + str(story["hackerNewsRank"]) + "-" + url.split("/")[-2] + ".txt" 
-            try:
-                texts = self.scrapeAndPrepareStoryText(url)
-            except:
-                print("Scraping failed, skipping story")
-                texts = "This story could not be scraped and summarized. Please replace this text with any text you can find at this url: \n" + url
-                story['hasError'] = True
+            json.dump(topStories, file)
         
-            print("Summarizing: " + url)
-            story = self.writeAndUpdateStorySummary(texts, file_name_summary, story) # Write the Summary to disk
-            print("Writing Segment for: " + url)
-            self.writeStorySegment(texts, file_name_story, story) # Write the Segment to disk
+        fileNameIntro = podcastName + "/intro_text/" + "intro.txt" 
+        self.pluginManager.runIntroPlugins(self.introPlugins, topStories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])
 
-    def writeIntroSegment(self, storyTitles, file_name_intro):
-        if not os.path.isfile(file_name_intro):
-            directory = os.path.dirname(file_name_intro)
-            os.makedirs(directory, exist_ok=True)
-            with open(file_name_intro, 'w') as file:
-                introText = PodcastIntroWriter().writeIntro(storyTitles)
-                file.write(introText)
-        else:
-            print("intro file already exists, skipping writing intro")
+        rawTextDirName = f"{podcastName}/raw_text/"
+        summaryTextDirName = f"{podcastName}/summary_text/"
+        segmentTextDirName = f"{podcastName}/segment_text/"
+        fileName = lambda *params: f"{str(params[0])}-{params[1].split('/')[-2]}.txt"
+        
+        self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, topStories, rawTextDirName, fileName)
+        topStories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", topStories)
 
-    def scrapeAndPrepareStoryText(self, url):
-        scraper = NewsScraper()
-        article = scraper.scrape(url)
+        self.pluginManager.runStorySummarizerPlugins(self.summarizerPlugins, topStories, summaryTextDirName, fileName)
+        topStories = self.readFilesFromFolderIntoStories(summaryTextDirName, "summary", topStories)
 
-        # Prepare text for summarization
-        text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-            separator='.\n',
-            chunk_size=1000,
-            chunk_overlap=0 # no overlap
-        )
-        texts = text_splitter.split_text(article)
-        return texts
+        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, topStories, segmentTextDirName, fileName)
 
-    def writeAndUpdateStorySummary(self, texts, file_name_summary, story):
-        if not os.path.isfile(file_name_summary):
-            directory = os.path.dirname(file_name_summary)
-            os.makedirs(directory, exist_ok=True)  # Create the necessary directories
-            with open(file_name_summary, 'w') as file:
-                if 'hasError' in story:
-                    summaryText = "This story could not be scraped and summarized. Please replace this text with any text you can find at this url: \n" + story["link"]
-                else:
-                    summaryText = StorySummarizer().summarize(" ".join(texts[:2]))
-                file.write(summaryText + "\n")
-                file.flush()
-                if 'hasError' in story:
-                    raise Exception("Story has error")
-                story["summary"] = summaryText
-        else:
-            print("summary file already exists")
-            # read text from file
-            with open(file_name_summary, 'r') as file:
-                texts = file.readlines()
-                # combine all the text into a single string
-                texts = " ".join(texts)
-                story["summary"] = texts
-        return story
-
-    def writeStorySegment(self, texts, file_name_story, story):
-        if 'hasError' in story:
-            print("Skipping writing story segment because story has error")
-            return
-        if not os.path.isfile(file_name_story):
-            directory = os.path.dirname(file_name_story)
-            os.makedirs(directory, exist_ok=True)  # Create the necessary directories
-            with open(file_name_story, 'w') as file:
-                storyText = StorySegmentWriter().writeSegmentFromSummary(yaml.dump(story, default_flow_style=False))
+    def readFilesFromFolderIntoStories(self, folderPath, key, stories):
+        for filename in os.listdir(folderPath):
+            filePath = os.path.join(folderPath, filename)
+            if os.path.isfile(filePath):
+                fileText = open(filePath, 'r').read()
+                pathParts = filePath.split('/')
+                rank = pathParts[-1:][0].split('-')[0]
+                index = next((index for index, item in enumerate(stories) if str(item['newsRank']) == rank), None)
                 try:
-                    # file.write(storyText + "\n")
-                    file.write(storyText + "\n")
-                    file.flush()
+                    stories[index][key] = json.loads(fileText)
                 except:
-                    print("Error writing to file")
-        else:
-            print("story file already exists... nothing else to do for this story: " + file_name_story)
+                    stories[index][key] = fileText
+        return stories
                 
 if __name__ == "__main__":
     app = App()
@@ -117,5 +69,15 @@ if __name__ == "__main__":
         parameter = sys.argv[1]  # Get the first parameter passed to the script
         app.run(parameter)
     else:
-        podcastName = input("Enter a name for your podcast: ")
-        app.run(podcastName)
+        # Get current date and time
+        current_datetime = datetime.datetime.now()
+
+        # Format the date and time components
+        month = current_datetime.strftime("%B")[:3]  # Get the month in abbreviated form
+        day = current_datetime.strftime("%d")
+        year = current_datetime.strftime("%Y")
+        time = current_datetime.strftime("%I%p")
+
+        # Generate the folder name
+        folder_name = f"output/Podcast-{month}{day}-{year}-{time}"
+        app.run(folder_name)

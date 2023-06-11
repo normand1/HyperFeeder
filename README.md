@@ -9,6 +9,9 @@ Currently, the only source available for building dynamic podcasts from is the H
 - Anyone should be able to submit easily composable new features that can help make all autonomous podcasts better. (In Progress)
 - Any source of data can be a source of podcast content. (In Progress)
 
+## Autonomous Podcast Feeds (Submit yours to have it featured here!)
+- https://podcasters.spotify.com/pod/show/david-norman91
+
 ## Prerequisites
 
 - You will need Python version 3.9.5 or newer. If your Python version is older, you can use `pyenv` to manage multiple versions of Python on your system. Here's how to do it:

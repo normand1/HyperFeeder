@@ -1,6 +1,24 @@
 {
     "version": "0.2.0",
+    "trace": true,
     "configurations": [
+        {
+            "name": "Launch via NPM",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "args": [
+                '{"name":"test","type":"string","defaultValue":"test"}'
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "trace": true
+        },
         {
             "name": "Python: Current File",
             "type": "python",

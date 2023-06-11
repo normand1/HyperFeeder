@@ -4,7 +4,7 @@
 DIR=$1
 
 # Directory with your text files
-TEXT_DIR="${DIR}/text/"
+TEXT_DIR="${DIR}/segment_text/"
 INTRO_TEXT_DIR="${DIR}/intro_text/"
 
 # Directory to store audio files
@@ -15,6 +15,7 @@ mkdir -p $AUDIO_DIR
 
 # Function to convert text file to audio
 convert_to_audio() {
+  echo "Converting text to audio for file: $text_file"
   local text_file=$1
   local base_name=$(basename $text_file .txt)
   local audio_file="${AUDIO_DIR}${base_name}.aiff"
