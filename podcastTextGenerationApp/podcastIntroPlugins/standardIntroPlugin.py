@@ -1,6 +1,6 @@
 import os
 from podcastIntroPlugins.abstractPluginDefinitions.abstractIntroPlugin import AbstractIntroPlugin
-from podcastIntroWriter import PodcastIntroWriter
+from podcastIntroPlugins.utilities.podcastIntroWriter import PodcastIntroWriter
 
 class StandardIntroPlugin(AbstractIntroPlugin):
 

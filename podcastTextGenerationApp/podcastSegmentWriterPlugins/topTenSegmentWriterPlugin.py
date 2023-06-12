@@ -2,7 +2,7 @@ import yaml
 import os
 
 from podcastSegmentWriterPlugins.abstractPluginDefinitions.abstractSegmentWriterPlugin import AbstractSegmentWriterPlugin
-from storySegmentWriter import StorySegmentWriter
+from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmentWriter
 
 class TopTenSegmentWriterPlugin(AbstractSegmentWriterPlugin):
 

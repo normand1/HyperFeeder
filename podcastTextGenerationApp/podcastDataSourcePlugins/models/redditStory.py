@@ -1,5 +1,3 @@
-# In redditStory.py file
-
 class RedditStory:
     def __init__(self, newsRank: int, title: str, link: str, storyType: str, source: str):
         self.newsRank = newsRank

@@ -2,7 +2,7 @@ import json
 import os
 
 from podcastScraperPlugins.abstractPluginDefinitions.abstractStoryScraperPlugin import AbstractStoryScraperPlugin
-from newsScraper import NewsScraper
+from podcastScraperPlugins.utilities.newsScraper import NewsScraper
 from langchain.text_splitter import CharacterTextSplitter
 
 class NewsStoryScraperPlugin(AbstractStoryScraperPlugin):
@@ -33,7 +33,6 @@ class NewsStoryScraperPlugin(AbstractStoryScraperPlugin):
         scraper = NewsScraper()
         try:
             article = scraper.scrape(url)
-
             # Prepare text for summarization
             text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
                 separator='.\n',

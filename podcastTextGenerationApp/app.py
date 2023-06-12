@@ -5,10 +5,10 @@ import sys
 import datetime
 
 from dotenv import load_dotenv
-from newsScraper import NewsScraper
-from storySummarizer import StorySummarizer
-from storySegmentWriter import StorySegmentWriter
-from podcastIntroWriter import PodcastIntroWriter
+from podcastScraperPlugins.utilities.newsScraper import NewsScraper
+from podcastSummaryPlugins.utilities.storySummarizer import StorySummarizer
+from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmentWriter
+from podcastIntroPlugins.utilities.podcastIntroWriter import PodcastIntroWriter
 from pluginTypes import PluginType
 
 from pluginManager import PluginManager
