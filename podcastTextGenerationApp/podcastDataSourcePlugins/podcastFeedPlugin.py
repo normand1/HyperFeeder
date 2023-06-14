@@ -3,7 +3,8 @@ import requests
 from xml.etree import ElementTree as ET
 from podcastDataSourcePlugins.models.podcastStory import PodcastStory
 import os
-
+import json
+import copy
 class PodcastTranscriptAPIPlugin(AbstractDataSourcePlugin):
     def __init__(self):
         self.feeds = []
@@ -29,10 +30,20 @@ class PodcastTranscriptAPIPlugin(AbstractDataSourcePlugin):
 
             podcast_title = root.find('.//channel/title')
             firstItem = list(root.iterfind('.//channel/item', namespace))[0]
-            episodeLink = firstItem.find('link')
+            altItem = root.find('.//item')
+            episodeLinkObj = firstItem.find('link')
+            episodeLink = "No Episode Link Found"
+            if episodeLinkObj is None:
+                episodeLinkObj = altItem.find('link')
+                if hasattr(episodeLinkObj, 'text'):
+                    episodeLink = episodeLinkObj.text
             transcript = firstItem.find('podcast:transcript', namespace)
+            if transcript is None:
+                transcript = altItem.find('.//{https://podcastindex.org/namespace/1.0}transcript')
             podcastOrder = index + 1
             episodeTitle = firstItem.find('title')
+            if episodeTitle is None:
+                episodeTitle = altItem.find('title')
             if transcript is not None:
                 stories.append(PodcastStory(
                     podcastOrder=podcastOrder,
@@ -40,8 +51,17 @@ class PodcastTranscriptAPIPlugin(AbstractDataSourcePlugin):
                     link=transcript.get('url'),
                     storyType="Podcast",
                     source=podcast_title.text,
-                    podcastEpisodeLink=episodeLink.text
+                    podcastEpisodeLink=episodeLink
                 ).to_dict())
         return stories
+    
+    def writePodcastDetails(self, podcastName, topStories):
+        copiedTopStories = copy.deepcopy(topStories)
+        for item in copiedTopStories:
+            item['link'] = item['podcastEpisodeLink']
+        os.makedirs(podcastName, exist_ok=True)
+        with open(podcastName + "/podcastDetails.json", 'w') as file:
+            json.dump(copiedTopStories, file)
+
     
 plugin = PodcastTranscriptAPIPlugin()

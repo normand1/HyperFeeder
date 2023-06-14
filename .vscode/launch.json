@@ -9,9 +9,6 @@
                 "run-script",
                 "test"
             ],
-            "args": [
-                '{"name":"test","type":"string","defaultValue":"test"}'
-            ],
             "runtimeExecutable": "npm",
             "skipFiles": [
                 "<node_internals>/**"
@@ -25,6 +22,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
+            // "args": ["Podcast-Jun12-2023-10AM"],
             "justMyCode": true
         },
         {

@@ -2,7 +2,7 @@
 
 # Generate a folder name if the user has not provided one
 if [ "$#" -ne 1 ]; then
-    FOLDER="output/Podcast-$(date +"%B%d-%Y-%I%p")"
+    FOLDER="output/Podcast-$(date +"%b%d-%Y-%I%p")"
 else
     FOLDER="output/$1"
 fi

@@ -1,0 +1,511 @@
+  <cite>James Cridland:</cite>
+  <time>0:00</time>
+  <p>It&#39;s Friday, the 9th of June 2023. </p>
+  <cite>Voiceover:</cite>
+  <time>0:04</time>
+  <p>The last word in podcasting news. This is the Pod News Weekly Review with James Cridland and Sam Sethi. </p>
+  <cite>James Cridland:</cite>
+  <time>0:13</time>
+  <p>I&#39;m James Cridland, the editor of Pod News in Smokey, canada. </p>
+  <cite>Sam Sethi:</cite>
+  <time>0:17</time>
+  <p>And I&#39;m Sam Sethi, the CEO of Pod Pound in sunny. </p>
+  <cite>James Cridland:</cite>
+  <time>0:20</time>
+  <p>London In the chapters. today, spotify cuts another 200 jobs. maybe an end to exclusives too, is Tucker Carlson&#39;s first show on Twitter, a podcast. What&#39;s new in Apple&#39;s podcast app coming to iOS 17 and Acast&#39;s PodChaser launches Collections Plus using AI And also. </p>
+  <cite>Mukal Devichand:</cite>
+  <time>0:41</time>
+  <p>Hi, I&#39;m Michael Devachan. I&#39;m the editor of programming for New York Times Audio, which is a new app from the World&#39;s Paper of Record, and it&#39;s a new daily front page of audio. I&#39;ll be talking about that later. </p>
+  <cite>Bradley Davis:</cite>
+  <time>0:55</time>
+  <p>This is Bradley Davis here with PodChaser, and I&#39;ll be on later to talk about our new service, Collections Plus. </p>
+  <cite>Josh Adley:</cite>
+  <time>1:00</time>
+  <p>Hey, I&#39;m Josh Adley, the managing director of Listen, and I&#39;ll be back on the show later to talk about our recent deal with PodX. Hi, this is. </p>
+  <cite>Staffan Rossell:</cite>
+  <time>1:06</time>
+  <p>Staffan Rossell, I&#39;m the CEO of PodX and I will be back later to talk about our investment in Listen. </p>
+  <cite>James Cridland:</cite>
+  <time>1:14</time>
+  <p>They will. This podcast is sponsored and hosted by Buzzsprout. Last week, 3,445 people started a podcast with Buzzsprout. Podcast hosting made easy with powerful tools and remarkable customer support, and now AI to help you publish your show And we&#39;re brought to you with Pod News Live, where podcasting connects, in Manchester on June the 13th. You can get your tickets now at podnewslinkcom slash Manchester. </p>
+  <cite>Voiceover:</cite>
+  <time>1:40</time>
+  <p>Pod News Live Live Where the podcast industry connects. Get your tickets now at podnewsnet slash, live From your daily newsletter, the Pod News Weekly Review. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:54</time>
+  <p>Let&#39;s start off with Story 1. Spotify is to lay off 2% of its workforce, mainly from podcast groups. That doesn&#39;t sound good, james. Spotify is to cut 200 jobs from its podcasting division. These are substantial cuts, certainly affecting podcast and gimlet, and this is on top of the 600 jobs they did in January, which they axed. This doesn&#39;t sound good, james. Tell me more. </p>
+  <cite>James Cridland:</cite>
+  <time>2:20</time>
+  <p>No, it doesn&#39;t sound good And I think particularly the jobs that they axed back at the beginning of the year were all over Spotify And you know that was a big cut. These jobs 200 jobs are just from the podcasting division. Now I asked Spotify how many staff work in podcasting in Spotify and they gave me a very mealy-mouthed answer which was basically we can&#39;t tell you, but there aren&#39;t that many people who work in podcasting in Spotify. If you take a quick look, gimlet has around 125 employees, podcast has about 40, the ringer about 120. So you&#39;re not talking about an awful lot of people here. So cutting 200 jobs from that is a big cut. So I&#39;m not necessarily sure that it&#39;s been reported by most people, but, as you know, it&#39;s only just another 2%. It&#39;s a big cut of their podcasting people, parkasting, gimlet being merged as Spotify Studios, which you can kind of understand. I don&#39;t know whether that&#39;s just an internal plan or whether they are going to get rid of the podcasting gimlet brands altogether, the ringer continuing as a separate brand, and obviously this is, you know, four years since Spotify started really acquiring podcasts in a big, big way. </p>
+  <cite>Sam Sethi:</cite>
+  <time>3:45</time>
+  <p>Yeah, i mean it does make a lot of sense. I mean, eventually, unless those brands were going to be, you know, like Wondry standalone, well-known and kept as a separate entity, merging them a bit like they did with Anker recently. I think it makes a lot of sense. Bloomberg were also reporting that something odd is happening with Spotify. The exclusive strategy seems to be unbundling itself, but they&#39;ve now announced a certain exclusive podcast that they had, and how can it be available everywhere? </p>
+  <cite>James Cridland:</cite>
+  <time>4:15</time>
+  <p>Well, yes, this is something that Bloomberg are very keen on trying to spin as a story. I&#39;m not too convinced, to be frank, that there is a particular story here. What Spotify have always done is they&#39;ve always had some shows which are exclusive, some shows which are windowed, so they start as exclusives and then they&#39;re opened up. The Obama&#39;s stuff was exactly like that. It sounds as if Emma Chamberlain&#39;s show Anything Goes, which was exclusive, is now not exclusive and available on other platforms as well. We hear that there are talks going on about armchair expert going non-exclusive relatively soon. Now, that&#39;s interesting, because when armchair expert moved to Spotify to become a Spotify exclusive, dax Shepard was saying that it was a three-year deal. It&#39;s only been two years, so therefore, it does sound as if they&#39;re sort of opening that up. But, yes, i&#39;m not necessarily convinced that there is a big change of strategy here, and the company has actually said to Bloomberg well, we&#39;ve experimented with windowing shows for several years and this experimentation about both wide and windowing content will continue. So not too short. I think one of the interesting things is the new Louis Thru show, which appears to be being promoted all over the place, and that is a exclusive at the moment, and the question, i suppose, is what happens when it&#39;s made available wider. </p>
+  <cite>Sam Sethi:</cite>
+  <time>5:54</time>
+  <p>Well, the question is will it be made wider? I listened to the first episode. If you&#39;re a Louis Thru fan, it&#39;s total Louis Thru. I&#39;m not a massive fan, to be honest, so I find it quite boring. But there you go. </p>
+  <cite>James Cridland:</cite>
+  <time>6:09</time>
+  <p>Yeah, i mean, yeah, he does a good act is Louis Thru And you know, and it kind of makes sense. He&#39;s sort of well known in the US as well as the UK, so you&#39;ve got that sort of tick from the Spotify side there as well. So, yeah, you know, i mean it was a very big signing for Spotify at the end of last year. But of course, you know, we shouldn&#39;t forget the Spotify earns money either way. They earn money on exclusive content because that drives more signups to the podcast app. Some people are writing that it&#39;s a paywall. It&#39;s not a paywall. You can get in for free, it&#39;s a registration wall. But of course, they also earn money from advertising on other platforms too, through their ownership of the megaphone platform and the Spotify audience network. So actually, from that point of view, they still win, regardless of whether or not it&#39;s an exclusive or not, which is why I&#39;m kind of there going. Is this really so much of an exciting story as Bloomberg seemed to think it is, when actually there are really good reasons why Spotify might want to expand some of their shows across everywhere because they get more advertising revenue that way? </p>
+  <cite>Sam Sethi:</cite>
+  <time>7:23</time>
+  <p>So maybe it&#39;s not as big a faster clock as we think. There you go. </p>
+  <cite>James Cridland:</cite>
+  <time>7:29</time>
+  <p>Maybe not. I mean Spotify. you know it&#39;s interesting times for them, of course, but yeah, i&#39;m not sure that there&#39;s a big change in terms of exclusives, but I do understand that other people might want to talk that up. There was a peculiar thing, though. in their release, sahar El-Habashi, who is the head of Spotify Podcast Business that&#39;s another person using charge of podcasting at Spotify they ended up saying in collaboration with the podcasting community, we are broadening our analytics capabilities by expanding Spotify for podcasters. So I thought that was really interesting. I never heard Spotify say in collaboration with the podcasting community in the past, ever. So I thought, well, okay, what&#39;s going on there? I asked Spotify&#39;s PR team, and the answer that came back made it pretty clear and obvious to me that they didn&#39;t know what this statement was for at all. And, being fair, that&#39;s probably okay, i guess. But yeah, i&#39;m just curious as to what this collaboration with the podcasting community that they&#39;ve been doing is and what these new analytics are going to be by expanding Spotify for podcasters. What&#39;s that? What&#39;s going on there then? So if I do ever get more clarity on that, then you know, i&#39;ll obviously be able to get that into an exhibition of the newsletter. </p>
+  <cite>Sam Sethi:</cite>
+  <time>9:02</time>
+  <p>but yeah not quite sure what&#39;s going on there Well talking of analytics, a friend of the show, john Spurlock, released some stats for OP3. One of those was Spotify, for podcasters saw a slight fall in market share for new episodes in May. I mean 0.6%, but they remained the market leader by some strong margin. So again, did you have a look at those numbers? anything that stood out for you? </p>
+  <cite>James Cridland:</cite>
+  <time>9:28</time>
+  <p>Yeah, so these are numbers. They&#39;re not actually anything to do with OP3, but they&#39;re numbers to do with all new podcast episodes And so John does a very good job of basically going through every single new podcast episode which has been made available in any given month and working out where they&#39;re hosted. And yeah, spotify for podcasters actually saw tremendous growth from January onwards, basically as soon as it changed its name away from Anker, moved to the Spotify brand, then it&#39;s been increasing and increasing and increasing. It&#39;s gone back a little bit this month, but not too much change there, but you know. So maybe they were right in junking the Anker name and putting everything into Spotify. </p>
+  <cite>Sam Sethi:</cite>
+  <time>10:16</time>
+  <p>Yeah, well, anker had a few other problems. this month, 14,000 podcasters have had their Anker usernames, emails and passwords posted on a Russian language black hat hacking website. So I think your advice, james, was change those passwords. </p>
+  <cite>James Cridland:</cite>
+  <time>10:31</time>
+  <p>Yes, change those passwords. And if you&#39;re not if you&#39;re, you know, using the same password across multiple sites then that would be a mistake. I would recommend Bitwarden. It&#39;s very good and it&#39;s free And, yes, and you should be using that as I do. But yeah, that&#39;s slightly worrying. So you know you can still log in. My understanding is using those Anker usernames and passwords. So yeah, if you&#39;re an Anker, you know, podcaster, make sure that you change your password as soon as you can. Now, moving on to the next question So yeah, if you&#39;re an Anker, you know, podcaster, make sure that you change your password as soon as you can. </p>
+  <cite>Sam Sethi:</cite>
+  <time>11:19</time>
+  <p>Now moving on. Story this week in pod news was that Acast&#39;s pod chaser, the company they bought a little while back, has released a new thing called AI Collections Plus. James, tell me more. What are AI Collections Plus? </p>
+  <cite>James Cridland:</cite>
+  <time>11:37</time>
+  <p>They are using the data that they know about podcasts to be able to give advertisers a better list of shows that they miss, that they a better list of shows that they may wish to advertise on. So an Acast has been using this internally for a little bit and they&#39;ve opened it up to others now. So you know, it used to be that you would just choose shows based on you know names or categories, but now they&#39;re going through all of the topics that are being talked about and actually helping people understand what shows to be advertising on, which sounds like a bright and clever idea. </p>
+  <cite>Sam Sethi:</cite>
+  <time>12:17</time>
+  <p>Yeah well, luckily I thought I&#39;d reach out to the CEO Bradley from Pod Chaser and find out from the horse&#39;s mouth what they&#39;re doing. </p>
+  <cite>Bradley Davis:</cite>
+  <time>12:26</time>
+  <p>Pod Chaser is a giant database. We VURSELS is sort of the intelligence engine behind the podcast industry, aggregating data from all kinds of different sources into one singular product and or API. </p>
+  <cite>Sam Sethi:</cite>
+  <time>12:40</time>
+  <p>Okay, and for most people, they just create an account. They get access to their podcasts, favorites, keyword tracking I think there&#39;s a paid version as well. So you get a free version, a paid version, and if you&#39;re a developer, there&#39;s an API as well, isn&#39;t there? </p>
+  <cite>Bradley Davis:</cite>
+  <time>12:56</time>
+  <p>Exactly. We have a free version that&#39;s generally for podcasters or listeners. Podcasters can come in, add their credits, add data, add categories. Then we have a paid version used by marketers and agencies and all sorts of different organizations to access additional insights about podcasts. </p>
+  <cite>Sam Sethi:</cite>
+  <time>13:15</time>
+  <p>So now you&#39;ve added a new service called Collections. Tell me more about Collections. </p>
+  <cite>Bradley Davis:</cite>
+  <time>13:20</time>
+  <p>Yeah, so Pod Chaser was acquired last year by this cool Swedish company called Acast, and as part of that, acast&#39;s sort of bread and butter is the ad buyer&#39;s journey, and so a cool thing since being owned by Acast is applying our core competencies around data to that buyer journey, and so the first project and undertaking we&#39;ve done is Collections Collections Plus is what we&#39;re calling it, and at its most basic form, we&#39;re taking a group of shows that may seem very similar or may seem very dissimilar, and grouping them together based on a ton of different data attributes and utilizing AI and machine learning to do this much more efficiently and less manual than before. What&#39;s cool about this is based on a buyer&#39;s intent or what they&#39;re trying to go after. We can sprinkle some of this data dust on this large group of shows and immediately spit out a group of highly selected niche shows for that intent. </p>
+  <cite>Sam Sethi:</cite>
+  <time>14:24</time>
+  <p>So let&#39;s take a couple of steps back. One of the things you&#39;re doing is using OpenAI&#39;s whisper to do transcription of the podcast first, to aggregate all the data together. Is that step one? </p>
+  <cite>Bradley Davis:</cite>
+  <time>14:36</time>
+  <p>Yeah, transcriptions are certainly handy to add to the pile or the stack of data that we&#39;re analyzing, so we utilize the whisper technology, which is an extremely efficient and cost efficient way to transcribe large amounts of content. </p>
+  <cite>Sam Sethi:</cite>
+  <time>14:51</time>
+  <p>And then, once you&#39;ve got all that data together, you said you use machine learning to find keywords and stuff. The good example I&#39;ve heard before use is that you might have a podcast that traditionally would be, let&#39;s say, about cars, but suddenly there&#39;s an element within that podcast that talks about a secondary subject that wouldn&#39;t normally get an advertiser to be aware of it. Is that the sort of finding the needle in the haystack that you&#39;re working on? </p>
+  <cite>Bradley Davis:</cite>
+  <time>15:16</time>
+  <p>Yeah, there&#39;s sort of content matching, which I think traditionally has been oh, this has forward as a keyword and this show has forward as a keyword. Those shows must be similar. So what AI allows us to do is make predictions and inferences about keywords that may seem completely dissimilar to the eye, especially if you&#39;re looking at, you know millions or billions of different keywords. So that&#39;s the sort of content matching. There&#39;s also audience inference. So, based on the tone or specific words or conversations in a podcast, ai can pick up on. well, based on how this podcast is talking, we can predict what sort of audience this is going after, and so we try to kind of blend those two things together to create links between podcasts. </p>
+  <cite>Sam Sethi:</cite>
+  <time>16:02</time>
+  <p>So I go into Podchaser. What level of account do I have to have? </p>
+  <cite>Bradley Davis:</cite>
+  <time>16:07</time>
+  <p>So this first is going to be available just through the API. </p>
+  <cite>Sam Sethi:</cite>
+  <time>16:10</time>
+  <p>Okay, yeah, so as a developer, then I get access to it, so I can then go out and say these are the keywords or the key inferences from these podcasts or a group. How would I, as a developer, want to use it? I mean, is it for advertising companies to use it? Who&#39;s the audience? </p>
+  <cite>Bradley Davis:</cite>
+  <time>16:26</time>
+  <p>Yeah, so the user in this case would be a publisher or a marketplace such as a cast. So anyone who is over a ton of different shows is willing to group and package those shows together to get in front of an advertiser. That&#39;s the use case, Okay. </p>
+  <cite>Sam Sethi:</cite>
+  <time>16:41</time>
+  <p>One of the functions I would love, i guess, for me is to go in as a user, because one of the things about discovery of podcasts people have been talking about at Aerieon this is in Blatt and the guys at Tink Media about cross fertilizing podcasts Again, this would be a great way for me to go and say, oh okay, who else should a pod news weekly go and talk to? Oh, look, here&#39;s eight or nine podcasts. Then I can go and create an ad that will get ingested into those. Is that something you plan to bring? So we have a version of this currently. </p>
+  <cite>Bradley Davis:</cite>
+  <time>17:11</time>
+  <p>It&#39;s a little bit different and help functions And I think that the technology from this will inform how we evolve what we call similar podcasts. So this is a free function. It&#39;s on the website. If you go to any podcast, there&#39;s a tab called similar podcasts And that uses things like credits, keyword, inferences and some other signals to basically link the shows together. You also use like the network, the category, etc. So similar podcasts is available in the product And it&#39;s also one of our endpoints for our API. That is going to be a bit different because it&#39;s more about the listener perspective of if you like this show, you&#39;ll like this one, which is as similar but different mix of signals than an advertiser buying a cluster of groups or podcasts. </p>
+  <cite>Sam Sethi:</cite>
+  <time>17:56</time>
+  <p>Yeah, i guess that I&#39;m thinking of a middle ground, because I&#39;m a host of an independent podcast. I&#39;m not really looking to buy a campaign or anything, but I&#39;m looking to find other podcasts that I couldn&#39;t find myself through natural discovery. That might, through this new collections plus system, allow me to go and find without having the API access. So okay, there&#39;s the 10 podcasts in my cluster that I think. Actually that&#39;s my collection of comparative podcasts. I&#39;m going to cross fertilize ads on them. </p>
+  <cite>Bradley Davis:</cite>
+  <time>18:28</time>
+  <p>Cross promotion is a very typical use case for our pro product. I think what you&#39;ll see is within the actual product, kind of the ability to input what it is you want. So say, i&#39;m wanting a group of shows like mine for cross promo, or a group of shows like mine for listeners and one for advertisers, and kind of let you play with the ingredients to spit out a collection. That&#39;s a good idea, yeah. </p>
+  <cite>Sam Sethi:</cite>
+  <time>18:53</time>
+  <p>Cool Availability now. </p>
+  <cite>Bradley Davis:</cite>
+  <time>18:57</time>
+  <p>Yeah, so this is available for any marketplace or publisher. now, like I said, it&#39;d be through our API And then this will trickle down into the pro product over the next few months. </p>
+  <cite>Sam Sethi:</cite>
+  <time>19:09</time>
+  <p>Cool, and if I want to go and get it, where would I go now? What&#39;s URL? </p>
+  <cite>Bradley Davis:</cite>
+  <time>19:13</time>
+  <p>The easiest way is to email me or call Bradley at podchasercom or call podchasercom and start a conversation. We&#39;re really excited about the early results that we&#39;ve seen with ACAST and think this will be a huge deal for the industry. </p>
+  <cite>James Cridland:</cite>
+  <time>19:29</time>
+  <p>Bradley Davis from Podchaser Good to hear them. Another great tool to help sell more advertising, which is a good thing. </p>
+  <cite>Sam Sethi:</cite>
+  <time>19:41</time>
+  <p>Going on now. yes, i did give YouTube a little bit of a kicking last week and it seems that it doesn&#39;t really matter what I say, james, because YouTube is now the most utilized podcast listening platform. I put that in quotes in the US, 29% say it&#39;s the platform they use. They&#39;re the most, followed by Spotify at 17% and Apple at 16%. This data came from Cumulus Media and Signal Hill Insights. How have they come about to make, i guess, youtube the number one podcasting platform according to this? </p>
+  <cite>James Cridland:</cite>
+  <time>20:16</time>
+  <p>Yes, Signal Hill Insights are a good company. They do some very good work in terms of that. They use a company called Maru Matchbox, which talks to 608 podcast listeners in April, and they, of course, ask them all kinds of entertaining questions, including which platform do you use the most for podcasting? YouTube was the number one platform in terms of that. That&#39;s great. I don&#39;t see that in the figures and I don&#39;t think any podcaster sees that in the figures. There&#39;s that big disconnect between what people are telling surveys like this and what is actually happening. I&#39;m not quite sure what is actually going on. They also say that about 10% of the weekly podcast audience only consume podcasts via watching. Therefore, that would lend me to believe that there is YouTube stuff going on, but actually still there&#39;s an awful lot of listening on other platforms as well. I have to say I do find it a little bit weird that you&#39;ve got Cumulus Media promoting the heck out of this report and basically saying how wonderful YouTube is as a platform, When Cumulus Media don&#39;t sell ads on the YouTube platform because they can&#39;t they&#39;re not allowed to. Cumulus Media have nothing to gain if YouTube ends up being the number one podcast platform. Why Cumulus Media? I know Pierre Bouvard very well. He&#39;s a good bloke, but why he&#39;s there promoting the heck out of YouTube is anybody&#39;s guess really. </p>
+  <cite>Sam Sethi:</cite>
+  <time>22:12</time>
+  <p>I don&#39;t know any of these people, so I defer to the goat here in this occasion. The goat, but moving on swiftly, according to another part of the report, 50% of YouTube creators now earn more than $500 per month. But is that true, james? I mean, that seems quite high 50%. </p>
+  <cite>James Cridland:</cite>
+  <time>22:37</time>
+  <p>It does seem really high. Yeah, this is from a different study. It was a study that was put together, reported on in Search Engine Land, which is a very well-known and very good site. Again, it&#39;s a piece of data from Aspire, which is an influencer marketing platform, which is always fun, but, yes, that seems very high to me. But it also says that 40% of Instagram creators and 36% of TikTok creators earn more than $500 per month from the platform as well. So who knows what&#39;s going on there? But only if YouTube like you, because a well-known YouTuber, mike Figurito he, has posted that YouTube has basically turned off his channel&#39;s monetization and he couldn&#39;t get any answers from the folks at YouTube at all. So again, youtube absolutely fine as long as they like you, and if they don&#39;t like you, then they get rid of you and you don&#39;t really have any right of appeal. You don&#39;t have necessarily any way of getting in touch with any of these folks. So again, todd Cochran is right Ownyourowncom and don&#39;t rely on other people. </p>
+  <cite>Sam Sethi:</cite>
+  <time>24:07</time>
+  <p>I think he&#39;s got to update that one. James, i think it&#39;s got to be OwnYourRSS Yes well, yes. OwnYourRSS. </p>
+  <cite>James Cridland:</cite>
+  <time>24:14</time>
+  <p>I think that&#39;s an important part of it as well. So, yeah, so interesting seeing that There&#39;s been other research, the Gen Z podcast listener report unveiled by SXM Media, which again looks at podcast listeners, but this time only podcast listeners age between 13 and 24, which apparently is what Americans mean by Gen Z. According to the study which Edison Research put together who I&#39;m having dinner with tonight 47% say that they&#39;ve listened to podcasts in the last month of Gen Z. They&#39;re more diverse than US monthly podcast listeners as a whole, and they discover shows by using YouTube and TikTok and Instagram. So again, all of the research saying that YouTube is a massive, massive thing. And in the podcast business journal tomorrow you&#39;ll find an interview with Kevin Jones from Bluewire And again, kevin is very, very excited about what YouTube can offer him and the creators who use Bluewire. So there&#39;s clearly something there. </p>
+  <cite>Sam Sethi:</cite>
+  <time>25:20</time>
+  <p>Yeah, i mean, as much as I might dislike the way YouTube&#39;s done things at certain events recently and hijacking the word podcast seems to be top of my list I don&#39;t think people really care, and that&#39;s the problem, i think. If I look at my children, they jump between those three platforms YouTube, tiktok and Instagram and whether they&#39;re consuming the content through audio or through video, they don&#39;t seem to care. Often when they&#39;re eating dinner or cooking dinner, they&#39;ll have it on in the background, so they&#39;re not even watching it half the time. So, yeah, they don&#39;t. </p>
+  <cite>James Cridland:</cite>
+  <time>25:55</time>
+  <p>Yeah, well, because it&#39;s because it&#39;s audio first. I think that&#39;s the benefit of a podcast, or regardless of what platform a podcast is on, who knows. But still, there you go. And I mean, interestingly, given that YouTube is supposed to be the one that everybody&#39;s using these days, downloads from Apple podcasts are on an all time high, according to Buzzsprout stats for May. Buzzsprout stats are so, so useful in terms of this. What I think is going on in terms of those stats is that Apple is now, of course, correctly identifying more of its traffic with the recent updates to the Apple podcasts app. So, instead of calling themselves Apple call media, they call themselves Apple podcasts, and so, therefore, that&#39;s where those numbers are going. If you look at Apple call media numbers, those are decreasing, so there&#39;s clearly good news there in terms of Apple. </p>
+  <cite>Sam Sethi:</cite>
+  <time>26:51</time>
+  <p>So, talking about Apple, james, did you watch the WWDC, the World Wide Developer Conference? </p>
+  <cite>James Cridland:</cite>
+  <time>26:57</time>
+  <p>I didn&#39;t know. I saw some of the coverage from it. You&#39;re a big fan of those stupid goggles, aren&#39;t you? </p>
+  <cite>Sam Sethi:</cite>
+  <time>27:03</time>
+  <p>I&#39;m not as fan of the goggles. I&#39;m a fan of the augmented reality. I&#39;m a firm believer that the goggles will eventually come down to a form, fact that we&#39;ll all end up wearing. I mean, if I think of the original phone with a battery that you&#39;d have to carry around and it was like a brick. Do you remember, dom? </p>
+  <cite>James Cridland:</cite>
+  <time>27:21</time>
+  <p>Jolly, my first job was carrying the mobile phone for a news reporter. Oh my God, yes, and it was literally there. I was fresh out of school and I was carrying this great big briefcase thing for a news reporter who, yeah, so yes, i know exactly what you mean. So there&#39;s a big amount of change there And I think augmented reality is going to be. It&#39;s going to be interesting. But, yeah, i&#39;m not quite sure that that great big you know that great big visor is quite ready at prime time, but it&#39;s one of those things that&#39;s really difficult to demo as well. You can&#39;t really see what other people are actually seeing within their weird visor thing. </p>
+  <cite>Sam Sethi:</cite>
+  <time>28:08</time>
+  <p>So, yeah, Now I thought 5,000 patents, and if it does 80% of what they presented, I&#39;m seriously interested. I fundamentally believe I&#39;m living in a pre AR world and I just want to get to it because I think it is going to be that interesting. Anyway, we&#39;re not here to talk about that. There was, thankfully, one mention, for one second, of the word podcast totally tangentially, by the way, in relation to the Apple Watch, which I thought was very weird. But that&#39;s the only mention of podcasting. </p>
+  <cite>James Cridland:</cite>
+  <time>28:38</time>
+  <p>Nice. Well, there you go, but there is some change, though, and some quite welcome change for the Apple Podcasts app, because that is to get a new look and new features in iOS 17,. As that comes out, it&#39;s got a nice new player which looks very spic and span I believe that the Australian word would be schmick So it looks very smart indeed. It&#39;s got some quite nice chapter stuff, but the exciting thing is, episode artwork is now being supported. Now, when I spoke to Apple last year and asked them about episode artwork, they said, oh no, we support that, that&#39;s all supported. And I said, no, you don&#39;t. Anyway, they now do support episode artwork, which is well they will, which is excellent Well, they will. I think that&#39;s all very exciting And, given that episode artwork is supported by Spotify and Pocketcast, i think it&#39;s all a good thing. </p>
+  <cite>Sam Sethi:</cite>
+  <time>29:37</time>
+  <p>No, i think it&#39;s great. I&#39;ll let you know when I get it working, but the chapters work really well And that&#39;s an improvement on I still think they&#39;re too subtle. The place where they are still is a little bit subtle for non techies or geeks. But anyway, i&#39;m sure people will eventually find it. And then the other thing that they&#39;ve added, and I didn&#39;t quite understand it, but it sounds cool. If you subscribe to apps like the Economist or Calm, you&#39;ll get access to premium audio from those apps automatically. I wasn&#39;t sure what they were trying to do there. Linking apps with audio is what it sounds like, but what&#39;s the strategy here, james? </p>
+  <cite>James Cridland:</cite>
+  <time>30:17</time>
+  <p>Yeah, well, i think that they&#39;re linking they&#39;re linking subscriptions to that you do through the Apple App Store, if they&#39;re linking those with additional stuff that you can get hold of within the Apple Podcasts app, and so, basically, they&#39;re trying to stop, it would seem, people like the Economist or Calm building their own players and instead just, you know, just play all of your audio in the Apple Podcasts app, which is, i think, quite a bright plan really. So that&#39;s happening alongside Apple Music&#39;s radio shows, which will now be available on demand within Apple Podcasts. So that&#39;s what happened to Beats, one which, if you remember, was their original online radio station that Zane Lowe went to work for And it was all supposed to be the future of radio and it died a complete death. But those shows are now going to be available in there as well. And, yeah, and we can play around with those new versions of Apple Podcasts. If you live dangerously and you want to download the Developer Beta, then you can go ahead and do that. </p>
+  <cite>Sam Sethi:</cite>
+  <time>31:34</time>
+  <p>Well, anyone can now do that. So previously you had to have a Developer account and had to pay you $99. And Apple have made it available free for everyone now to go and get the latest Mac OS and iOS downloads. </p>
+  <cite>James Cridland:</cite>
+  <time>31:49</time>
+  <p>You think you&#39;ve found the Apple engineer working on the Apple Podcasts app. </p>
+  <cite>Sam Sethi:</cite>
+  <time>31:55</time>
+  <p>The one engineer that exists is named Stephen Peterson. He&#39;s here in London and he put out. another thing I&#39;ve been working on this year is the new player in the podcast app, and it&#39;s been super fun getting to expand my work beyond music this year. I thought, oh my God, i found him. Clicked on his profile. Of course he&#39;s a member of the Men in Black. Nothing, not a word about working for Apple in his profile. No links, no, nothing. So, yes, of course not. So he&#39;s probably been sacked for revealing that he&#39;s worked on the product already. Well done, stephen. </p>
+  <cite>James Cridland:</cite>
+  <time>32:28</time>
+  <p>Yes, well done, stephen. It looks a lot nicer now. I made friends with Apple by saying that I really like some of the design nods that they&#39;ve got from Android in the latest app, and of course, that went down, as you would expect. Yes, but still, there you go. Other things that happened at WWDC. There&#39;s PWAs. What&#39;s a PWAs? Sam? </p>
+  <cite>Sam Sethi:</cite>
+  <time>32:56</time>
+  <p>So PWAs are progressive web apps, so things like Podverse, podfriend and Podfantral PWAs. What&#39;s really cool in this build Mac OS 14, is you can now, through Safari, click on the file menu and click Add to Desktop. When you do that, it basically says like Save into your home page, it allows it and adds it to the tray at the bottom. And if you support in your progressive web app things like push notifications, then it acts like a full blown native app where you get the red dot badges appear. So you&#39;ve got first hand, completely a quick way to create an app on the user&#39;s desktop. And if you use something called a manifest, which is just a bit of code that goes at the top of your website, you can detect the operating system and you can then prompt the user to click a single button which creates that app on their user desktop and also on the tray as well. </p>
+  <cite>James Cridland:</cite>
+  <time>34:01</time>
+  <p>Very nice. It&#39;s been available in Google Chrome for the last year and a half, so it&#39;s always nice to see Apple finally sticking to something that Google have been doing for the last number of years. But, yes, i think having progressive web apps within both Mac OS and also iOS is going to be a very good thing. </p>
+  <cite>Sam Sethi:</cite>
+  <time>34:26</time>
+  <p>Let&#39;s move on Now. our wonderful host, buzz Sprout, came out with a new feature service last week that we talked about with Albin Brook, there head of marketing, called Cohost, which is AI, generated transcriptions, titles, show notes and chapter markers. James, we used it for the show last week. Actually, you used it because obviously you uploaded the audio and then pressed the button. So what do you think of it, having had your first play? </p>
+  <cite>James Cridland:</cite>
+  <time>34:55</time>
+  <p>I have to say I was really impressed by it. It gave us, i think, five choices of title of the show and they were all much longer than I would normally go for, but that&#39;s the way of these things. But yeah, they were really good. And then the show notes that it came up with very successfully worked out what was in that particular show and wrote a very nice piece about it. So, yeah, you can well see that for a busy audio creator, you could well see that this sort of tool would actually save quite a lot of time. So, yeah, i thought it was a really smart piece of AI. </p>
+  <cite>Sam Sethi:</cite>
+  <time>35:46</time>
+  <p>One of the things that was missing and I think it&#39;s coming, according to Albin is speaker labels don&#39;t have names of the hosts and they doesn&#39;t seem to be a way to put that in, but I think that&#39;s coming. And given that we just said, apple is going to support chapter art and we do put in our chapter art pretty much every week with links, it would be great as a version two feature for this Cohost function to use I don&#39;t know again AI to do generated chapter art. </p>
+  <cite>James Cridland:</cite>
+  <time>36:22</time>
+  <p>That would be fun, wouldn&#39;t it? There you go. If the good folks at Buzz Brown are listening, they can stick that down on their feature request list. </p>
+  <cite>Sam Sethi:</cite>
+  <time>36:31</time>
+  <p>Now here&#39;s another story we talked about. Listen, which is a London production company, got acquired by PodEx. We&#39;ve had on in the past Derby Doris from Listen and we&#39;ve had Stefan Rossel, the CEO, on, but again, james, this is a really interesting acquisition PodEx has made. </p>
+  <cite>James Cridland:</cite>
+  <time>36:52</time>
+  <p>Yeah, it&#39;s a really big deal. PodEx already own a similar company called Goldhawk Productions, but Goldhawk Productions way, way smaller. The difference, i think, between podcast content creators in the UK and elsewhere is because of the way that the BBC works. quite a lot of these audio production companies are making radio shows as well, and that&#39;s what Listen does. That&#39;s what Goldhawk Productions do as well. So they&#39;ve ended up buying a company which has guaranteed work in terms of what it&#39;s guaranteed as you can do in terms of their work with the BBC as well, of course, as the podcast stuff that they&#39;re doing as well. So I thought it was a really interesting purchase. No terms were given, but it is probably one of the biggest purchases in the UK, alongside Sony buying something else which is a very similar company. a couple of years ago, you managed to catch up with Josh from Listen and Stefan from PodEx to ask them a little bit more about the deal. </p>
+  <cite>Staffan Rossell:</cite>
+  <time>38:02</time>
+  <p>PodEx is an international group investing in the best podcast creators in the world, with a focus on Europe, the Latin America, and our mission, if you like, is to put podcast creators in the driver&#39;s seat, opposed to platforms and sales houses running this business. We think that and we strongly believe that the best content will always be the core of this industry. So that&#39;s how we think and that&#39;s what we are trying to do. </p>
+  <cite>Sam Sethi:</cite>
+  <time>38:35</time>
+  <p>Josh, hey, how are you Now? we briefly saw you running around like a mad thing at the podcast show. Now we had Darby Dourish on the show a couple of weeks ago. But just remind everyone who or what is Listen. Let&#39;s start there. </p>
+  <cite>Josh Adley:</cite>
+  <time>38:50</time>
+  <p>Sure So Listen is an audio and podcast production agency. We produce premium shows and we have a really diverse slate of shows. We produce a ton of radio strands, predominantly for the BBC, as well as lots and lots of podcasts, as well as other types of work like strategy consultancy and creative work within podcasting. </p>
+  <cite>Sam Sethi:</cite>
+  <time>39:08</time>
+  <p>How long has Listen been going and when did you start it? </p>
+  <cite>Josh Adley:</cite>
+  <time>39:12</time>
+  <p>So Listen was actually born out of another business, and we did that four years ago. I was with that prior business called Wise Bidder. I&#39;ve been with the whole company for seven years. So four years ago we launched Listen and here we are today. </p>
+  <cite>Sam Sethi:</cite>
+  <time>39:24</time>
+  <p>Now, the reason why you&#39;re both here talking about ambition is that PODX is now invested into Listen. Can you, Stefan, explain what the deal is? I mean, how is the deal structured? You&#39;re not a traditional VC. It&#39;s not like a pure money investment with an equity release. So how is this deal structured? </p>
+  <cite>Staffan Rossell:</cite>
+  <time>39:46</time>
+  <p>It&#39;s structured very much the same as most of our deals. We like to build a group where everyone should be incentivized to work together and the sum of the parts should be better than the individual parts. So we want to be majority shareholder of the companies that we invest in And that&#39;s the basic principle and opposed to more financial investors. We are media people Everyone who works here have a background in media radio, television, podcasting And we like to think that we can actually help to develop the businesses that we invest in. So we are not buying and selling companies, We are only buying and we are helping the management to create something better and also to create synergies and cooperation and format exploitation and exploitation between the entities. </p>
+  <cite>Sam Sethi:</cite>
+  <time>40:37</time>
+  <p>Josh, you tapped who on the shoulder and said, hey, do we have a little chat? </p>
+  <cite>Josh Adley:</cite>
+  <time>40:42</time>
+  <p>Go on, stefan, i&#39;ll let you jump in. </p>
+  <cite>Staffan Rossell:</cite>
+  <time>40:43</time>
+  <p>Yeah, because I think actually we should admit if that&#39;s something that you admit. But I think we tapped listen on the shoulder first because we saw this very interesting business and we wanted to meet the people behind it and the people leading it and the people owning it and talk about the possible journey together. </p>
+  <cite>Sam Sethi:</cite>
+  <time>41:03</time>
+  <p>Okay. So when you got that tap on the shoulder, Josh, what do you think? Clearly it was out the blue. I&#39;m sure you weren&#39;t actively hunting for some acquisitions. </p>
+  <cite>Josh Adley:</cite>
+  <time>41:13</time>
+  <p>Yeah, i think it&#39;s been little bits of interest in the business over the years because we&#39;re in a really exciting industry And so when PODX came I was really excited by the conversation because it felt like when they launched they made a really big splash of what they were looking to do And it felt like, in the space that we&#39;re in, it was someone that actively wanted to invest in the sector And I&#39;m always interested in people that kind of have a long term view of our sector and want to be ambitious with it. So we were really open to that conversation. But ultimately you&#39;ve kind of got to work with people that you think that you can get along with and share your ambitions. So it&#39;s not an overnight process. You have multiple meetings, you have lots of conversations, you talk about business models, you talk about creative, and those happen successfully over a period of months And here we are. So you know it was always nice to be tapped on the shoulder and the conversations were really positive. </p>
+  <cite>Sam Sethi:</cite>
+  <time>42:01</time>
+  <p>Just to understand how long ago was that tap. Are we talking a few weeks ago, a few months ago, or are we talking last year? </p>
+  <cite>Staffan Rossell:</cite>
+  <time>42:09</time>
+  <p>We&#39;re talking last year. </p>
+  <cite>Sam Sethi:</cite>
+  <time>42:11</time>
+  <p>Okay, all right. Josh was like should I say anything? </p>
+  <cite>Staffan Rossell:</cite>
+  <time>42:17</time>
+  <p>I think I, just like Josh said, i think it&#39;s very important that both sides should really feel comfortable going into a joint venture like this. And I think the time factor, you can probably reduce it but you cannot take it away, because it takes time to get to know people, to understand the business or both businesses, for the other side to build trust and to sort of agree what we could do together and to have that plan and agree on it. It&#39;s not something that you do in weeks. </p>
+  <cite>Sam Sethi:</cite>
+  <time>42:48</time>
+  <p>Josh, what does it mean now going forward for Listener? What if anything has changed in your planning? or is it business as usual? </p>
+  <cite>Josh Adley:</cite>
+  <time>42:57</time>
+  <p>I think a lot of aspects of what we do will remain business as usual. The products of their strategy is to buy into businesses that they trust the people leading those businesses, and what&#39;s great is we&#39;ve got an active majority shareholder that we can have conversations with and we will have lots of conversations with, but ultimately we&#39;re trusted to run the business. So the vast majority of what we do will be business as usual and is in the plan. We&#39;ve had plans for the next few years and those plans are in place and they constantly evolve. That&#39;s how we stay ahead. So, in terms of what&#39;s next, you&#39;re going to see some that&#39;s more of the same. You&#39;re going to see some new stuff that was always going to be there, and then, through this acquisition, it&#39;ll open up opportunities that perhaps may not have been there otherwise. </p>
+  <cite>Sam Sethi:</cite>
+  <time>43:35</time>
+  <p>Stefan does this mean? let&#39;s say, listener got plans. They can accelerate those plans, but what if they need to come back to you for further funding? Is that also open to them? </p>
+  <cite>Staffan Rossell:</cite>
+  <time>43:46</time>
+  <p>It is. We will continue to invest in great podcasting ideas and projects, and they could be in a company that we already invested in or it could be in a new company that we will invest in. So we want to expand and we want to help this industry to expand and grow by making great ideas come true. </p>
+  <cite>Sam Sethi:</cite>
+  <time>44:10</time>
+  <p>So, absolutely, Josh, does this mean you&#39;ll go international now? </p>
+  <cite>Josh Adley:</cite>
+  <time>44:15</time>
+  <p>Yeah, we&#39;ve already been working in an international way. We&#39;ve had clients and commissioners outside the UK for quite some time. We&#39;re continuing to grow. That spent some time in the US earlier this year and we&#39;ve already come back and started working for some clients out there. So I think that&#39;s always been on the plan and certainly going forward. I&#39;m excited by talking to the other businesses within the group, excited by talking to people within PodEx and figuring out between us what we can do to supercharge what we&#39;re already doing. I think the key thing for us at Listen and anyone that works here will sense a level of energy and ambition within the business and we&#39;ve constantly evolved it. So we were Wisebudder and we made that move from Buddha to Listen and that was a really active, big change From there. We then spent the first few years really building a stable business and then we&#39;ve evolved it and we&#39;ve evolved it again and I think the thing that&#39;s the past year has shown for Listen is everyone internally senses that we&#39;re constantly looking to move. You cannot stand still, and I know that&#39;s quite a traditional thing for anyone to say in media businesses, but I feel like podcasting is true more than any other industry and so that&#39;s why we&#39;re constantly looking for other areas, and so this opportunity is great. Let&#39;s take this. Let&#39;s see what else that&#39;s going to open up. We were already thinking that way, though. </p>
+  <cite>Sam Sethi:</cite>
+  <time>45:22</time>
+  <p>Yeah, i agree. Anyone who stands still is actually moving backwards. The last thing what are you working on these days? What&#39;s in the pipeline? What can we expect from Listen? </p>
+  <cite>Josh Adley:</cite>
+  <time>45:31</time>
+  <p>There&#39;s a lot and a lot of varied content, which kind of comes back to the mission behind Listen, which is diversity of our output. So we&#39;re working on a follow-up to 28 Ish Days Later, which was a huge show that we did for BBC Radio 4 and BBC Sounds. We&#39;ve got the follow-up to that confirmed which is in production, which will probably launch early 2024, which is going to be a landmark show for them. We&#39;ve got a few really exciting always-on entertainment shows where we&#39;re building podcast brands so that&#39;s video as well as audio that are going to have a huge presence across TikTok, youtube, instagram, not just in audio feeds. We&#39;re doing a load of really exciting creatives and strategy work for some huge organisations globally at the moment, so working out what the role podcasting can play is for them and we&#39;re kind of seeing how that can evolve. So there&#39;s loads to come, lots to announce and a few more really exciting shows for big brands as well. </p>
+  <cite>Sam Sethi:</cite>
+  <time>46:19</time>
+  <p>Well, gentlemen, it just leaves me to say congratulations to you both. </p>
+  <cite>Staffan Rossell:</cite>
+  <time>46:23</time>
+  <p>Thank you very much, sam. </p>
+  <cite>James Cridland:</cite>
+  <time>46:25</time>
+  <p>Thanks very much. Appreciate it. Josh Adley and Stafan Rossell from Listen and PodEx, which, of course, is now one of the same and, yeah, really interesting hearing about their plans. </p>
+  <cite>Sam Sethi:</cite>
+  <time>46:39</time>
+  <p>Yeah both gentlemen will kindly be at our London event on the 27th of September, so we&#39;ll hear more from them. Excellent, we will indeed. I did try and find out how much they got for the deal. You know, lip&#39;s worth the ill. So I started doing things like Have you bought a Ferrari? Have you bought an Aston Martin? Just to see what Josh&#39;s eyes did. There was a few smiles there, that&#39;s all I&#39;ll say. There was a few smiles. </p>
+  <cite>James Cridland:</cite>
+  <time>47:08</time>
+  <p>Very nice, very nice, but that&#39;s a fantastic organization, so I&#39;m really pleased for that. </p>
+  <cite>Sam Sethi:</cite>
+  <time>47:12</time>
+  <p>Now. We also talked a little while back about the New York Times launching their audio app. James, tell me more about this new app. </p>
+  <cite>James Cridland:</cite>
+  <time>47:20</time>
+  <p>Yeah, so it&#39;s called NYT Audio. It includes an exclusive show called The Headlines, which is basically a nice way to keep up to date with the latest news. It&#39;s got a few other things that you would expect being a subscriber-only app. It has the DisAmerican Life a day early, for example. It&#39;s got a range of narrated articles from the New York Times and other organizations. iOS only for now, for some weird reason, but you, of course, sam Sethi. you know everybody in this industry and you&#39;re a big friend of someone who works there. </p>
+  <cite>Sam Sethi:</cite>
+  <time>48:02</time>
+  <p>Yeah Well, michael Devichand, who&#39;s the editor of programming Yes, i have interviewed him before for my previous podcast, sam Talks Technology. He&#39;s a lovely, lovely guy. I&#39;ve been trying to get him on to the show for months and obviously he couldn&#39;t until they released the product. So, yeah, i reached out to Michael and I said hey, let&#39;s have a chat about this new app of yours. </p>
+  <cite>Mukal Devichand:</cite>
+  <time>48:23</time>
+  <p>So New York Times Audio. Let me tell you what my journey has been with them. So, as you say, two years ago I was very privileged to be asked to join The Times and I moved from London to New York, and everyone who listens to this podcast will know that The Times, even two years ago, had already was well underway with its journey in audio. In 2017, it launched The Daily, which, it&#39;s no exaggeration to say, i think changed the podcast world, really invented a new form of audio journalism And beyond that, before I joined, that sort of one story a day idea was already being built upon into a much more well-rounded audio report is the way to phrase it. So you can engage with The Times in audio in lots of different ways. For example, new podcast title Run Up or Hard Fork Ezra Klein Show. But also The Times had acquired Autumn, which brings long form magazine journalism to Life in O and Serial and the big one yes, and the partnership with the American Life. So that was the kind of amazing mix that I was privileged to get to come and kind of engage with, and what we have been doing is developing a way to experience that audio journalism and The Times is journalism, bringing more of it into audio in a new way, and that is what just launched. So it&#39;s a new app, new York Times Audio. It&#39;s available to time subscribers at the moment on iOS. And really, what is it? It is a daily front page told in audio. It&#39;s curated and produced by Times editors, it&#39;s powered by the New York Times&#39; newsroom And what&#39;s in it is a roster of exclusive shows and output, a daily playlist, which is really your distilled way of engaging with a wide range of New York Times journalism quickly, ideas, culture and essential listens. And that&#39;s the kind of weekday experience. And then at the weekend it kicks off with a new episode of This American Life, available a day early. In the app And infused through the experience are new audio formats, like narrated articles, which turn New York Times text articles into a new audio format, but also articles audio from a number of other publishers like Rolling Stone, new York Magazine and so forth. </p>
+  <cite>Sam Sethi:</cite>
+  <time>50:47</time>
+  <p>Yeah, it looks very comprehensive. You&#39;ve got an interesting space, though, that you&#39;re coming into. Obviously, apple has its own news. You&#39;ve got the BBC as well, which is part of your heritage. One of the questions, though, that I was curious you&#39;ve made this only available to existing subscribers. Was that a premeditated decision to keep it tight to begin with And maybe you&#39;ll go open later, or is it only ever going to be available to subscribers? Is this the way that you want to monetize content through the New York Times? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>51:18</time>
+  <p>It&#39;s a good question And what I&#39;d say is certainly so much of our audio journalism is part of the podcasting ecosystem and will continue to be, and there&#39;s plenty of development there and we&#39;re growing there, and it&#39;s really important. This app is a paid for service. It&#39;s available, it&#39;s actually included in your existing Times subscription, whether you&#39;re a news subscriber or what we call an all access subscriber. And what I&#39;d say is, as well as being a really established leader in audio journalism, the New York Times also led the world and the journalism industry in developing a direct paying consumer relationship And, simply, we believe our journalism and these products are worth paying for when they&#39;re envisioned together, and that&#39;s what New York Times audio is. It adds incredible extra dimension and value to your New York Times bundle And the New York Times bundle. Honestly, sincerely, i would say it&#39;s already quite a wonderful thing, right? Not only does it provide really like world class journalism that is not available elsewhere, but also games, cooking, but the athletic and now a new listening experience that really adds value to your life as a Times subscriber. So the way we see this is that we&#39;re creating more and more reasons why being in that relationship with us is better than not being. </p>
+  <cite>Sam Sethi:</cite>
+  <time>52:49</time>
+  <p>Yeah, one of the statements that came out was New York Times wants every second of your day, and I think Alex Rayner was a Times head of audio product said that the New York Times is aiming for what they call yellow up for grabs blocks of times, jim, commute, commute home and chores. So is this a 24 seven type platform that you&#39;re trying to aim for? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>53:13</time>
+  <p>I think what we have done and what we do in programming the app is we&#39;re aware that and I don&#39;t need to tell you this, sam, because you like listening to stuff, right, yes, but smart, curious people are engaged with us and want to be engaged with us through the day, through the week, and it was just a fantastic way to to consume ideas, to consume stories, to consume journalism, and so what we are doing is finding ways to make more and more of work of our journalists available in ways that suit the moment of your day, that suit, you know, the frames of mind that you might go through through the day, And we think that&#39;s a service And, as I said, it&#39;s, to use the jargon, at a subscriber benefit and can be a wonderful service for people and increase your level of access to what is some of the most important journalism that you know you can consume, that helps you understand the world. </p>
+  <cite>Sam Sethi:</cite>
+  <time>54:18</time>
+  <p>So one question that James will ask, i know because he has an Android phone when will it be on Android? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>54:24</time>
+  <p>Back on again, sam, in the future, and we can have that chat. At the moment, we are focusing on the iOS audience And, to be honest, that is where we normally launch a new product. So that&#39;s where we are at the moment. </p>
+  <cite>Sam Sethi:</cite>
+  <time>54:36</time>
+  <p>Now, given one of your backgrounds, i remember when we last spoke at the BBC. You were producing an AI bot for the BBC. Can you remind me what it was called? I was searching back through my brain. </p>
+  <cite>Mukal Devichand:</cite>
+  <time>54:48</time>
+  <p>Thank you for remembering Sam. That was part of the BBC sounds kind of team And we were developing a bunch of services for smart speakers like, for example, the interactive audio news and the BBC sound skill. One of the things that we piloted in beta was a BBC synthetic voice called Bebe. </p>
+  <cite>Sam Sethi:</cite>
+  <time>55:11</time>
+  <p>Right, that was it. Now, given your history and your knowledge and background, and with the AI glory days that we&#39;re having again, is there something that we can expect you might be bringing to the New York Times? Is AI going to be helping you recommend articles, summarising stuff for me, and are you going to be doing any of that sort of thing with the New York Times? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>55:35</time>
+  <p>To be honest, the audio app is really about bringing audio content from the report, hearing the voices of our reporters, And that&#39;s really the focus. So my background is not yes, that was a great thing to work on, But I was an audio. We used to call it radio. I was a radio producer for many years at the BBC, doing sort of serious journalism, And I think the privilege of this job is really much more about finding ways to bring so much of the Times&#39; daily report is available in audio, but actually still a lot of it is not, And so much of it has great audio storytelling potential. So what I&#39;m thinking about is about how to bring in more and more of that more tones, more range and create this distilled New York Times experience each day. </p>
+  <cite>Sam Sethi:</cite>
+  <time>56:28</time>
+  <p>Okay, it&#39;s very specifically called the New York Times Audio app. Obviously, we&#39;re now living in a TikTok generation. Youtube is certainly becoming more interested in podcasting. Whether they&#39;re successful or not, the jury&#39;s out still, but again, i can imagine I&#39;m on the subway in New York. I&#39;m with my New York Times app. Maybe I get the app out. Would video be the next evolution of this, bringing some audio content into video content so I can watch as well as listen? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>57:01</time>
+  <p>I love the fact that you keep on asking me about the far future. We just launched it, But I think I can say definitively, our focus for right now is very much on the ear and the listening. I think this is something that, in some ways, we haven&#39;t really seen. I don&#39;t think there&#39;s any kind of direct comparator to what we&#39;re doing here. Like where this comes from. A little bit is a strong signal that I think I&#39;ll say I personally can relate to it, and maybe you can, but I think a lot of people out there feel that the podcast ecosystem is basically both wonderful but also a little overwhelming. There&#39;s a sheer volume of what to listen to, and it&#39;s exploded in recent years. You guys do the stats right. I heard your thing about YouTube. I don&#39;t know, After listening to that, maybe it won&#39;t be on YouTube, but the sheer volume of what&#39;s available to it has really kind of gone up. I think that leaves people with a problem of deciding what&#39;s worth listening to every day. right, And especially for what we care about here, which is informed people, journalism. What do you listen to? New York Times audio is one answer to that. It makes it easy for you to find something worth listening to every day. It is completely anchored in the world around you. When you open it, you&#39;ll get a sense of what&#39;s happening in the world. You get the top stories, but you&#39;ll also discover what our editors and that&#39;s actually me and my team at the times are picking to meet the moment Tell the story of the day. It&#39;s really like audio journalism from the ground up. It&#39;s a front page, And that&#39;s why people come to the New York Times in print and we hope that you will come to us in audio, right, It&#39;s stories that are different every day. We change the mix. We look at what&#39;s happening in the world. We look at what&#39;s going on in the culture. We want to catch you up, but we also offer you serendipity. We want you to go deeper on certain things. So I think the choice that we&#39;re offering and this is where we&#39;re doubling down, okay, This is the relentless focus is we all go to big platforms and you can go to big platforms and there you will find a volume of content and it&#39;ll be very varied and you will have to sift through it, Or you can come to us and we&#39;ll create a really essential, interesting, high-quality audio journalism mix, And that&#39;s what this is about. </p>
+  <cite>Sam Sethi:</cite>
+  <time>59:23</time>
+  <p>Yeah, I mean newspapers. Traditionally, that&#39;s what editors did They picked the best of the day and got great writers aggregated all together and presented that to your front door, which is what you&#39;re doing, Correct? I get that. In terms of interactivity, being a digital medium, is there any mechanism for me to comment feedback? Because obviously I have newspaper as a single, one-way broadcast medium. Right, It&#39;s telling me, I read it and that&#39;s it. And in the old traditional words, you used to write a letter to the editor and get it published. Right, We&#39;re here in the digital world Again, not having had the privilege of using the app yet. Is there a mechanism for me, as the subscriber, to say oh, I&#39;ve just read this lovely article, Now I want to comment back on it? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>1:00:05</time>
+  <p>Yeah, look, i think there&#39;s a theme in a lot of what we&#39;ve been chatting about. Right, we&#39;ve been talking about some of the stuff that I did at the BBC. You talked about video and interactivity, and what I&#39;d say is that one of the great attractions of joining the New York Times has been that. I think you know, and, look, you say you haven&#39;t got a subscription so you should have a go. But even just look at it without the subscription, like the world of digital media, i think it&#39;s maybe 170 years old, so it&#39;s a very traditional journalistic organization. It&#39;s the paper of record in America and, i think, the world really. However, we have been very successful at putting that marriage of really journalistic thinking with new forms of storytelling that really work for the mobile or the technologies that we&#39;re in right now, and so you definitely you will see interactivity, innovation with video, innovation in storytelling, woven through the New York Times report. It&#39;s not like an afterthought that they do. The newspaper is still very important, but it&#39;s really the digital product that is, for many people, the focus, and so audio. I think we&#39;ll be part of that as well. We have just started, but you know, for example, there&#39;s the playlist features that we have this daily playlist, which is really a frictionless hit play Start with the news and then carry on through the daily, but then also an app exclusive range of culture shorts, picking from the latest music that&#39;s out. Or this morning we have this wonderful piece in which two of our top theater critics kind of debated what&#39;s two of the biggest plays on Broadway right now, and then we ended it up with another culture piece. But we end up often with the narrated article, which is this was profiling the Disney executive who&#39;s pushing in that you know, then the new live shows, right, so it&#39;s kind of going deep on that, i think. Tomorrow we&#39;re featuring a narrated article that is to do with a piece looking back at the history of wildfires So very topical right here in the United States, but a very deep piece of journalism which is making it into all because of what we&#39;re doing. And so the innovation right now is very much about understanding your day, where you are, the uses that you might be in, and trying to provide just the perfect listen for that. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:02:18</time>
+  <p>So one of the criticisms of newspapers today is that obviously they can&#39;t refresh continually through the day because it&#39;s printed, it&#39;s in the shop, that&#39;s it. So sometimes by the time you pick the paper up, the story&#39;s moved on and it&#39;s pretty dead. So with the app, do you reprint that continuously through the day? Is that a download once and then the download again, like the newspaper? So I&#39;m just trying to understand, with you being the editor of programming, do you go right? no, that story&#39;s moved on. We do it. Or is it an audio fixed copy of the newspaper editorial? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>1:02:58</time>
+  <p>It&#39;s a good question And I think it&#39;s probably a little bit of both, in the sense that we really aim to keep a fresh mix each day and the principle kind of refresh is done for the New York morning. It&#39;s actually done from London, but we think really about the mix that you&#39;re going to get that day. There is news and there is kind of we do follow the latest news. for example, in the headlines this morning we had something about wildfires, we had something about CNN and Chris Licht and all of but it&#39;s. but as well as that, i think you&#39;ll probably agree, the strength of audio is often that it can be a journey. It can be it&#39;s. you know, there&#39;s very strong storytelling here. It is programmed to meet the moment of the day. It&#39;s not a live news app. The New York Times has a live news app. This is a listening app and certainly includes elements of that. So, yes, of course I have a news background and I&#39;m very much aware of what is happening through the day, but really the mix is much more like a listening menu Like, and we&#39;re not just thinking about what&#39;s in the news although we are thinking about that but we&#39;re also thinking about the themes and the culture. We think a lot about how it feels on a Friday and how it feels on a Saturday, because you might feel differently on a Friday and on a Saturday. So we&#39;re trying to make the mix hit the moment. But, for example, like, this weekend is the Champions League final And I think tomorrow night it&#39;s Djokovic against Alka Rez in the French Open. So we&#39;re quite aware of that. We&#39;re working with the athletic to get some special material ready for that. We&#39;re not going to While the game&#39;s on. You probably won&#39;t follow it through our audio, but we&#39;ll certainly offer you something for either the sports fan or the non-sports fan to have something to listen to. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:04:47</time>
+  <p>Yeah, you actually pre-empted one next question, which is would it ever be audio first rather than news first? And what I mean by that is would you commission content purely for the New York Times app that didn&#39;t actually come or generate itself from the paper? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>1:05:04</time>
+  <p>I think we&#39;re doing that now, in the sense that a number of our podcasts, some of the stories I think we are part of the New York Times And a lot of what comes out of the Times newsroom comes from the same journalists. But the way that you experience it in audio, the way you tell the story, will be different. And there have been great things like I don&#39;t know if you&#39;ve caught the latest series of Serial, but that was with Kim Barker, a New York Times reporter, and they told the story of what was going on in this town of Laramie in an original audio way. It&#39;s a wonderful listen. But even I think I mentioned earlier that in the app this morning and this is exclusive to the app there&#39;s a New York Times short. This is one of the sort of new exclusive strands that we&#39;ve created for the app And that is two of our top critics talking about the theatre, but they&#39;re not reading out their pieces, they&#39;re going back and forth each other. They&#39;re actually critiquing each other&#39;s reviews of two of the best pieces. There&#39;s a wonderful moment in this morning&#39;s where one critic says to the other I can&#39;t believe you didn&#39;t give that one a critic&#39;s choice, and I don&#39;t know whether that&#39;s breaking the third wall or the fourth wall or something, but it&#39;s something you couldn&#39;t do in text or couldn&#39;t do as easily in text storytelling. So it&#39;s really interesting as an editor, what an amazing opportunity to take the journalism of the New York Times and bring it into audio, and in so doing I think we do create something original a lot of the time. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:06:29</time>
+  <p>Michael Davichand. Thank you so much for your time. Congratulations on the launch of the app. Look forward to getting my hands on it. I will go and do that very quickly. Then, if somebody does want to subscribe or wants to get a hold of the app, where would they go? </p>
+  <cite>Mukal Devichand:</cite>
+  <time>1:06:42</time>
+  <p>Well, at the moment, as we&#39;ve discussed, it&#39;s on iOS. You can go to the app store, download NYT audio And, as a time subscriber, you can sign in there or you can get a subscription, and it&#39;s certainly available in the UK and across the world And it&#39;s right there for you. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:06:59</time>
+  <p>Thank you, congratulations and thanks for your time. </p>
+  <cite>James Cridland:</cite>
+  <time>1:07:02</time>
+  <p>Michael Davichand from the New York Times, and great to have them on the show. Shall we go round the world, sam. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:07:10</time>
+  <p>Yeah, where should we start? Oh, i know, let&#39;s start in Spain. Ivoex has launched monetization using Dynamic Advertising for its Spanish language podcasters. Is that Dynamic Ad Insertion? Is that what they&#39;ve done now? </p>
+  <cite>James Cridland:</cite>
+  <time>1:07:24</time>
+  <p>Yeah, that&#39;s exactly it. So Dynamic Ad Insertion in much the same way that other podcast hosts are doing iVoex or iVoex doing the same thing in Spain. They&#39;re based in Barcelona, where, of course, we will have an event later on in the year, so that&#39;s a good thing. In Africa, chirulemba is to be the face of the upcoming African podcasters and voice artists award season. It&#39;s born in Zambiae lives in South Africa these days, and the awards are to be sponsored by Afri Pods. So good luck if you have entered those. Finland podcast listening takes time away from traditional media, according to a study. Who&#39;d have thought it? Yes, traditional media. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:08:08</time>
+  <p>Is that the obvious study? Is that the obvious study? </p>
+  <cite>James Cridland:</cite>
+  <time>1:08:11</time>
+  <p>Well, this is data from Podomo. It&#39;s actually from a company called Nordstat, which was released by Podomo And Podomo claiming in Finland 40% growth in subscribers since the beginning of the year. So that&#39;s pretty good. From then, the Australian podcast awards have just opened in Australia And finally in Vietnam. Pod news this week had our latest look at podcasting in the East And absolutely fascinating article Guangjin Yeo, who has written this series of articles for us. He&#39;ll be speaking at Radio Days Asia in Kuala Lumpur in early September. He&#39;s done a really good job of going through the history of how Vietnam podcasting works, why it&#39;s a bit different in that country. It turns out that because the roads are so dreadful, actually there&#39;s not very much listening to podcasting cars, as one example, or indeed on the back of your motorbike. So that&#39;s quite interesting, but it&#39;s a great, great read. So if you have any interest in understanding how podcasting works in Asia, then you should absolutely be checking out some of these articles. You&#39;ll find all of those articles, including the deep dive in Vietnam, at podnewsnet slash articles. </p>
+  <cite>Voiceover:</cite>
+  <time>1:09:36</time>
+  <p>The tech stuff. Tech stuff On the Pod News Weekly Review. </p>
+  <cite>James Cridland:</cite>
+  <time>1:09:40</time>
+  <p>Yes, it&#39;s the stuff you&#39;ll find every Monday in the Pod News newsletter. Here&#39;s where we do all of the tech talk. There&#39;s quite a lot of it, which is exciting, But we&#39;ll go through some of the new things. Disco Free by Headliner was launched this week. On Product Hunt, which is an AI-driven podcast discovery tool It&#39;s a very clever thing that basically surfaces your podcasts in articles that are relevant to that, which is quite nice. Pocket casts did you have a look at their self-serve ad booking system, Sam? </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:10:14</time>
+  <p>No, no, i haven&#39;t had a look at all. No, so I can pretend, but the reality is no. So over to you, mate. </p>
+  <cite>James Cridland:</cite>
+  <time>1:10:21</time>
+  <p>Well, i tell you what. There&#39;s clearly a business there, because prices for you to promote your podcast they start at $1,700 in this app and they go up to $5,000. So you&#39;re paying anywhere between $1 and $10 per tap, which sounds tremendously high to me. But yeah, it&#39;s probably a thing. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:10:43</time>
+  <p>Hang on a minute. Wow, hang on a minute. Those CPM rates are minty. </p>
+  <cite>James Cridland:</cite>
+  <time>1:10:47</time>
+  <p>Yeah, they&#39;re mental, aren&#39;t they Absolutely mental? I couldn&#39;t possibly justify running an ad for this show in there. I mean, that doesn&#39;t make much sense at all. But yeah, i mean it&#39;s a popular app and people are using it, so I suppose that they can go and command those sorts of numbers. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:11:07</time>
+  <p>When you&#39;re paying $40 for the app, i suppose those app prices don&#39;t matter. Those app prices yeah. </p>
+  <cite>James Cridland:</cite>
+  <time>1:11:13</time>
+  <p>Yes, indeed, but yeah, and it&#39;s new from Pocketcast, because you used to have to go through a human being to book advertising, and now it&#39;s just a self-serve ad booking system, which is very nice Codenamed Blaze, i say, because that&#39;s what the URL is blazepocketcastcom, i think. So that&#39;s all very fancy. They&#39;ve also updated their privacy policy. I couldn&#39;t really see any big changes. It just looks as if they&#39;ve spent lots of money on lawyers for a new privacy policy. The one thing that I would say, though, and what I quite like, is that they&#39;ve made their privacy policy available under Creative Commons. So if you want to nick it and use their privacy policy for something that you&#39;re working on, then go right ahead. I mean, obviously, change the information, because otherwise that wouldn&#39;t be your privacy policy. So go right ahead, which is, i think, quite a nice plan, and so Harajah Automatic for doing that, and also Albi is partnering with Podcast Guru to offer value-for-value payments to podcasters in the Podcast Guru app, which I downloaded the other day and promptly uninstalled again, but nevertheless had a quick look at, and it&#39;s a nice app, and I think their supporting boosts didn&#39;t look as if they were supporting streaming sets, but maybe I didn&#39;t look as closely in there, as I possibly should have done. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:12:37</time>
+  <p>Now talking of value-for-value. The Podcast Index 2.0 Phase 6 has now formally closed last week. These new tags that have been voted in need to be formalized, but some of them are very cool. We&#39;ll go through a few of them. The Podcast Remote Item Tag James. What is it? </p>
+  <cite>James Cridland:</cite>
+  <time>1:12:58</time>
+  <p>Yes, and, by the way, i should say that the phrase was voted in inverted commas. It&#39;s basically enough of the community thinking that they are a good idea to move them forward. So that&#39;s what&#39;s really going on. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:13:12</time>
+  <p>Daniel said yes, that&#39;s it. </p>
+  <cite>James Cridland:</cite>
+  <time>1:13:14</time>
+  <p>No. Daniel says no. I think more to the point, but yes, so there&#39;s no actual voting going on there, just in case That&#39;s important to anybody listening Adam Curry. So, yes, the Remote Item Tag is pretty cool. It allows other episodes or items to be referenced, and it&#39;s particularly being used around the value time split. So it&#39;s being used around being able to play, for example, music in a podcast and knowing that the right people are getting paid for that music. So the Remote Item is being used in that And that, i think, makes an awful lot of sense. I think the other plans for using Remote Item, bluntly, don&#39;t make an awful lot of sense. It&#39;s great to see it&#39;s being used in a place which does make an awful lot of sense, so that is nice. The other few that I&#39;m going to mention are Podroll, which you and I have spoken about on this very show before, which is a way for us to recommend other shows in a list that might appear in your podcast app. The Pod News Daily RSS feed supports this, as I think does this one too. I think the Pod News Daily RSS feed supports it in the new proposed way, whereas I think this one I&#39;m not sure whether it&#39;s the new proposed standard or whether it was the original. But anyway. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:14:42</time>
+  <p>Yeah, i can tell you, because PodFans obviously supports it as a client app And yeah, so we supported both And we still do. Oddly, because of this show not supporting or being updated, but Buzzcast updated their show this week, the Immortals does, so it&#39;s quite a few of the early adopters who&#39;ve implemented it. It takes a few minutes to do And it&#39;s really, really useful as a new tag. </p>
+  <cite>James Cridland:</cite>
+  <time>1:15:07</time>
+  <p>Yeah, so it&#39;s a good way to share other shows that you should be having a listen to. So you&#39;ll find that also on the Pod News podcast pages as well. There&#39;s something called Accept Guests, which was my idea, and I think it&#39;s a bad idea And I think we should take it away again personally. So that&#39;s always fun, and there&#39;s a few more as well. Update Frequency is the other one which Nathan Gathright came up with, which is a way for a creator to indicate when episodes will be made available, and that&#39;s actually a pretty good, well-specced piece of code there, particularly specced to help. If you are a fiction podcaster, for example, and you&#39;re producing six shows and they come out on these particular dates, then you can actually specify that. So it&#39;s a good piece of work. So all of these go forward and hopefully will be incorporated into the standard, and that standard is, of course, the new podcast name space, which is part of the podcasting 2.0 podcast index work. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:16:23</time>
+  <p>Yeah, i think the other two that are interesting, just very quickly, is podping Again. That&#39;s the ability for apps not to have to continually poll hosts to see if there&#39;s an update to the RSS, but this is then a push notification in some ways, and now you can put in your RSS feed whether you are podping enabled or not. So that&#39;s quite nice. And the last one is the one that I think Adam&#39;s most excited about, which is Value Time Split, which is a really interesting ability for you to be able to have within your podcast, both live or recorded the ability to suddenly switch out where the value for value payment is going. So you might, for example, have a music track that you&#39;re playing in your podcast and you want to pay the music artist, and you can then set that with the Value Time Split for pay. Now, 90% of any streaming sat i&#39;m receiving for the time of this recording of this show. </p>
+  <cite>James Cridland:</cite>
+  <time>1:17:20</time>
+  <p>Yeah, it&#39;s a really good, really interesting thing. It&#39;s obviously got a real use for music in there, but it also has Use, for example, for interviews. If we were to enable it on this particular show, then maybe you know the interviews that you&#39;ve heard. Maybe some of that money goes to the people being interviewed, you know, which, again, is a good thing. So really interesting seeing all of that. Yes, it&#39;s time to have a quick look at some events and, of course, pod news live in soul food in Manchester is happening next Tuesday, which i&#39;m looking forward to going. Our sponsors have been so generous to us that we can give the last few tickets away for free. So if you want to get hold of some of those tickets, pod news link slash Manchester is where to get hold of those pod news link slash Manchester. And yeah, you&#39;ve, you&#39;ve, you&#39;ve organized an awful loss of this, haven&#39;t you say? </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:18:25</time>
+  <p>Yeah, i mean it&#39;s great. We&#39;re at the lorry theatre in Manchester, which is by the Bebsi media centre. We&#39;re in the compass from on the top, so So long as it&#39;s not raining in Manchester it should be quite nice the views, and we&#39;ve got some amazing speakers there. We&#39;ve got Mark as with from captive a might car from crowd networks, jim Salverson from voice works, a whole bunch of people talking. Obviously, james is going to be doing a keynote and there&#39;s a few other people like myself in my right to the end of the day do one as well. But other than that, come along and meet, mingle and chat. It is a very focused event. So you know we are talking about the business of podcasting rather than The generics of podcasting yeah, and i&#39;m really looking forward to it. </p>
+  <cite>James Cridland:</cite>
+  <time>1:19:11</time>
+  <p>You know, show and tell is always a good thing, so it should be. It should be really good. Other events going on podcast movement in Denver. I&#39;ve just put my tickets for that, which is August twenty first to the twenty fourth. I&#39;ll be there. I&#39;m not currently speaking, although i do like moderating panels. So just saying the british podcast awards at the end of september, with our own pod news live the day before, on the twenty seventh of september, which should be good fun. Again, more information about that. Pod News dot net slash live and and yeah, and a few other things as well pod fest, of course, happening next year, the beginning of next year, in Orlando, in florida. There are more events, both paid for and free, at pod news, virtual events or events in a place with people. And if you&#39;re organizing something, it&#39;s free to be listed to at pod news dot net slash events. </p>
+  <cite>Voiceover:</cite>
+  <time>1:20:08</time>
+  <p>Boost a gram, boost a gram. Corner, corner, corner on the pod news weekly review. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:20:15</time>
+  <p>It&#39;s our favorite time of the week. Sam, it is indeed. It&#39;s boost a gram corner, james, and we&#39;ve had some boost a grams in james, one from Kevin Finn. He sent us a thousand starts. He said a quick test did the valley for valley code, added to the feed along with the updated pod role, appear? can you confirm by receipt and i&#39;ll send you a proper boost. Well, kevin, i can confirm, yes, we, we got your first boost and we also can confirm, yes, your ninety percent split to bus sprout and ten percent the podcast index worked very well and also all of the updated pod roles using the remote item worked as well yes, it&#39;s all very. </p>
+  <cite>James Cridland:</cite>
+  <time>1:20:54</time>
+  <p>It&#39;s all very nice and fancy. And yes, it&#39;s nice That our value information is now in this podcast rss feed rather than relying on the podcast wallet. Podcast wallet is great, but it is a bit of a bit of a clutch, isn&#39;t it? and it&#39;s nice to be in the in the rss feed properly, so that&#39;s some good in terms of that. Also, a couple of other messages just in M from the optimal living daily podcast, who sent us seven hundred and seventy seven sets for James, using the word moist in a podcast. Indeed, i think i was trying to promote radio days Asia And saying that it&#39;s very moist in Kuala Lumpur. But justin was saying my wife is Malaysian and we were going to try and visit during radio days Asia so i can expense the trip. But your, your description is making me rethink this. I mean your, your wife, should know how warm and humid it is in Malaysia, heavens. But still, there we go. What else we&#39;ve got? we&#39;ve got quite a lot of them, haven&#39;t we are kairin row of ducks. Double two, double two sets. My feet have always been squeaky clean, he says, which is nice. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:22:12</time>
+  <p>Yes, not, not a hundred percent. Ninety nine point nine, kairin, you know and i know. So, yes, that&#39;s why he&#39;s chocolate nervous. </p>
+  <cite>James Cridland:</cite>
+  <time>1:22:21</time>
+  <p>Five thousand cents from Brian and Sminga. Have i pronounced that correctly, brian? i hope i have talking about youtube and Brian says, in addition to the end of all hosting companies, it&#39;ll also be the end of having Real relationship with your audience, where there&#39;s not an algorithm in between, constantly trying to distract them and get control of their listening habits. It&#39;ll be like waking up to a jukebox to ask for songs from an artist only to be served almost everything but that, yeah, i, i i share an awful lot of concern about, about our new overlords of youtube, and i will completely agree with you, brian. So thank you for sending that. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:23:04</time>
+  <p>Anonymous. I wish we knew your name, but it was under anonymous great show this week. I think you&#39;re spot on about the gas lighting. Thank you also. That was a great chapter graphic explaining it well. </p>
+  <cite>James Cridland:</cite>
+  <time>1:23:16</time>
+  <p>And again, thank you very much to to to set a duck yes, and Adam curry, the pod father himself, ten thousand sets talking about the cast media announcement and whether or not he felt that it was a. It was a kosher announcement or not. Yes, which i should probably not read out because you know lawyers. But if you get value from what we do the pod news weekly review is separate from pod news salmon. I share everything from it really appreciate your support so we can continue making this show. You can become a power supporter if you like weekly dot pod news dot net. You can subscribe in apple podcasts if you like to maple apple dot co slash pod news. I was only obviously not android. Or you can support us with sets by hitting the boost button, which works in android as well, in your podcast app. You don&#39;t have one pod news dot net slash. New podcast apps will help you find a new app, like fountain. So what&#39;s happening for you this week, sam? </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:24:15</time>
+  <p>i still. I think i came down i don&#39;t think it was covered, but i came down with something pretty awful. I was out for about five or seven days, so i have been flat out. On top of that, my developer on pod fans had a car accident, so he was out for three days, so it&#39;s been a great week. And then i realized have i got key man insurance? so quickly scrambled for key man insurance. So, yes, other than that, no, not a lot. Prepping for Manchester is the other thing. What&#39;s key? what&#39;s key man insurance? When you have a start up, one of the things you have to do is get yourself key man insurance. If you&#39;re Significant point of failure in your business might be the developer or you or your city or somebody else, you can get insurance in case they fall under a bus or die a bit like life insurance, and you get a lot of money and then maybe able to replace them. But yes, it&#39;s called key man insurance. Wow, and it&#39;s actually called key man insurance it should be called key person insurance, but he&#39;s called genuinely is called key man insurance. </p>
+  <cite>James Cridland:</cite>
+  <time>1:25:23</time>
+  <p>Wow, gosh. Yes, although i do notice that some people call it key person insurance. Yes, that&#39;s Canada. Canada life, for example. Yes, but gosh. Well, there you go. The world of. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:25:41</time>
+  <p>What&#39;s been happy to be a. </p>
+  <cite>James Cridland:</cite>
+  <time>1:25:44</time>
+  <p>Well. So, yes, i&#39;m in here in Canada, i&#39;m doing a keynote tomorrow. I tell you what scary thing. So i walked into this hotel and there&#39;s a big vinyl post like this start up a good joke. Yes, well, there&#39;s this big vinyl poster of Daniel, and stand it, who did the keynote this this morning. Great big vinyl poster of his grinning face looking at me, with details of the of the keynote and everything else. And so i took a photograph of it and i stuck a tweet out saying you know, obviously there&#39;s one of me here isn&#39;t the right. I mean, they wouldn&#39;t have forgotten me, would they? you know, right? anyway, i then go to the loo And as i&#39;m coming out of the loo, there&#39;s my face on one of these great big vinyl things staring at me promoting my, my session tomorrow morning. So that was a. That was a rude awakening, i tell you, but that&#39;s all, but that&#39;s all fun. So radio days North America is it&#39;s part of Canadian music week, which is a big, a big music event, but radio days Is focusing on the radio and a little bit of podcasting in terms of, in terms of the event here. So, yeah, it&#39;s a good. It&#39;s always nice to see the wonderful Canadians. They&#39;ve made me feel very at home because, you know, coming all the way from Australia up to Canada, they&#39;ve made me feel very at home by setting fire to their own country so i can smell all the wood smoke outside and go. I reminds me of home. So that&#39;s very kind with them another moose on the barbie that yes, so, yeah, so that&#39;s been fun. And then, of course, making my way to pod news live in soulford next week over the weekend. So that should be. That should be good fun and you have a nice holiday after the pod news live, which is excellent. So there will be a guest host This time next week, maybe. Maybe it might be a Canadian guest host. Maybe i can have a chat to someone who is here And get them doing that. But yes, that might be fun. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:28:02</time>
+  <p>As they won&#39;t need that poster of you again. Yes, how are you fitting it into your suitcase? </p>
+  <cite>James Cridland:</cite>
+  <time>1:28:09</time>
+  <p>do you know. The wife has already asked for it. So when you&#39;re away they can leave it in the lounge and i will tend to still there and i&#39;ve said, i&#39;ve said no, i&#39;m not, i&#39;m not bringing it back. but the first, the weird thing is that they&#39;re not. you know, if i&#39;ve walked past and i think this is tells you everything about where we are in terms of technology if i&#39;ve walked past that Being shown on a big flat panel screen, i&#39;d have gone oh yeah, that&#39;s nice, i walk past. it is the fact that it&#39;s printed out on vinyl And stuck up somewhere, so it&#39;s not a piece of, you know, online ephemera, it&#39;s actually a big, great big, you know vinyl, you know poster. isn&#39;t it interesting how just the difference of something not being electronic but actually being a physical artifact makes such a difference? You know? so yeah, it&#39;s really really interesting. so So you haven&#39;t answered. how are you fitting in your not taking it home, absolutely not take my. Can&#39;t think of anything worse. And it&#39;s got a beautiful pod news logo on there for some reason, and had they asked me for the version of pod news to go on a dark background, i would have given them one. You can&#39;t read it at all, but still, there you go, but it&#39;s a great. It&#39;s a great event. It&#39;s wonderful to be here. I was here this time last year and canada was still closed, basically because of the pandemic, and very, very few people here and really not an awful lot was going on the place. The place is completely changed and, yeah, and the city is full And pride month is that is is up and running here in a massive way and it&#39;s just a really busy place to be and that was certainly not the case last year. So that&#39;s really good And that&#39;s it for this week. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:30:09</time>
+  <p>Thank you to our guests. You can ask us questions using email to weekly at pod news dot net or send us a booster grant for feedback. If your podcast that doesn&#39;t support boosting crab and you want at pod news dot net, forward, slash and you podcast apps. </p>
+  <cite>James Cridland:</cite>
+  <time>1:30:25</time>
+  <p>Yes, our music is from studio dragonfly, our voice over is Sheila D, and we&#39;re hosted and sponsored by buzz sprout podcast hosting made easy. </p>
+  <cite>Voiceover:</cite>
+  <time>1:30:34</time>
+  <p>Get updated every day. Subscribe to our newsletter at pot news dot net tell your friends and grow the show and support us and support us the pot news weekly review will return next week. </p>
+  <cite>Sam Sethi:</cite>
+  <time>1:30:48</time>
+  <p>Keep listening. </p>
+

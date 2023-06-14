@@ -28,10 +28,7 @@ class App:
         self.segmentWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSegmentWriterPlugins', PluginType.SEGMENT_WRITER)
 
     def run(self, podcastName):
-        topStories = self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins)
-        os.makedirs(podcastName, exist_ok=True)
-        with open(podcastName + "/podcastDetails.json", 'w') as file:
-            json.dump(topStories, file)
+        topStories = self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, podcastName)
         
         fileNameIntro = podcastName + "/intro_text/" + "intro.txt" 
         self.pluginManager.runIntroPlugins(self.introPlugins, topStories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])

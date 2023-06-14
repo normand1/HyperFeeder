@@ -1,5 +1,7 @@
 from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import AbstractDataSourcePlugin
 import requests
+import json
+import os
 
 from podcastDataSourcePlugins.models.hackerNewsStory import HackerNewsStory
 
@@ -34,5 +36,9 @@ class HackerNewsAPIPlugin(AbstractDataSourcePlugin):
 
         return stories
     
+    def writePodcastDetails(self, podcastName, topStories):
+        os.makedirs(podcastName, exist_ok=True)
+        with open(podcastName + "/podcastDetails.json", 'w') as file:
+            json.dump(topStories, file)
 
 plugin = HackerNewsAPIPlugin()

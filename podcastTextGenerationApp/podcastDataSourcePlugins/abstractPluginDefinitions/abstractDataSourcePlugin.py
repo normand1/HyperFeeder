@@ -9,3 +9,6 @@ class AbstractDataSourcePlugin(ABC):
     @abstractmethod
     def identify(self) -> str:
         pass
+    @abstractmethod
+    def writePodcastDetails(self, podcastName, topStories):
+        pass

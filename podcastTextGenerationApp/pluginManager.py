@@ -25,16 +25,18 @@ class PluginManager:
                     plugins[name] = module
         return plugins
     
-    def runDataSourcePlugins(self, plugins):
+    def runDataSourcePlugins(self, plugins, podcastName):
         results = []
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, AbstractDataSourcePlugin):
                 print(f"Running Data Source Plugin: {plugin.plugin.identify()}")
                 fetchedStory = plugin.plugin.fetchStories()
+                
                 if fetchedStory is not None:
                     results.extend(fetchedStory) 
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
+        plugin.plugin.writePodcastDetails(podcastName, results)
         return results
     
     def runIntroPlugins(self, plugins, topStories, podcastName, fileNameIntro, typeOfPodcast):

@@ -1,5 +1,7 @@
 from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import AbstractDataSourcePlugin
 import requests
+import os 
+import json
 
 from podcastDataSourcePlugins.models.redditStory import RedditStory
 
@@ -28,6 +30,11 @@ class RedditAPIPlugin(AbstractDataSourcePlugin):
             stories.append(story.to_dict())
 
         return stories
+    
+    def writePodcastDetails(self, podcastName, topStories):
+        os.makedirs(podcastName, exist_ok=True)
+        with open(podcastName + "/podcastDetails.json", 'w') as file:
+            json.dump(topStories, file)
     
 
 plugin = RedditAPIPlugin()
