@@ -21,7 +21,7 @@ class StorySummaryPlugin(AbstractStorySummaryPlugin):
             url = story["link"]
             print("Summarizing: " + url)
             filePath = os.path.join(summaryTextDirNameLambda, summaryTextFileNameLambda(story["newsRank"], url))
-            texts = self.prepareForSummarization(story['rawSplitText'][0])
+            texts = self.prepareForSummarization(story['rawSplitText'])
             self.writeAndUpdateStorySummary(summaryTextDirNameLambda, filePath, texts)
 
     def prepareForSummarization(self, texts):
