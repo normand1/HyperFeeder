@@ -113,6 +113,38 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
 
 - [podcastSegmentWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSegmentWriterPlugins): These plugins generate the final text that will be used to produce spoken audio for the podcast. The output of this plugin will be written to the podcast's `segment_text` directory.
 
+## Podcast Plugin Pipeline
+```
+           +-------------------+
+           | podcastDataSource |
+           |     Plugins       |
+           +---------+---------+
+                     |
+                     |
+           +---------v---------+
+           | podcastIntro     | 
+           |    Plugins       |
+           +---------+---------+
+                     |
+                     |
+           +---------v---------+
+           | podcastScraper   |
+           |    Plugins       |
+           +---------+---------+
+                     |
+                     |
+           +---------v---------+
+           | podcastSummary   |
+           |    Plugins       |
+           +---------+---------+
+                     |
+                     |
+           +---------v---------+
+           | podcastSegment   |
+           |   WriterPlugins  |
+           +-------------------+
+
+```
 ## Easy Podcast Modification Points
 ### Background Music
 - You can easily change the intro background music by replacing the file `podcast_intro_music.mp3` with your own music. This file was generated with [Google's experimental Music LM](https://aitestkitchen.withgoogle.com/experiments/music-lm).
