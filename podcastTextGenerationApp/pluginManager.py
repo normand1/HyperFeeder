@@ -55,11 +55,11 @@ class PluginManager:
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
     
-    def runStorySummarizerPlugins(self, plugins, topStories, summaryTextDirNameLambda, summaryTextFileNameLambda):
+    def runStorySummarizerPlugins(self, plugins, topStories, summaryTextDirName, summaryTextFileNameLambda):
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, AbstractStorySummaryPlugin):
                 print(f"Running Intro Plugin: {plugin.plugin.identify()}")
-                plugin.plugin.summarizeText(topStories, summaryTextDirNameLambda, summaryTextFileNameLambda)
+                plugin.plugin.summarizeText(topStories, summaryTextDirName, summaryTextFileNameLambda)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
     

@@ -15,14 +15,14 @@ class StorySummaryPlugin(AbstractStorySummaryPlugin):
     def identify(self) -> str:
         return "OpenAI Summarizer"
 
-    def summarizeText(self, topStories, summaryTextDirNameLambda, summaryTextFileNameLambda):
+    def summarizeText(self, topStories, summaryTextDirName, summaryTextFileNameLambda):
         print("Summarizing text...")
         for story in topStories:
             url = story["link"]
             print("Summarizing: " + url)
-            filePath = os.path.join(summaryTextDirNameLambda, summaryTextFileNameLambda(story["newsRank"], url))
+            filePath = os.path.join(summaryTextDirName, summaryTextFileNameLambda(story["newsRank"], url))
             texts = self.prepareForSummarization(story['rawSplitText'])
-            self.writeAndUpdateStorySummary(summaryTextDirNameLambda, filePath, texts)
+            self.writeAndUpdateStorySummary(summaryTextDirName, filePath, texts)
 
     def prepareForSummarization(self, texts):
 
