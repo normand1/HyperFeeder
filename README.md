@@ -10,7 +10,7 @@ Currently, the only source available for building dynamic podcasts from is the H
 - Any source of data can be a source of podcast content. (In Progress)
 
 ## Autonomous Podcast Feeds (Submit yours to have it featured here!)
-- https://podcasters.spotify.com/pod/show/david-norman91
+- https://www.podfriend.com/podcast/autonomous-tech-podcast-hyperfeed/
 
 ## Prerequisites
 
