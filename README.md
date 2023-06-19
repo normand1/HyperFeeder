@@ -14,6 +14,10 @@ Currently, the only source available for building dynamic podcasts from is the H
 
 ## Prerequisites
 
+- For the text to speech generation script I use [say](https://ss64.com/osx/say.html) for simplicity right now which is only available on MacOS. I welcome Pull Requests to update the script or add new versions of the script for text-to-speech compatabillity with other systems.
+
+- For audio Stitching this project uses [FFMPEG which can be downloaded for any system here](https://ffmpeg.org/download.html)
+
 - You will need Python version 3.9.5 or newer. If your Python version is older, you can use `pyenv` to manage multiple versions of Python on your system. Here's how to do it:
 
     - If you don't have `pyenv` installed, you can install it following the instructions on the [pyenv GitHub](https://github.com/pyenv/pyenv#installation).
