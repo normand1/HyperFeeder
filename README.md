@@ -52,6 +52,13 @@ Run the setup script:
 ./setup_script.sh
 ```
 
+## Configure Plugins
+
+HyperFeeder is made to be easily configurable and extensible with plugins. You can easily use existing plugins in different configurations by either modifying the plugins used in each step of the podcast generation process manually in the `.env` file or you can run the `configurePlugins.sh` script to use preset plugin configurations for generating a podcast based on either `news` or `podcasts`. 
+
+Different plugins require specific data sources and configuration options to be set in the `.env` to work properly. These must be updated manually (for now). 
+Check the plugin directories for details on what each plugin requires in the `.env` file to be run. You can also check your active plugins by looking at the very top of the .env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS`, `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
+
 ## Dependencies
 
 After setting up, install the required dependencies:

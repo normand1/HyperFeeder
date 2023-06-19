@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Prompt user for configuration choice
-echo -n "Enter configuration choice (news/podcast): "
+echo -n "Enter configuration choice (news | podcasts): "
 read choice
 
 # Define the new values based on the chosen configuration
@@ -11,7 +11,7 @@ if [[ "$choice" == "news" ]]; then
     NEW_PODCAST_SCRAPER_PLUGINS=NewsStoryScraperPlugin
     NEW_PODCAST_SUMMARY_PLUGINS=storySummaryPlugin
     NEW_PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
-elif [[ "$choice" == "podcast" ]]; then
+elif [[ "$choice" == "podcasts" ]]; then
     NEW_PODCAST_DATA_SOURCE_PLUGINS=podcastFeedPlugin
     NEW_PODCAST_INTRO_PLUGINS=standardIntroPlugin
     NEW_PODCAST_SCRAPER_PLUGINS=RawScraperPlugin
