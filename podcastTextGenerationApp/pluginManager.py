@@ -25,7 +25,7 @@ class PluginManager:
                     plugins[name] = module
         return plugins
     
-    def runDataSourcePlugins(self, plugins, podcastName, storiesDirName, storyFileNameLambda):
+    def runDataSourcePlugins(self, plugins, storiesDirName, storyFileNameLambda):
         stories = []
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseDataSourcePlugin):
@@ -39,9 +39,14 @@ class PluginManager:
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
         
-        plugin.plugin.writePodcastDetails(podcastName, stories)
         return stories
     
+    def runPodcastDetailsPlugins(self, plugins, podcastName, stories):
+        for name, plugin in plugins.items():
+            if isinstance(plugin.plugin, BaseDataSourcePlugin):
+                print(f"Running Data Source Plugins again to write podcast details: {plugin.plugin.identify()}")
+                plugin.plugin.writePodcastDetails(f"output/{podcastName}", stories)
+
     def runIntroPlugins(self, plugins, topStories, podcastName, fileNameIntro, typeOfPodcast):
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseIntroPlugin):
@@ -80,7 +85,7 @@ class PluginManager:
                 print(f"Running Segment Plugins: {plugin.plugin.identify()}")
                 for story in stories:
                     if not plugin.plugin.doesOutputFileExist(story, segmentTextDirNameLambda, segmentTextFileNameLambda):
-                        segmentText = plugin.plugin.writeStorySegment(story, segmentTextDirNameLambda, segmentTextFileNameLambda)
+                        segmentText = plugin.plugin.writeStorySegment(story)
                         plugin.plugin.writeToDisk(story, segmentText, segmentTextDirNameLambda, segmentTextFileNameLambda)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")

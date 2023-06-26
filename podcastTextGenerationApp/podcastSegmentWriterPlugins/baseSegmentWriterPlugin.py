@@ -4,7 +4,7 @@ from podcastSegmentWriterPlugins.abstractPluginDefinitions.abstractSegmentWriter
 
 class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
     @abstractmethod
-    def writeStorySegment(self, story, segmentTextDirNameLambda, segmemntTextFileNameLambda):
+    def writeStorySegment(self, story):
         pass
     @abstractmethod
     def identify(self) -> str:
@@ -28,4 +28,10 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
             return True
         else:
             return False
+    def cleanupStorySummary(self, story) -> str:
+        summaryText = story
+        summaryText = summaryText.replace("\\", "")
+        summaryText = summaryText.replace("   ", "")
+        summaryText = summaryText.replace("  ", "")
+        return summaryText
     

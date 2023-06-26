@@ -41,11 +41,11 @@ class App:
         fileName = lambda *params: f"{str(params[0])}-{params[1].split('/')[-2]}.txt"
 
         if len(stories) == 0:
-            self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, podcastName, storyDirName, fileName)
+            self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, storyDirName, fileName)
             stories = self.readStoriesFromFolder(storyDirName)
-
+        
+        self.pluginManager.runPodcastDetailsPlugins(self.dataSourcePlugins, podcastName, stories)
         self.pluginManager.runIntroPlugins(self.introPlugins, stories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])
-
         self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, stories, rawTextDirName, fileName)
         stories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", stories)
 

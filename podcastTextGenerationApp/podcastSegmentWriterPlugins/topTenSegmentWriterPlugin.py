@@ -9,10 +9,14 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
     def identify(self) -> str:
         return "TopTenSegmentWriterPlugin"
     
-    def writeStorySegment(self, story, segmentTextDirNameLambda, segmemntTextFileNameLambda):
+    def writeStorySegment(self, story):
         url = story["link"]
         print("Writing Segment: " + url)
-        storyText = StorySegmentWriter().writeSegmentFromSummary(yaml.dump(story, default_flow_style=False))
+        storyCopy = story.copy()
+        del storyCopy['link']
+        del storyCopy['rawSplitText']
+        storySummary = self.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
+        storyText = StorySegmentWriter().writeSegmentFromSummary(storySummary)
         return storyText
     
 
