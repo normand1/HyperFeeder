@@ -1,5 +1,5 @@
 class PodcastStory:
-    def __init__(self, podcastOrder: int, title: str, link: str, storyType: str, source: str, podcastEpisodeLink: str):
+    def __init__(self, podcastOrder: int, title: str, link: str, storyType: str, source: str, podcastEpisodeLink: str, uniqueId: str):
         self.podcastOrder = podcastOrder
         self.newsRank = podcastOrder
         self.title = title
@@ -7,6 +7,7 @@ class PodcastStory:
         self.storyType = storyType
         self.source = source
         self.podcastEpisodeLink = podcastEpisodeLink
+        self.uniqueId = uniqueId
 
     def to_dict(self):
         return {
@@ -16,5 +17,6 @@ class PodcastStory:
             "link": self.link,
             "storyType": self.storyType,
             "source": self.source,
-            "podcastEpisodeLink": self.podcastEpisodeLink
+            "podcastEpisodeLink": self.podcastEpisodeLink,
+            "uniqueId": self.uniqueId
         }

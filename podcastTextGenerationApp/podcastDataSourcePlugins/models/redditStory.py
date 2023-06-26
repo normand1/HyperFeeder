@@ -1,10 +1,11 @@
 class RedditStory:
-    def __init__(self, newsRank: int, title: str, link: str, storyType: str, source: str):
+    def __init__(self, newsRank: int, title: str, link: str, storyType: str, source: str, uniqueId: str):
         self.newsRank = newsRank
         self.title = title
         self.link = link
         self.storyType = storyType
         self.source = source
+        self.uniqueId = uniqueId
 
     def to_dict(self):
         return {
@@ -12,5 +13,6 @@ class RedditStory:
             "title": self.title,
             "link": self.link,
             "storyType": self.storyType,
-            "source": self.source
+            "source": self.source,
+            "uniqueId": self.uniqueId
         }

@@ -17,19 +17,19 @@
             "trace": true
         },
         {
-            "name": "Python: Current File",
+            "name": "Python: Debug App",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
             "console": "integratedTerminal",
-            // "args": ["Podcast-Jun12-2023-10AM"],
+            "args": ["Podcast-Jun23-2023-08AM"],
             "justMyCode": true
         },
         {
             "name": "Generate Podcast Text Files",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/app.py",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
             "console": "integratedTerminal",
             "justMyCode": true
         },

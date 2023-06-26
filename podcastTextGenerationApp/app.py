@@ -28,23 +28,31 @@ class App:
         self.segmentWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSegmentWriterPlugins', PluginType.SEGMENT_WRITER)
 
     def run(self, podcastName):
-        topStories = self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, podcastName)
-        
-        fileNameIntro = podcastName + "/intro_text/" + "intro.txt" 
-        self.pluginManager.runIntroPlugins(self.introPlugins, topStories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])
 
-        rawTextDirName = f"{podcastName}/raw_text/"
-        summaryTextDirName = f"{podcastName}/summary_text/"
-        segmentTextDirName = f"{podcastName}/segment_text/"
+        stories = []
+
+        storyDirName = f"output/{podcastName}/stories/"
+        rawTextDirName = f"output/{podcastName}/raw_text/"
+        summaryTextDirName = f"output/{podcastName}/summary_text/"
+        segmentTextDirName = f"output/{podcastName}/segment_text/"
+        fileNameIntro = f"output/{podcastName}/intro_text/intro.txt" 
+        
+        stories = self.readStoriesFromFolder(storyDirName)
         fileName = lambda *params: f"{str(params[0])}-{params[1].split('/')[-2]}.txt"
-        
-        self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, topStories, rawTextDirName, fileName)
-        topStories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", topStories)
 
-        self.pluginManager.runStorySummarizerPlugins(self.summarizerPlugins, topStories, summaryTextDirName, fileName)
-        topStories = self.readFilesFromFolderIntoStories(summaryTextDirName, "summary", topStories)
+        if len(stories) == 0:
+            self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, podcastName, storyDirName, fileName)
+            stories = self.readStoriesFromFolder(storyDirName)
 
-        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, topStories, segmentTextDirName, fileName)
+        self.pluginManager.runIntroPlugins(self.introPlugins, stories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])
+
+        self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, stories, rawTextDirName, fileName)
+        stories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", stories)
+
+        self.pluginManager.runStorySummarizerPlugins(self.summarizerPlugins, stories, summaryTextDirName, fileName)
+        stories = self.readFilesFromFolderIntoStories(summaryTextDirName, "summary", stories)
+
+        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, stories, segmentTextDirName, fileName)
 
     def readFilesFromFolderIntoStories(self, folderPath, key, stories):
         for filename in os.listdir(folderPath):
@@ -52,12 +60,27 @@ class App:
             if os.path.isfile(filePath):
                 fileText = open(filePath, 'r').read()
                 pathParts = filePath.split('/')
-                rank = pathParts[-1:][0].split('-')[0]
-                index = next((index for index, item in enumerate(stories) if str(item['newsRank']) == rank), None)
-                try:
-                    stories[index][key] = json.loads(fileText)
-                except:
-                    stories[index][key] = fileText
+                uniqueId = pathParts[-1:][0].split('-')[0]
+                for index, story in enumerate(stories):
+                    if 'uniqueId' in story and story['uniqueId'] == uniqueId:
+                        stories[index][key] = json.loads(fileText)
+        return stories
+    
+    def readStoriesFromFolder(self, folderPath):
+        stories = []
+        if os.path.exists(folderPath) and os.path.isdir(folderPath):
+            for filename in os.listdir(folderPath):
+                filePath = os.path.join(folderPath, filename)
+                if os.path.isfile(filePath):
+                    with open(filePath, 'r') as f:
+                        fileText = f.read()
+                        try:
+                            story = json.loads(fileText)
+                            stories.append(story)
+                        except json.JSONDecodeError:
+                            print(f'Error parsing JSON from {filename}')
+        else:
+            print(f'Folder {folderPath} does not exist already, will be created...')
         return stories
                 
 if __name__ == "__main__":
@@ -76,5 +99,5 @@ if __name__ == "__main__":
         time = current_datetime.strftime("%I%p")
 
         # Generate the folder name
-        folder_name = f"output/Podcast-{month}{day}-{year}-{time}"
+        folder_name = f"Podcast-{month}{day}-{year}-{time}"
         app.run(folder_name)

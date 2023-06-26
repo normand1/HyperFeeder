@@ -2,7 +2,7 @@ import json
 import os
 import tiktoken
 
-from podcastSummaryPlugins.abstractPluginDefinitions.abstractStorySummaryPlugin import AbstractStorySummaryPlugin
+from podcastSummaryPlugins.baseSummaryPlugin import BaseSummaryPlugin
 from langchain import OpenAI
 from langchain.docstore.document import Document
 from langchain.chains.summarize import load_summarize_chain
@@ -10,24 +10,23 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.prompts import PromptTemplate
 
 
-class StorySummaryPlugin(AbstractStorySummaryPlugin):
+class StorySummaryPlugin(BaseSummaryPlugin):
 
     def identify(self) -> str:
         return "OpenAI Summarizer"
 
-    def summarizeText(self, topStories, summaryTextDirName, summaryTextFileNameLambda):
+    def summarizeText(self, story):
         print("Summarizing text...")
-        for story in topStories:
-            url = story["link"]
-            print("Summarizing: " + url)
-            filePath = os.path.join(summaryTextDirName, summaryTextFileNameLambda(story["newsRank"], url))
-            texts = self.prepareForSummarization(story['rawSplitText'])
-            self.writeAndUpdateStorySummary(summaryTextDirName, filePath, texts)
+        url = story["link"]
+        print("Summarizing: " + url)
+        texts = self.prepareForSummarization(story['rawSplitText'])
+        summaryText = self.summarize(texts)
+        return summaryText
 
     def prepareForSummarization(self, texts):
 
         if (self.num_tokens_from_string(texts) < (4096 - 256)):
-            return texts
+            return [texts]
 
         CHUNK_SIZE = int(os.getenv('CHUNK_SIZE'))
         text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
@@ -53,17 +52,6 @@ class StorySummaryPlugin(AbstractStorySummaryPlugin):
         if len(splitTexts) <= 2:
             raise ValueError("Text cannot be summarized, please check the text and the above separators and try again.")
         return splitTexts
-    
-    def writeAndUpdateStorySummary(self, summaryTextDirNameLambda, summaryTextFileName, texts):
-        if not os.path.isfile(summaryTextFileName):
-            directory = os.path.dirname(summaryTextDirNameLambda)
-            os.makedirs(directory, exist_ok=True)  # Create the necessary directories
-            with open(summaryTextFileName, 'w') as file:
-                summaryText = self.summarize(texts)
-                file.write(summaryText + "\n")
-                file.flush()
-        else:
-            print("Skipping writing summary because it already exists")
 
     def summarize(self, texts):
         prompt_template = """Write a detailed summary of the following:

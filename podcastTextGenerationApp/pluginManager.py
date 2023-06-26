@@ -1,10 +1,10 @@
 import os
 import importlib.util
-from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import AbstractDataSourcePlugin
-from podcastIntroPlugins.abstractPluginDefinitions.abstractIntroPlugin import AbstractIntroPlugin
-from podcastScraperPlugins.abstractPluginDefinitions.abstractStoryScraperPlugin import AbstractStoryScraperPlugin
-from podcastSummaryPlugins.abstractPluginDefinitions.abstractStorySummaryPlugin import AbstractStorySummaryPlugin
-from podcastSegmentWriterPlugins.abstractPluginDefinitions.abstractSegmentWriterPlugin import AbstractSegmentWriterPlugin
+from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
+from podcastIntroPlugins.baseIntroPlugin import BaseIntroPlugin
+from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
+from podcastSummaryPlugins.baseSummaryPlugin import BaseSummaryPlugin
+from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from dotenv import load_dotenv
 from pluginTypes import PluginType
 
@@ -25,48 +25,62 @@ class PluginManager:
                     plugins[name] = module
         return plugins
     
-    def runDataSourcePlugins(self, plugins, podcastName):
-        results = []
+    def runDataSourcePlugins(self, plugins, podcastName, storiesDirName, storyFileNameLambda):
+        stories = []
         for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, AbstractDataSourcePlugin):
-                print(f"Running Data Source Plugin: {plugin.plugin.identify()}")
-                fetchedStory = plugin.plugin.fetchStories()
-                
-                if fetchedStory is not None:
-                    results.extend(fetchedStory) 
+            if isinstance(plugin.plugin, BaseDataSourcePlugin):
+                print(f"Running Data Source Plugins: {plugin.plugin.identify()}")
+                fetchedStories = plugin.plugin.fetchStories()
+                                
+                if fetchedStories is not None:
+                    for story in fetchedStories:
+                        if not plugin.plugin.doesOutputFileExist(story, storiesDirName, storyFileNameLambda):
+                            plugin.plugin.writeToDisk(story, storiesDirName, storyFileNameLambda)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
-        plugin.plugin.writePodcastDetails(podcastName, results)
-        return results
+        
+        plugin.plugin.writePodcastDetails(podcastName, stories)
+        return stories
     
     def runIntroPlugins(self, plugins, topStories, podcastName, fileNameIntro, typeOfPodcast):
         for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, AbstractIntroPlugin):
-                print(f"Running Intro Plugin: {plugin.plugin.identify()}")
-                plugin.plugin.writeIntro(topStories, podcastName, fileNameIntro, typeOfPodcast)
+            if isinstance(plugin.plugin, BaseIntroPlugin):
+                print(f"Running Intro Plugins: {plugin.plugin.identify()}")
+                if not plugin.plugin.doesOutputFileExist(fileNameIntro):
+                    introText = plugin.plugin.writeIntro(topStories, podcastName, typeOfPodcast)
+                    plugin.plugin.writeToDisk(introText, fileNameIntro)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
     
-    def runStoryScraperPlugins(self, plugins, topStories, rawTextDirName, rawTextFileNameLambda):
+    def runStoryScraperPlugins(self, plugins, stories, rawTextDirName, rawTextFileNameLambda):
         for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, AbstractStoryScraperPlugin):
-                print(f"Running Intro Plugin: {plugin.plugin.identify()}")
-                plugin.plugin.scrapeSitesForText(topStories, rawTextDirName, rawTextFileNameLambda)
+            if isinstance(plugin.plugin, BaseStoryScraperPlugin):
+                print(f"Running Scraper Plugins: {plugin.plugin.identify()}")
+                for story in stories:
+                    if not plugin.plugin.doesOutputFileExist(story, rawTextDirName, rawTextFileNameLambda):
+                        scrapedText = plugin.plugin.scrapeSiteForText(story)
+                        plugin.plugin.writeToDisk(story, scrapedText, rawTextDirName, rawTextFileNameLambda)                    
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
     
-    def runStorySummarizerPlugins(self, plugins, topStories, summaryTextDirName, summaryTextFileNameLambda):
+    def runStorySummarizerPlugins(self, plugins, stories, summaryTextDirName, summaryTextFileNameLambda):
         for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, AbstractStorySummaryPlugin):
-                print(f"Running Intro Plugin: {plugin.plugin.identify()}")
-                plugin.plugin.summarizeText(topStories, summaryTextDirName, summaryTextFileNameLambda)
+            if isinstance(plugin.plugin, BaseSummaryPlugin):
+                print(f"Running Summary Plugins: {plugin.plugin.identify()}")
+                for story in stories:
+                    if not plugin.plugin.doesOutputFileExist(story, summaryTextDirName, summaryTextFileNameLambda):
+                        summaryText = plugin.plugin.summarizeText(story)
+                        plugin.plugin.writeToDisk(story, summaryText, summaryTextDirName, summaryTextFileNameLambda)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
     
-    def runStorySegmentWriterPlugins(self, plugins, topStories, segmentTextDirNameLambda, segmentTextFileNameLambda):
+    def runStorySegmentWriterPlugins(self, plugins, stories, segmentTextDirNameLambda, segmentTextFileNameLambda):
         for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, AbstractSegmentWriterPlugin):
-                print(f"Running Intro Plugin: {plugin.plugin.identify()}")
-                plugin.plugin.writeStorySegment(topStories, segmentTextDirNameLambda, segmentTextFileNameLambda)
+            if isinstance(plugin.plugin, BaseSegmentWriterPlugin):
+                print(f"Running Segment Plugins: {plugin.plugin.identify()}")
+                for story in stories:
+                    if not plugin.plugin.doesOutputFileExist(story, segmentTextDirNameLambda, segmentTextFileNameLambda):
+                        segmentText = plugin.plugin.writeStorySegment(story, segmentTextDirNameLambda, segmentTextFileNameLambda)
+                        plugin.plugin.writeToDisk(story, segmentText, segmentTextDirNameLambda, segmentTextFileNameLambda)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")

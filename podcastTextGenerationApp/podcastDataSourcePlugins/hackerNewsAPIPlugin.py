@@ -1,11 +1,11 @@
-from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import AbstractDataSourcePlugin
+from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 import requests
 import json
 import os
 
 from podcastDataSourcePlugins.models.hackerNewsStory import HackerNewsStory
 
-class HackerNewsAPIPlugin(AbstractDataSourcePlugin):
+class HackerNewsAPIPlugin(BaseDataSourcePlugin):
     def __init__(self):
         self.base_url = "https://hacker-news.firebaseio.com/v0/"
     
@@ -20,7 +20,7 @@ class HackerNewsAPIPlugin(AbstractDataSourcePlugin):
 
         stories = []
 
-        for rank, story_id in enumerate(top_stories_ids[:5], 1):
+        for rank, story_id in enumerate(top_stories_ids[:5]):
             story_url = f"{self.base_url}item/{story_id}.json"
             response = requests.get(story_url)
             story_data = response.json()
@@ -30,7 +30,8 @@ class HackerNewsAPIPlugin(AbstractDataSourcePlugin):
                 title=story_data.get("title"),
                 link=story_data.get("url"),
                 storyType=story_data.get("type"),
-                source="Hacker News"
+                source="Hacker News",
+                uniqueId=self.makeUniqueStoryIdentifier()
             )
             stories.append(story.to_dict())
 

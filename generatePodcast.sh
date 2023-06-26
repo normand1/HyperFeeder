@@ -7,11 +7,18 @@ else
     FOLDER="output/$1"
 fi
 
+# Generate Name without output folder
+if [ "$#" -ne 1 ]; then
+    FOLDERCLEAN="Podcast-$(date +"%b%d-%Y-%I%p")"
+else
+    FOLDERCLEAN="$1"
+fi
+
 # Create the new directory if it does not exist
 mkdir -p ${FOLDER}
 
 # Execute the scripts in sequence, waiting for each to complete before starting the next
-python podcastTextGenerationApp/app.py ${FOLDER}
+python podcastTextGenerationApp/app.py ${FOLDERCLEAN}
 if [ "$?" -ne 0 ]; then
     echo "Error occurred during generating podcast text."
     exit 1

@@ -19,13 +19,14 @@ class RedditAPIPlugin(AbstractDataSourcePlugin):
         
         stories = []
 
-        for rank, post in enumerate(data["data"]["children"][:5], 1):
+        for rank, post in enumerate(data["data"]["children"][:5]):
             story = RedditStory(
                 newsRank=rank,
                 title=post["data"].get("title"),
                 link=post["data"].get("url"),
                 storyType=post["data"].get("post_hint", "text"), # Default to 'text' if no post_hint.
-                source="Reddit"
+                source="Reddit",
+                uniqueId=self.makeUniqueStoryIdentifier()
             )
             stories.append(story.to_dict())
 

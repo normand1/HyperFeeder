@@ -1,11 +1,11 @@
-from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import AbstractDataSourcePlugin
+from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 import requests
 from xml.etree import ElementTree as ET
 from podcastDataSourcePlugins.models.podcastStory import PodcastStory
 import os
 import json
 import copy
-class PodcastTranscriptAPIPlugin(AbstractDataSourcePlugin):
+class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
     def __init__(self):
         self.feeds = []
     
@@ -51,7 +51,8 @@ class PodcastTranscriptAPIPlugin(AbstractDataSourcePlugin):
                     link=transcript.get('url'),
                     storyType="Podcast",
                     source=podcast_title.text,
-                    podcastEpisodeLink=episodeLink
+                    podcastEpisodeLink=episodeLink,
+                    uniqueId=self.makeUniqueStoryIdentifier()
                 ).to_dict())
         return stories
     
@@ -62,6 +63,5 @@ class PodcastTranscriptAPIPlugin(AbstractDataSourcePlugin):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", 'w') as file:
             json.dump(copiedTopStories, file)
-
     
 plugin = PodcastTranscriptAPIPlugin()
