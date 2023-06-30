@@ -6,6 +6,7 @@ DIR=$1
 # Directory with your text files
 TEXT_DIR="${DIR}/segment_text/"
 INTRO_TEXT_DIR="${DIR}/intro_text/"
+OUTRO_TEXT_DIR="${DIR}/outro_text/"
 
 # Directory to store audio files
 AUDIO_DIR="${DIR}/audio/"
@@ -38,5 +39,10 @@ done
 
 # Process text files in the intro_text directory
 for text_file in $INTRO_TEXT_DIR*.txt; do
+  convert_to_audio $text_file
+done
+
+# Process text files in the outro_text directory
+for text_file in $OUTRO_TEXT_DIR*.txt; do
   convert_to_audio $text_file
 done

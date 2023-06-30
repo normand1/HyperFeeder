@@ -5,6 +5,8 @@ from podcastIntroPlugins.baseIntroPlugin import BaseIntroPlugin
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastSummaryPlugins.baseSummaryPlugin import BaseSummaryPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
+from podcastOutroWriterPlugins.baseOutroWriterPlugin import BaseOutroWriterPlugin
+from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
 from dotenv import load_dotenv
 from pluginTypes import PluginType
 
@@ -47,13 +49,13 @@ class PluginManager:
                 print(f"Running Data Source Plugins again to write podcast details: {plugin.plugin.identify()}")
                 plugin.plugin.writePodcastDetails(f"output/{podcastName}", stories)
 
-    def runIntroPlugins(self, plugins, topStories, podcastName, fileNameIntro, typeOfPodcast):
+    def runIntroPlugins(self, plugins, topStories, podcastName, introDirName, typeOfPodcast):
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseIntroPlugin):
                 print(f"Running Intro Plugins: {plugin.plugin.identify()}")
-                if not plugin.plugin.doesOutputFileExist(fileNameIntro):
+                if not plugin.plugin.doesOutputFileExist(introDirName):
                     introText = plugin.plugin.writeIntro(topStories, podcastName, typeOfPodcast)
-                    plugin.plugin.writeToDisk(introText, fileNameIntro)
+                    plugin.plugin.writeToDisk(introText, introDirName)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
     
@@ -87,5 +89,23 @@ class PluginManager:
                     if not plugin.plugin.doesOutputFileExist(story, segmentTextDirNameLambda, segmentTextFileNameLambda):
                         segmentText = plugin.plugin.writeStorySegment(story)
                         plugin.plugin.writeToDisk(story, segmentText, segmentTextDirNameLambda, segmentTextFileNameLambda)
+            else:
+                print(f"Plugin {name} does not implement the necessary interface.")
+    
+    def runOutroWriterPlugins(self, plugins, stories, introText, outroTextDirName):
+        for name, plugin in plugins.items():
+            if isinstance(plugin.plugin, BaseOutroWriterPlugin):
+                if not plugin.plugin.doesOutputFileExist(outroTextDirName):
+                    print(f"Running Outro Plugins: {plugin.plugin.identify()}")
+                    outroText = plugin.plugin.writeOutro(stories, introText)
+                    plugin.plugin.writeToDisk(outroText, outroTextDirName)
+            else:
+                print(f"Plugin {name} does not implement the necessary interface.")
+
+    def runPodcastProducerPlugins(self, plugins, stories, outroTextDirName, introDirName, segmentTextDirNameLambda, fileName):
+        for name, plugin in plugins.items():
+            if isinstance(plugin.plugin, BaseProducerPlugin):
+                print(f"Running Producer Plugins: {plugin.plugin.identify()}")
+                plugin.plugin.updateFileNames(stories, outroTextDirName, introDirName, segmentTextDirNameLambda, fileName)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")

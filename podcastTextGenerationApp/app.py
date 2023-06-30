@@ -1,16 +1,10 @@
 import os
-import yaml
 import json
 import sys
 import datetime
 
 from dotenv import load_dotenv
-from podcastScraperPlugins.utilities.newsScraper import NewsScraper
-from podcastSummaryPlugins.utilities.storySummarizer import StorySummarizer
-from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmentWriter
-from podcastIntroPlugins.utilities.podcastIntroWriter import PodcastIntroWriter
 from pluginTypes import PluginType
-
 from pluginManager import PluginManager
 
 # TODO: Add this back in some time
@@ -26,6 +20,8 @@ class App:
         self.scraperPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastScraperPlugins', PluginType.SCRAPER)
         self.summarizerPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSummaryPlugins', PluginType.SUMMARY)
         self.segmentWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSegmentWriterPlugins', PluginType.SEGMENT_WRITER)
+        self.outroWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastOutroWriterPlugins', PluginType.OUTRO)
+        self.producerPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastProducerPlugins', PluginType.PRODUCER)
 
     def run(self, podcastName):
 
@@ -35,8 +31,11 @@ class App:
         rawTextDirName = f"output/{podcastName}/raw_text/"
         summaryTextDirName = f"output/{podcastName}/summary_text/"
         segmentTextDirName = f"output/{podcastName}/segment_text/"
-        fileNameIntro = f"output/{podcastName}/intro_text/intro.txt" 
-        
+        fileNameIntro = f"output/{podcastName}/intro_text/intro.txt"
+        directoryIntro = f"output/{podcastName}/intro_text/" 
+        fileNameOutro = f"output/{podcastName}/outro_text/outro.txt"
+        directoryOutro = f"output/{podcastName}/outro_text/"
+
         stories = self.readStoriesFromFolder(storyDirName)
         fileName = lambda *params: f"{str(params[0])}-{params[1].split('/')[-2]}.txt"
 
@@ -46,6 +45,9 @@ class App:
         
         self.pluginManager.runPodcastDetailsPlugins(self.dataSourcePlugins, podcastName, stories)
         self.pluginManager.runIntroPlugins(self.introPlugins, stories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])
+
+        introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
+        
         self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, stories, rawTextDirName, fileName)
         stories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", stories)
 
@@ -53,6 +55,16 @@ class App:
         stories = self.readFilesFromFolderIntoStories(summaryTextDirName, "summary", stories)
 
         self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, stories, segmentTextDirName, fileName)
+
+        self.pluginManager.runOutroWriterPlugins(self.outroWriterPlugins, stories, introText, fileNameOutro)
+
+        self.pluginManager.runPodcastProducerPlugins(self.producerPlugins, stories, directoryOutro, directoryIntro, segmentTextDirName, fileName)
+
+    def getPreviouslyWrittenIntroText(self, fileNameIntro):
+        if os.path.exists(fileNameIntro):
+            with open(fileNameIntro, 'r') as file:
+                return file.read()
+        return ""
 
     def readFilesFromFolderIntoStories(self, folderPath, key, stories):
         for filename in os.listdir(folderPath):

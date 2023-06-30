@@ -10,7 +10,7 @@ fi
 variable_directory_path="$1"
 
 # Variables for input files and output file
-spoken_file="${variable_directory_path}/audio/intro.mp3"
+spoken_file="${variable_directory_path}/audio/0_intro.mp3"
 backing_file="./audioScripts/podcast_intro_music.mp3"
 output_file="${variable_directory_path}/audio/0-intro-withMusic.mp3"
 

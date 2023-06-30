@@ -23,7 +23,8 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
         uniqueId = story["uniqueId"]
         filename = fileNameLambda(uniqueId, url)
         filePath = os.path.join(directory, filename)
-        if os.path.exists(filePath):
+        numberedFilePath = os.path.join(directory, f"{story['newsRank']+1}_{filename}")
+        if os.path.exists(filePath) or os.path.exists(numberedFilePath):
             print("Segment text file already exists at filepath: " + filePath + ", skipping writing segment for story")
             return True
         else:

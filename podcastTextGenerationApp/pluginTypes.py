@@ -6,3 +6,5 @@ class PluginType(Enum):
     SCRAPER = "SCRAPER"
     SEGMENT_WRITER = "SEGMENT_WRITER"
     SUMMARY = "SUMMARY"
+    OUTRO = "OUTRO"
+    PRODUCER = "PRODUCER"

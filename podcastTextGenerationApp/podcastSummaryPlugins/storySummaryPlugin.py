@@ -16,7 +16,6 @@ class StorySummaryPlugin(BaseSummaryPlugin):
         return "OpenAI Summarizer"
 
     def summarizeText(self, story):
-        print("Summarizing text...")
         url = story["link"]
         print("Summarizing: " + url)
         texts = self.prepareForSummarization(story['rawSplitText'])
