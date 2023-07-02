@@ -19,7 +19,6 @@ class StorySummaryPlugin(BaseSummaryPlugin):
         url = story["link"]
         print("Summarizing: " + url)
         texts = self.prepareForSummarization(story['rawSplitText'])
-        [print(len(x)) for x in texts]
         summaryText = self.summarize(texts)
         return summaryText
 
