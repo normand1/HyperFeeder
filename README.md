@@ -105,13 +105,15 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
 
 - [podcastDataSourcePlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastDataSourcePlugins): These plugins will be invoked to generate the urls for a set of "Stories" that will be used to generate the rest of the podcast. Any plugin used here must return data in the form of a ["Story" class](https://github.com/normand1/HyperFeeder/blob/master/podcastTextGenerationApp/story.py). Subclasses of Story are valid outputs of this plugin as well, see the [HackerNewsStory class](https://github.com/normand1/HyperFeeder/blob/master/podcastTextGenerationApp/podcastDataSourcePlugins/models/hackerNewsStory.py) as an example.
 
-- [podcastIntroPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastIntroPlugins): These plugins will be invoked to write the Intro for the podcast based on the "stories" picked by the `podcastDataSourcePlugins`.
+- [podcastIntroPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastIntroPlugins): These plugins will be invoked to write the Intro for the podcast based on the "stories" picked by the `podcastDataSourcePlugins`. This is a good place to inject some personality or branding to the podcast based on your choice of plugins or modification to existing plugins. 
 
 - [podcastScraperPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastScraperPlugins): These plugins will be invoked to scrape the text from the urls determined by the `podcastDataSourcePlugins`. This plugin adds a 'raw_text' directory filled with the raw text scraped from these urls that will be used by the next set of plugins.
 
 - [podcastSummaryPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSummaryPlugins): These plugins summarize the raw text returned from the `podcastScraperPlugins`.
 
 - [podcastSegmentWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSegmentWriterPlugins): These plugins generate the final text that will be used to produce spoken audio for the podcast. The output of this plugin will be written to the podcast's `segment_text` directory.
+
+- [podcastOutroWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastOutroWriterPlugins): These plugins generate a the outro to the podcast. This is another good place to inject some personality or branding to the podcast based on your choice of plugins or modification to existing plugins.
 
 ## Podcast Plugin Pipeline
 ```
@@ -143,6 +145,16 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
            | podcastSegment   |
            |   WriterPlugins  |
            +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastOutro     |
+           |   WriterPlugins  |
+           +-------------------+
+                     |
+                     |
+                     v
+
 
 ```
 ## Easy Podcast Modification Points

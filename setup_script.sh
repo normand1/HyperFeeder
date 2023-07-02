@@ -23,18 +23,19 @@ create_env_file() {
     echo "PODCAST_TYPE=$5" >> .env
     echo "PODCAST_DESCRIPTION=$6" >> .env
     echo "" >> .env
-    echo "# New variables" >> .env
-    echo "PODCAST_FEEDS=$7" >> .env
+    echo "# Optional Plugin Variables" >> .env
+    echo "PODCAST_FEEDS=" >> .env
+    echo "NEWSLETTER_RSS_FEEDS=" >> .env
     echo "" >> .env
     echo "## Summarization plugin Variables" >> .env
-    echo "MAX_SUMMARY_SEGMENTS=$8" >> .env
-    echo "CHUNK_SIZE=$9" >> .env
-    echo "OPENAI_MODEL_SUMMARY=${10}" >> .env
-    echo "OPENAI_MAX_TOKENS_SUMMARY=${11}" >> .env
-    echo "OPENAI_TEMPERATURE_SUMMARY=${12}" >> .env
+    echo "MAX_SUMMARY_SEGMENTS=" >> .env
+    echo "CHUNK_SIZE=" >> .env
+    echo "OPENAI_MODEL_SUMMARY=" >> .env
+    echo "OPENAI_MAX_TOKENS_SUMMARY=" >> .env
+    echo "OPENAI_TEMPERATURE_SUMMARY=" >> .env
     echo "" >> .env
-    echo "## Outro Writer Plugin Variables" >> .env  # new
-    echo "OPENAI_MAX_TOKENS_OUTRO=${13}" >> .env  # new
+    echo "## Outro Writer Plugin Variables" >> .env
+    echo "OPENAI_MAX_TOKENS_OUTRO=" >> .env
 }
 
 main() {
@@ -45,15 +46,21 @@ main() {
     fi
 
     # Prompt user for required information
-    read "Enter your OpenAI API Key: " api_key
-    read "Enter your Anchor Email: " anchor_email
-    read "Enter your Anchor Password: " anchor_password
-    read "Enter your Podcast Name: " podcast_name
-    read "Enter your Podcast Type: " podcast_type
-    read "Enter your Podcast Description: " podcast_description
+    echo "Enter your OpenAI API Key: "
+    read api_key
+    echo "Enter your Anchor Email: "
+    read anchor_email
+    echo "Enter your Anchor Password: "
+    read anchor_password
+    echo "Enter your Podcast Name: "
+    read podcast_name
+    echo "Enter your Podcast Type: "
+    read podcast_type
+    echo "Enter your Podcast Description: "
+    read podcast_description
 
     # Create .env file
-    create_env_file "$api_key" "$anchor_email" "$anchor_password" "$podcast_name" "$podcast_type" "$podcast_description" "$podcast_feeds" "$max_summary_segments" "$chunk_size" "$openai_model_summary" "$openai_max_tokens_summary" "$openai_temperature_summary" "$openai_max_tokens_outro"  # new
+    create_env_file "$api_key" "$anchor_email" "$anchor_password" "$podcast_name" "$podcast_type" "$podcast_description"
     echo ".env file created successfully."
 }
 
