@@ -13,11 +13,11 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
         url = story["link"]
         print("Writing Segment: " + url)
         storyCopy = story.copy()
-        del storyCopy['link']
-        del storyCopy['rawSplitText']
+        for key in story["keysToIgnoreForWritingSegment"]:
+            if key in storyCopy:
+                del storyCopy[key]
         storySummary = self.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
         storyText = StorySegmentWriter().writeSegmentFromSummary(storySummary)
         return storyText
-    
 
 plugin = TopTenSegmentWriterPlugin()

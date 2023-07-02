@@ -1,14 +1,12 @@
-class PodcastStory:
+from podcastDataSourcePlugins.models.story import Story
+
+class PodcastStory(Story):
     def __init__(self, podcastOrder: int, title: str, link: str, storyType: str, source: str, podcastEpisodeLink: str, uniqueId: str):
+        super().__init__(podcastOrder, title, link, storyType, uniqueId, source)
         self.podcastOrder = podcastOrder
-        self.newsRank = podcastOrder
-        self.title = title
-        self.link = link
-        self.storyType = storyType
-        self.source = source
         self.podcastEpisodeLink = podcastEpisodeLink
         self.uniqueId = uniqueId
-
+        self.keysToIgnoreForWritingSegment.append("rawContent")
     def to_dict(self):
         return {
             "podcastOrder": self.podcastOrder,

@@ -1,4 +1,3 @@
-from story import Story
 from abc import ABC, abstractmethod
 
 class AbstractIntroPlugin(ABC):

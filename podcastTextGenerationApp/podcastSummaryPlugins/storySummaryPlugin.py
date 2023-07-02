@@ -19,6 +19,7 @@ class StorySummaryPlugin(BaseSummaryPlugin):
         url = story["link"]
         print("Summarizing: " + url)
         texts = self.prepareForSummarization(story['rawSplitText'])
+        [print(len(x)) for x in texts]
         summaryText = self.summarize(texts)
         return summaryText
 
@@ -59,7 +60,8 @@ class StorySummaryPlugin(BaseSummaryPlugin):
         PROMPT = PromptTemplate(template=prompt_template, input_variables=["text"])
         MAX_SUMMARY_SEGMENTS = int(os.getenv('MAX_SUMMARY_SEGMENTS'))
         docs = [Document(page_content=text) for text in texts[:MAX_SUMMARY_SEGMENTS]]
-        llm = OpenAI(model=os.getenv('OPENAI_MODEL_SUMMARY'), max_tokens=int(os.getenv('OPENAI_MAX_TOKENS_SUMMARY')), temperature=0.2)
+        print(docs)
+        llm = OpenAI(model=os.getenv('OPENAI_MODEL_SUMMARY'), temperature=0.2)
         chain = load_summarize_chain(llm, chain_type="map_reduce", map_prompt=PROMPT, combine_prompt=PROMPT)
         result = chain.run(docs)
         return result

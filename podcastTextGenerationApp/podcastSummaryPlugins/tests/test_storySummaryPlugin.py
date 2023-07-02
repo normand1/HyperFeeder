@@ -35,6 +35,14 @@ class TestsSorySummaryPlugin(unittest.TestCase):
         texts = self.loadTranscript('articleSummary.txt')
         splitTexts = plugin.prepareForSummarization(texts)
         self.assertGreater(len(splitTexts), 10)
+
+    def test_prepareForSummarization_codeBlog(self):
+        plugin = storySummaryPlugin.StorySummaryPlugin()
+        os.environ["CHUNK_SIZE"] = "1000"
+        texts = self.loadTranscript('blogWithCode.txt')
+        splitTexts = plugin.prepareForSummarization(texts)
+        [print(len(x)) for x in splitTexts]
+        self.assertGreater(len(splitTexts), 10)
   
     def loadTranscript(self, transcriptName):
         current_directory = os.getcwd() + "/podcastTextGenerationApp/podcastSummaryPlugins/tests"

@@ -75,7 +75,7 @@ class App:
                 uniqueId = pathParts[-1:][0].split('-')[0]
                 for index, story in enumerate(stories):
                     if 'uniqueId' in story and story['uniqueId'] == uniqueId:
-                        stories[index][key] = json.loads(fileText)
+                        stories[index][key] = fileText
         return stories
     
     def readStoriesFromFolder(self, folderPath):

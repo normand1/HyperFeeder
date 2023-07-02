@@ -25,7 +25,6 @@ class RedditAPIPlugin(AbstractDataSourcePlugin):
                 title=post["data"].get("title"),
                 link=post["data"].get("url"),
                 storyType=post["data"].get("post_hint", "text"), # Default to 'text' if no post_hint.
-                source="Reddit",
                 uniqueId=self.makeUniqueStoryIdentifier()
             )
             stories.append(story.to_dict())

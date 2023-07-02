@@ -1,4 +1,4 @@
-from story import Story
+from podcastDataSourcePlugins.models.story import Story
 from abc import ABC, abstractmethod
 from typing import List
 

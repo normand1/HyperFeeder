@@ -10,7 +10,7 @@ class HackerNewsAPIPlugin(BaseDataSourcePlugin):
         self.base_url = "https://hacker-news.firebaseio.com/v0/"
     
     def identify(self) -> str:
-        return "🗞️ Hacker News API Plugin"
+        return "👨‍🎤 Hacker News API Plugin"
     
 
     def fetchStories(self):
@@ -30,7 +30,6 @@ class HackerNewsAPIPlugin(BaseDataSourcePlugin):
                 title=story_data.get("title"),
                 link=story_data.get("url"),
                 storyType=story_data.get("type"),
-                source="Hacker News",
                 uniqueId=self.makeUniqueStoryIdentifier()
             )
             stories.append(story.to_dict())

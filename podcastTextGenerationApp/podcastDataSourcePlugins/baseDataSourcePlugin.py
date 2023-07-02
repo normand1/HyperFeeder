@@ -1,11 +1,11 @@
-from story import Story
+from podcastDataSourcePlugins.models.story import Story
 from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import AbstractDataSourcePlugin
 from typing import List
 import os
 import json
 import random
 import string
-
+from urllib.parse import urlparse
 
 class BaseDataSourcePlugin(AbstractDataSourcePlugin):
     def fetchStories(self) -> List[Story]:
@@ -36,4 +36,11 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
             print("Story file already exists at filepath: " + filePath + ", skipping scraping story")
             return True
         else:
-            return False
+            return False    
+    def url_to_filename(self, url):
+        parts = urlparse(url)
+        filename = parts.netloc + parts.path
+        filename = filename.replace('/', '_') # Replace slashes with underscores
+        filename = filename.replace(':', '_') # Replace colons with underscores
+        filename = filename.replace('-', '_') # Replace dashes with underscores
+        return filename
