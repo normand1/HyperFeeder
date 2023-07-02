@@ -41,7 +41,6 @@ class TestsSorySummaryPlugin(unittest.TestCase):
         os.environ["CHUNK_SIZE"] = "1000"
         texts = self.loadTranscript('blogWithCode.txt')
         splitTexts = plugin.prepareForSummarization(texts)
-        [print(len(x)) for x in splitTexts]
         self.assertGreater(len(splitTexts), 10)
   
     def loadTranscript(self, transcriptName):

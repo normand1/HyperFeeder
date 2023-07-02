@@ -14,7 +14,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
 
         newsletter_rss_feeds = os.getenv("NEWSLETTER_RSS_FEEDS")
         if not newsletter_rss_feeds:
-            raise ValueError("NEWSLETTER_RSS_FEEDS environment variable is not set")
+            raise ValueError("NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again.")
 
         self.feeds = newsletter_rss_feeds.split(',')
 

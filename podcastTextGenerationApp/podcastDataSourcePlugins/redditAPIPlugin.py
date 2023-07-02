@@ -7,7 +7,10 @@ from podcastDataSourcePlugins.models.redditStory import RedditStory
 
 class RedditAPIPlugin(AbstractDataSourcePlugin):
     def __init__(self):
-        self.base_url = "https://www.reddit.com/r/technology.json"
+        subreddit = os.getenv("SUBREDDIT")
+        if not subreddit:
+            raise ValueError("SUBREDDIT environment variable is not set, please set it and try again.")
+        self.base_url = f"https://www.reddit.com/r/{subreddit}.json"
     
     def identify(self) -> str:
         return "🗞️ Reddit API Plugin"
