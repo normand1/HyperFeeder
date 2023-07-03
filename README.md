@@ -97,6 +97,14 @@ cd podcastTextGenerationApp
 python app.py
 ```
 
+## Error Recovery
+
+Every output produced by each plugin is saved in the output directory under a folder with the name of the current Date Time when the script was run. In order to retry the podcast generation simply pass the name of the folder created in the output directory like so:
+
+```bash
+./generatePodcast.sh Podcast-Jul01-2023-07AM
+```
+
 ## podcastTextGenerationApp Details
 
 The `podcastTextGenerationApp` is the heart of this framework. When modifying and creating your own podcasts this is most likely where you will want to start. The `podcastTextGenerationApp` uses a plugin architecture so you can extend the functionality of this app and easily contribute your own plugins! 
@@ -154,7 +162,6 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
                      |
                      |
                      v
-
 
 ```
 ## Easy Podcast Modification Points
