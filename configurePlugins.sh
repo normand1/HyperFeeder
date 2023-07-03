@@ -1,11 +1,11 @@
 #!/bin/zsh
 
 # Prompt user for configuration choice
-echo -n "Enter configuration choice (news | podcasts | newsletter): "
+echo -n "Enter configuration choice\n (n) news | (p) podcasts | (nl) newsletter): "
 read choice
 
 # Define the new values based on the chosen configuration
-if [[ "$choice" == "news" ]]; then
+if [[ "$choice" == "news" || "$choice" == "n" ]]; then
     NEW_PODCAST_DATA_SOURCE_PLUGINS=hackerNewsAPIPlugin
     NEW_PODCAST_INTRO_PLUGINS=standardIntroPlugin
     NEW_PODCAST_SCRAPER_PLUGINS=NewsStoryScraperPlugin
@@ -13,7 +13,7 @@ if [[ "$choice" == "news" ]]; then
     NEW_PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
     NEW_PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin
     NEW_PODCAST_PRODUCER_PLUGINS=producerPlugin
-elif [[ "$choice" == "podcasts" ]]; then
+elif [[ "$choice" == "podcasts" || "$choice" == "p" ]]; then
     echo -n "Enter the podcast RSS Feed: "
     read podcast_feed
     echo "PODCAST_FEEDS=$podcast_feed" >> .env
@@ -24,7 +24,7 @@ elif [[ "$choice" == "podcasts" ]]; then
     NEW_PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
     NEW_PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin
     NEW_PODCAST_PRODUCER_PLUGINS=producerPlugin
-elif [[ "$choice" == "newsletter" ]]; then
+elif [[ "$choice" == "newsletter" || "$choice" == "nl" ]]; then
     echo -n "Enter the newsletter RSS Feed: "
     read newsletter_feed
     echo "NEWSLETTER_RSS_FEEDS=$newsletter_feed" >> .env

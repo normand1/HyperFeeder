@@ -28,14 +28,14 @@ create_env_file() {
     echo "NEWSLETTER_RSS_FEEDS=" >> .env
     echo "" >> .env
     echo "## Summarization plugin Variables" >> .env
-    echo "MAX_SUMMARY_SEGMENTS=" >> .env
-    echo "CHUNK_SIZE=" >> .env
-    echo "OPENAI_MODEL_SUMMARY=" >> .env
-    echo "OPENAI_MAX_TOKENS_SUMMARY=" >> .env
-    echo "OPENAI_TEMPERATURE_SUMMARY=" >> .env
+    echo "MAX_SUMMARY_SEGMENTS=10" >> .env
+    echo "CHUNK_SIZE=1000" >> .env
+    echo "OPENAI_MODEL_SUMMARY="text-davinci-003"" >> .env
+    echo "OPENAI_MAX_TOKENS_SUMMARY=1000" >> .env
+    echo "OPENAI_TEMPERATURE_SUMMARY=0.2" >> .env
     echo "" >> .env
     echo "## Outro Writer Plugin Variables" >> .env
-    echo "OPENAI_MAX_TOKENS_OUTRO=" >> .env
+    echo "OPENAI_MAX_TOKENS_OUTRO=1000" >> .env
 }
 
 main() {
@@ -48,10 +48,6 @@ main() {
     # Prompt user for required information
     echo "Enter your OpenAI API Key: "
     read api_key
-    echo "Enter your Anchor Email: "
-    read anchor_email
-    echo "Enter your Anchor Password: "
-    read anchor_password
     echo "Enter your Podcast Name: "
     read podcast_name
     echo "Enter your Podcast Type: "
