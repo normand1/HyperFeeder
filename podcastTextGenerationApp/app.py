@@ -7,10 +7,6 @@ from dotenv import load_dotenv
 from pluginTypes import PluginType
 from pluginManager import PluginManager
 
-# TODO: Add this back in some time
-# topStories.insert(0, {"title": "Presented by the Hypercatcher Podcast App", "link": "https://hypercatcher.com/", "hackerNewsRank": 0})
-
-
 class App:
     def __init__(self):
         load_dotenv()
