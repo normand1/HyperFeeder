@@ -178,6 +178,14 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
 
 Contributions, issues and feature requests are welcome! Feel free to check [issues page](<repo_issues_url>). If you'd like to contribute new features, open a pull request.
 
+## Testing
+To run tests the $PYTHONPATH for the current session must include the `podcastTextGenerationApp` directory. 
+Here's an example of how this can be set prior to running tests:
+```
+    export PYTHONPATH=${PYTHONPATH}:/Users/<your username>/<your path to this app>/HyperFeeder/podcastTextGenerationApp
+```
+Then you should be able to run `python -m unittest` successfully.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
