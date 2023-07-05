@@ -18,22 +18,22 @@ With existing tools and plugins you can currently build a podcast with data from
 
 - For audio Stitching this project uses [FFMPEG which can be downloaded for any system here](https://ffmpeg.org/download.html)
 
-- You will need Python version 3.9.5 or newer. If your Python version is older, you can use `pyenv` to manage multiple versions of Python on your system. Here's how to do it:
+- You will need Python version 3.9.17 or newer. If your Python version is older, you can use `pyenv` to manage multiple versions of Python on your system. Here's how to do it:
 
     - If you don't have `pyenv` installed, you can install it following the instructions on the [pyenv GitHub](https://github.com/pyenv/pyenv#installation).
 
-    - After `pyenv` is installed, you can install Python 3.9.5 with the following commands:
+    - After `pyenv` is installed, you can install Python 3.9.17 with the following commands:
         
         ```bash
-        pyenv install 3.9.5
-        pyenv global 3.9.5
+        pyenv install 3.9.17
+        pyenv global 3.9.17
         ```
     - Now, check your Python version:
         
         ```bash
         python --version
         ```
-      You should see `Python 3.9.5` as the output.
+      You should see `Python 3.9.17` as the output.
 
 - To access some features, you will need an OpenAI API key. Here's how to get one:
 
