@@ -28,8 +28,5 @@ jobs:
 
     - name: Set PYTHONPATH and run tests
       run: |
-        echo $(pwd)
-        cd podcastTextGenerationApp
-        echo $(pwd)
         echo "PYTHONPATH=\$PYTHONPATH:$(pwd)/podcastTextGenerationApp" >> $GITHUB_ENV
         python -m unittest
