@@ -184,6 +184,7 @@ Here's an example of how this can be set prior to running tests:
 ```
     export PYTHONPATH=${PYTHONPATH}:/Users/<your username>/<your path to this app>/HyperFeeder/podcastTextGenerationApp
 ```
+Change directory to the `HyperFeeder` top level directory (if you're not there already).
 Then you should be able to run `python -m unittest` successfully.
 
 ## License
