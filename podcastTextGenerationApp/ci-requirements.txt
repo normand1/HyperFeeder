@@ -77,6 +77,7 @@ six==1.16.0
 soupsieve==2.4.1
 SQLAlchemy==2.0.17
 tenacity==8.2.2
+tiktoken==0.4.0
 tinysegmenter==0.3
 tldextract==3.4.4
 tqdm==4.65.0
