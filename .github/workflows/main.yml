@@ -22,10 +22,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        cd HyperFeeder/podcastTextGenerationApp
+        cd podcastTextGenerationApp
         pip install -r requirements.txt
 
     - name: Set PYTHONPATH and run tests
       run: |
-        echo "PYTHONPATH=\$PYTHONPATH:$(pwd)/HyperFeeder/podcastTextGenerationApp" >> $GITHUB_ENV
+        echo "PYTHONPATH=\$PYTHONPATH:$(pwd)/podcastTextGenerationApp" >> $GITHUB_ENV
         python -m unittest
