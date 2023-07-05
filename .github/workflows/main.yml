@@ -19,6 +19,13 @@ jobs:
       with:
         python-version: 3.9.17
 
+  
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        cd podcastTextGenerationApp
+        pip install -r ci-requirements.txt
+
     - name: Set PYTHONPATH and run tests
       run: |
         echo $(pwd)
