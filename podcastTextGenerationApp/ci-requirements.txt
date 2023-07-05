@@ -87,3 +87,4 @@ w3lib==2.1.1
 warcio==1.7.4
 yarl==1.9.2
 zope.interface==6.0
+tiktoken==0.4.0
