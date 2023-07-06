@@ -1,6 +1,10 @@
 # HyperFeeder - Autonomous Podcast Generator
 
-This application generates dynamic podcasts based on the latest news. The app fetches relevant content, generates an intro, summarizes stories, and even writes podcast descriptions and chapters.
+HyperFeeder generates a personally tailored podcast -- just for you (or your audience)! 
+
+HyperFeeder is a fully configurable and extensible framework for building automated podcasts however you want.
+HyperFeeder uses a plugin system that generates a podcast step by step from Intro and music to individual podcast segments and news stories to how the podcast will be arranged and presented.
+At each step you can either choose from an existing list of plugins that will generate different kinds of content or simply write your own plugin for any step of the podcast generation process.
 
 With existing tools and plugins you can currently build a podcast with data from Hacker News, Reddit, any podcast with transcripts in the RSS Feed, RSS Newsletters like those on Substack. The plan is to expand this tool to ingest many different configurable sources for building podcast content from as well as new sources for augmenting the source content. See the [Issues Tab](https://github.com/normand1/HyperFeeder/issues) for the planned and in-progress roadmap. Also, feel free to open new issues for feature requests or pull requests for new features you'd like to contribute back.
 
