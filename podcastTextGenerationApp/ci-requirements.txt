@@ -44,6 +44,7 @@ marshmallow==3.19.0
 marshmallow-enum==1.5.1
 multidict==6.0.4
 mypy-extensions==1.0.0
+news-please==1.5.33
 newspaper3k==0.2.8
 nltk==3.8.1
 numexpr==2.8.4
