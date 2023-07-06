@@ -22,7 +22,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
             "console": "integratedTerminal",
-            "args": ["Podcast-Jul01-2023-09PM"],
+            // "args": ["Podcast-Jul01-2023-09PM"],
             "justMyCode": true
         },
         {

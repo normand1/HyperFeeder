@@ -6,6 +6,9 @@ from podcastDataSourcePlugins.models.story import Story
 
 class TesterDataSourcePlugin(BaseDataSourcePlugin):
     
+    def __init__(self):
+        super().__init__()
+
     def identify(self) -> str:
         return "Tester Data Source Plugin"
 

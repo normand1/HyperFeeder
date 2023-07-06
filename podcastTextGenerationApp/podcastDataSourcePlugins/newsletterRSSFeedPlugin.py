@@ -5,6 +5,7 @@ from xml.etree import ElementTree as ET
 
 class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
     def __init__(self):
+        super().__init__()
         self.feeds = []
     
     def identify(self) -> str:

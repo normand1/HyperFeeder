@@ -7,6 +7,7 @@ from podcastDataSourcePlugins.models.hackerNewsStory import HackerNewsStory
 
 class HackerNewsAPIPlugin(BaseDataSourcePlugin):
     def __init__(self):
+        super().__init__()
         self.base_url = "https://hacker-news.firebaseio.com/v0/"
     
     def identify(self) -> str:

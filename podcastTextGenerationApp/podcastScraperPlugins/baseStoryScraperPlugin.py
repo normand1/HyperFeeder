@@ -1,8 +1,13 @@
 from abc import abstractmethod
 from podcastScraperPlugins.abstractPluginDefinitions.abstractStoryScraperPlugin import AbstractStoryScraperPlugin
 import os, json
+from dotenv import load_dotenv
 
 class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
+    def __init__(self):
+        currentFile = os.path.realpath(__file__)
+        currentDirectory = os.path.dirname(currentFile)
+        load_dotenv(os.path.join(currentDirectory, '.env.scraper'))
     @abstractmethod
     def scrapeSiteForText(self, story) -> str:
         pass

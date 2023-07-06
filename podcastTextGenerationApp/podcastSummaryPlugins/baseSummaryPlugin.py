@@ -2,8 +2,13 @@ from abc import abstractmethod
 import os, json, tiktoken
 from podcastSummaryPlugins.abstractPluginDefinitions.abstractStorySummaryPlugin import AbstractStorySummaryPlugin
 from langchain.text_splitter import CharacterTextSplitter
+from dotenv import load_dotenv
 
 class BaseSummaryPlugin(AbstractStorySummaryPlugin):
+    def __init__(self):
+        currentFile = os.path.realpath(__file__)
+        currentDirectory = os.path.dirname(currentFile)
+        load_dotenv(os.path.join(currentDirectory, '.env.summary'))
     @abstractmethod
     def summarizeText(self, story):
         pass

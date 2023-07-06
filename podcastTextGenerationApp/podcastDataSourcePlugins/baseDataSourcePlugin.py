@@ -6,8 +6,14 @@ import json
 import random
 import string
 from urllib.parse import urlparse
+from dotenv import load_dotenv
 
 class BaseDataSourcePlugin(AbstractDataSourcePlugin):
+    def __init__(self):
+        currentFile = os.path.realpath(__file__)
+        currentDirectory = os.path.dirname(currentFile)
+        load_dotenv(os.path.join(currentDirectory, '.env.datasource'))
+
     def fetchStories(self) -> List[Story]:
         raise Exception("fetchStories() not implemented")
     def identify(self) -> str:
