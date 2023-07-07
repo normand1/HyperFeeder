@@ -1,8 +1,13 @@
 from abc import abstractmethod
 import os, json
 from podcastSegmentWriterPlugins.abstractPluginDefinitions.abstractSegmentWriterPlugin import AbstractSegmentWriterPlugin
+from dotenv import load_dotenv
 
 class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
+    def __init__(self):
+        currentFile = os.path.realpath(__file__)
+        currentDirectory = os.path.dirname(currentFile)
+        load_dotenv(os.path.join(currentDirectory, '.env.writer'))
     @abstractmethod
     def writeStorySegment(self, story):
         pass

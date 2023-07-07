@@ -7,6 +7,7 @@ import json
 import copy
 class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
     def __init__(self):
+        super().__init__()
         self.feeds = []
     
     def identify(self) -> str:

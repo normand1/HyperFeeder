@@ -7,6 +7,7 @@ from podcastDataSourcePlugins.models.redditStory import RedditStory
 
 class RedditAPIPlugin(AbstractDataSourcePlugin):
     def __init__(self):
+        super().__init__()
         subreddit = os.getenv("SUBREDDIT")
         if not subreddit:
             raise ValueError("SUBREDDIT environment variable is not set, please set it and try again.")

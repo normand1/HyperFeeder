@@ -1,8 +1,13 @@
 from abc import abstractmethod
 import os
 from podcastProducerPlugins.abstractPluginDefinitions.abstractProducerPlugin import AbstractProducerPlugin
+from dotenv import load_dotenv
 
 class BaseProducerPlugin(AbstractProducerPlugin):
+    def __init__(self):
+        currentFile = os.path.realpath(__file__)
+        currentDirectory = os.path.dirname(currentFile)
+        load_dotenv(os.path.join(currentDirectory, '.env.producer'))
     @abstractmethod
     def updateFileNames(self, stories, outroTextDirName, introDirName, segmentTextDirNameLambda, fileName):
         pass
