@@ -1,29 +1,42 @@
 from abc import abstractmethod
 import os
-from podcastProducerPlugins.abstractPluginDefinitions.abstractProducerPlugin import AbstractProducerPlugin
+from podcastProducerPlugins.abstractPluginDefinitions.abstractProducerPlugin import (
+    AbstractProducerPlugin,
+)
 from dotenv import load_dotenv
+
 
 class BaseProducerPlugin(AbstractProducerPlugin):
     def __init__(self):
         currentFile = os.path.realpath(__file__)
         currentDirectory = os.path.dirname(currentFile)
-        load_dotenv(os.path.join(currentDirectory, '.env.producer'))
+        load_dotenv(os.path.join(currentDirectory, ".env.producer"))
+
     @abstractmethod
-    def updateFileNames(self, stories, outroTextDirName, introDirName, segmentTextDirNameLambda, fileName):
+    def updateFileNames(
+        self,
+        stories,
+        outroTextDirName,
+        introDirName,
+        segmentTextDirNameLambda,
+        fileName,
+    ):
         pass
+
     @abstractmethod
     def identify(self) -> str:
         pass
+
     def rename_file(self, directory, old_name, new_name):
         # Construct the full old file name.
         old_file = os.path.join(directory, old_name)
-        
+
         # Construct the full new file name.
         new_file = os.path.join(directory, new_name)
         try:
             os.rename(old_file, new_file)
-            print(f'File {old_name} has been successfully renamed to {new_name}')
+            print(f"File {old_name} has been successfully renamed to {new_name}")
         except FileNotFoundError:
-            print(f'The file {old_name} does not exist in the given directory')
+            print(f"The file {old_name} does not exist in the given directory")
         except Exception as e:
-            print(f'An error occurred: {e}')
+            print(f"An error occurred: {e}")

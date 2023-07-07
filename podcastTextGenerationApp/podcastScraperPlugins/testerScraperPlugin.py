@@ -4,8 +4,8 @@ import os
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastScraperPlugins.utilities.newsScraper import NewsScraper
 
-class TesterScraperPlugin(BaseStoryScraperPlugin):
 
+class TesterScraperPlugin(BaseStoryScraperPlugin):
     def identify(self) -> str:
         return "NewsStoryScraperPlugin"
 
@@ -17,6 +17,7 @@ class TesterScraperPlugin(BaseStoryScraperPlugin):
 
     def scrapeStoryText(self, url):
         assert url is not None
-        return 'test scraped story text'
+        return "test scraped story text"
+
 
 plugin = TesterScraperPlugin()

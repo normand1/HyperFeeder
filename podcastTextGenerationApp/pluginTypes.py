@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class PluginType(Enum):
     DATA_SOURCE = "DATA_SOURCE"
     INTRO = "INTRO"

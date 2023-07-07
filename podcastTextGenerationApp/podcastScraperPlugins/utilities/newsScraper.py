@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 from goose3 import Goose
 from newsplease import NewsPlease
 
+
 class NewsScraper:
     def scrape(self, url):
-        try: 
+        try:
             article = NewsPlease.from_url(url)
             if article.maintext == None:
                 raise Exception("No main text found")
@@ -20,8 +21,8 @@ class NewsScraper:
             except:
                 try:
                     page = requests.get(url)
-                    soup = BeautifulSoup(page.text, 'html.parser')
-                    text = ' '.join([p.text for p in soup.find_all('p')])
+                    soup = BeautifulSoup(page.text, "html.parser")
+                    text = " ".join([p.text for p in soup.find_all("p")])
                     if not text:
                         raise Exception("No text found with BeautifulSoup")
                     return text
@@ -29,10 +30,12 @@ class NewsScraper:
                     try:
                         # Another BeautifulSoup approach, getting the text inside 'div' tags
                         page = requests.get(url)
-                        soup = BeautifulSoup(page.text, 'html.parser')
-                        text = ' '.join([div.text for div in soup.find_all('div')])
+                        soup = BeautifulSoup(page.text, "html.parser")
+                        text = " ".join([div.text for div in soup.find_all("div")])
                         if not text:
-                            raise Exception("No text found with BeautifulSoup (div method)")
+                            raise Exception(
+                                "No text found with BeautifulSoup (div method)"
+                            )
                         return text
                     except Exception as e:
                         print(f"Scraping failed: {e}")
@@ -48,7 +51,7 @@ if __name__ == "__main__":
         article = scraper.scrape(url)
         # print the article
         print(article.maintext)
-    except: 
+    except:
         g = Goose()
         article = g.extract(url=url)
         print(article.cleaned_text)

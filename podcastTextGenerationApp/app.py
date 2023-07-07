@@ -7,20 +7,36 @@ from dotenv import load_dotenv
 from pluginTypes import PluginType
 from pluginManager import PluginManager
 
+
 class App:
     def __init__(self):
         load_dotenv()
         self.pluginManager = PluginManager()
-        self.dataSourcePlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastDataSourcePlugins', PluginType.DATA_SOURCE)
-        self.introPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastIntroPlugins', PluginType.INTRO)
-        self.scraperPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastScraperPlugins', PluginType.SCRAPER)
-        self.summarizerPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSummaryPlugins', PluginType.SUMMARY)
-        self.segmentWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastSegmentWriterPlugins', PluginType.SEGMENT_WRITER)
-        self.outroWriterPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastOutroWriterPlugins', PluginType.OUTRO)
-        self.producerPlugins = self.pluginManager.load_plugins('./podcastTextGenerationApp/podcastProducerPlugins', PluginType.PRODUCER)
+        self.dataSourcePlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastDataSourcePlugins",
+            PluginType.DATA_SOURCE,
+        )
+        self.introPlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastIntroPlugins", PluginType.INTRO
+        )
+        self.scraperPlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastScraperPlugins", PluginType.SCRAPER
+        )
+        self.summarizerPlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastSummaryPlugins", PluginType.SUMMARY
+        )
+        self.segmentWriterPlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastSegmentWriterPlugins",
+            PluginType.SEGMENT_WRITER,
+        )
+        self.outroWriterPlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastOutroWriterPlugins", PluginType.OUTRO
+        )
+        self.producerPlugins = self.pluginManager.load_plugins(
+            "./podcastTextGenerationApp/podcastProducerPlugins", PluginType.PRODUCER
+        )
 
     def run(self, podcastName):
-
         stories = []
 
         storyDirName = f"output/{podcastName}/stories/"
@@ -28,7 +44,7 @@ class App:
         summaryTextDirName = f"output/{podcastName}/summary_text/"
         segmentTextDirName = f"output/{podcastName}/segment_text/"
         fileNameIntro = f"output/{podcastName}/intro_text/intro.txt"
-        directoryIntro = f"output/{podcastName}/intro_text/" 
+        directoryIntro = f"output/{podcastName}/intro_text/"
         fileNameOutro = f"output/{podcastName}/outro_text/outro.txt"
         directoryOutro = f"output/{podcastName}/outro_text/"
 
@@ -36,29 +52,58 @@ class App:
         fileName = lambda *params: f"{str(params[0])}-{params[1].split('/')[-2]}.txt"
 
         if len(stories) == 0:
-            self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, storyDirName, fileName)
+            self.pluginManager.runDataSourcePlugins(
+                self.dataSourcePlugins, storyDirName, fileName
+            )
             stories = self.readStoriesFromFolder(storyDirName)
-        
-        self.pluginManager.runPodcastDetailsPlugins(self.dataSourcePlugins, podcastName, stories)
-        self.pluginManager.runIntroPlugins(self.introPlugins, stories, os.environ['PODCAST_NAME'], fileNameIntro, os.environ['PODCAST_TYPE'])
+
+        self.pluginManager.runPodcastDetailsPlugins(
+            self.dataSourcePlugins, podcastName, stories
+        )
+        self.pluginManager.runIntroPlugins(
+            self.introPlugins,
+            stories,
+            os.environ["PODCAST_NAME"],
+            fileNameIntro,
+            os.environ["PODCAST_TYPE"],
+        )
 
         introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
-        
-        self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, stories, rawTextDirName, fileName)
-        stories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", stories)
 
-        self.pluginManager.runStorySummarizerPlugins(self.summarizerPlugins, stories, summaryTextDirName, fileName)
-        stories = self.readFilesFromFolderIntoStories(summaryTextDirName, "summary", stories)
+        self.pluginManager.runStoryScraperPlugins(
+            self.scraperPlugins, stories, rawTextDirName, fileName
+        )
+        stories = self.readFilesFromFolderIntoStories(
+            rawTextDirName, "rawSplitText", stories
+        )
 
-        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, stories, segmentTextDirName, fileName)
+        self.pluginManager.runStorySummarizerPlugins(
+            self.summarizerPlugins, stories, summaryTextDirName, fileName
+        )
+        stories = self.readFilesFromFolderIntoStories(
+            summaryTextDirName, "summary", stories
+        )
 
-        self.pluginManager.runOutroWriterPlugins(self.outroWriterPlugins, stories, introText, fileNameOutro)
+        self.pluginManager.runStorySegmentWriterPlugins(
+            self.segmentWriterPlugins, stories, segmentTextDirName, fileName
+        )
 
-        self.pluginManager.runPodcastProducerPlugins(self.producerPlugins, stories, directoryOutro, directoryIntro, segmentTextDirName, fileName)
+        self.pluginManager.runOutroWriterPlugins(
+            self.outroWriterPlugins, stories, introText, fileNameOutro
+        )
+
+        self.pluginManager.runPodcastProducerPlugins(
+            self.producerPlugins,
+            stories,
+            directoryOutro,
+            directoryIntro,
+            segmentTextDirName,
+            fileName,
+        )
 
     def getPreviouslyWrittenIntroText(self, fileNameIntro):
         if os.path.exists(fileNameIntro):
-            with open(fileNameIntro, 'r') as file:
+            with open(fileNameIntro, "r") as file:
                 return file.read()
         return ""
 
@@ -66,31 +111,32 @@ class App:
         for filename in os.listdir(folderPath):
             filePath = os.path.join(folderPath, filename)
             if os.path.isfile(filePath):
-                fileText = open(filePath, 'r').read()
-                pathParts = filePath.split('/')
-                uniqueId = pathParts[-1:][0].split('-')[0]
+                fileText = open(filePath, "r").read()
+                pathParts = filePath.split("/")
+                uniqueId = pathParts[-1:][0].split("-")[0]
                 for index, story in enumerate(stories):
-                    if 'uniqueId' in story and story['uniqueId'] == uniqueId:
+                    if "uniqueId" in story and story["uniqueId"] == uniqueId:
                         stories[index][key] = fileText
         return stories
-    
+
     def readStoriesFromFolder(self, folderPath):
         stories = []
         if os.path.exists(folderPath) and os.path.isdir(folderPath):
             for filename in os.listdir(folderPath):
                 filePath = os.path.join(folderPath, filename)
                 if os.path.isfile(filePath):
-                    with open(filePath, 'r') as f:
+                    with open(filePath, "r") as f:
                         fileText = f.read()
                         try:
                             story = json.loads(fileText)
                             stories.append(story)
                         except json.JSONDecodeError:
-                            print(f'Error parsing JSON from {filename}')
+                            print(f"Error parsing JSON from {filename}")
         else:
-            print(f'Folder {folderPath} does not exist already, will be created...')
+            print(f"Folder {folderPath} does not exist already, will be created...")
         return stories
-                
+
+
 if __name__ == "__main__":
     app = App()
     if len(sys.argv) > 1:

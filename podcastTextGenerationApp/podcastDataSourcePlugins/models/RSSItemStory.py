@@ -1,7 +1,17 @@
 from podcastDataSourcePlugins.models.story import Story
 
+
 class RSSItemStory(Story):
-    def __init__(self, itemOrder: int, title: str, link: str, storyType: str, source: str, rssItem: str, uniqueId: str):
+    def __init__(
+        self,
+        itemOrder: int,
+        title: str,
+        link: str,
+        storyType: str,
+        source: str,
+        rssItem: str,
+        uniqueId: str,
+    ):
         super().__init__(itemOrder, title, link, storyType, uniqueId, source)
         self.itemOrder = itemOrder
         self.uniqueId = uniqueId
@@ -18,5 +28,5 @@ class RSSItemStory(Story):
             "source": self.source,
             "uniqueId": self.uniqueId,
             "rssItem": self.rssItem,
-            "keysToIgnoreForWritingSegment": self.keysToIgnoreForWritingSegment
+            "keysToIgnoreForWritingSegment": self.keysToIgnoreForWritingSegment,
         }
