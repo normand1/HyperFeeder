@@ -13,7 +13,7 @@ At each step you can either choose from an existing list of plugins that will ge
 
 With existing tools and plugins you can currently build a podcast with data from Hacker News, Reddit, any podcast with transcripts in the RSS Feed, RSS Newsletters like those on Substack. The plan is to expand this tool to ingest many different configurable sources for building podcast content from as well as new sources for augmenting the source content. See the [Issues Tab](https://github.com/normand1/HyperFeeder/issues) for the planned and in-progress roadmap. Also, feel free to open new issues for feature requests or pull requests for new features you'd like to contribute back.
 
-![Demo GIF](./demo.gif)
+![Demo GIF](./run_demo.gif)
 
 ## Project Goals
 - The podcasts produced by this framework should be fully autonomous and need no human intervention to search for content, generate audio, compose audio segments, produce instrospective metadata about podcast content and publish to a podcast feed. (In progress)
@@ -70,6 +70,8 @@ Run the setup script:
 ## Configure Plugins
 
 HyperFeeder is made to be easily configurable and extensible with plugins. You can easily use existing plugins in different configurations by either modifying the plugins used in each step of the podcast generation process manually in the `.env` file or you can run the `configurePlugins.sh` script to use preset plugin configurations for generating a podcast based on either `news` or `podcasts`. 
+
+![Config Demo GIF](./config_demo.gif)
 
 Different plugins require specific data sources and configuration options to be set in the `.env` to work properly. These must be updated manually (for now). 
 Check the plugin directories for details on what each plugin requires in the `.env` file to be run. You can also check your active plugins by looking at the very top of the .env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS`, `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
