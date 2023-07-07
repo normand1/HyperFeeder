@@ -6,15 +6,15 @@ from langchain.docstore.document import Document
 from langchain.chains.summarize import load_summarize_chain
 from langchain.prompts import PromptTemplate
 
-class StorySummaryPlugin(BaseSummaryPlugin):
 
+class StorySummaryPlugin(BaseSummaryPlugin):
     def identify(self) -> str:
         return "OpenAI Summarizer"
 
     def summarizeText(self, story):
         url = story["link"]
         print("Summarizing: " + url)
-        texts = self.prepareForSummarization(story['rawSplitText'])
+        texts = self.prepareForSummarization(story["rawSplitText"])
         summaryText = self.summarize(texts)
         return summaryText
 
@@ -23,11 +23,14 @@ class StorySummaryPlugin(BaseSummaryPlugin):
             {text}
             DETAILED SUMMARY:"""
         PROMPT = PromptTemplate(template=prompt_template, input_variables=["text"])
-        MAX_SUMMARY_SEGMENTS = int(os.getenv('MAX_SUMMARY_SEGMENTS'))
+        MAX_SUMMARY_SEGMENTS = int(os.getenv("MAX_SUMMARY_SEGMENTS"))
         docs = [Document(page_content=text) for text in texts[:MAX_SUMMARY_SEGMENTS]]
-        llm = OpenAI(model=os.getenv('OPENAI_MODEL_SUMMARY'), temperature=0.2)
-        chain = load_summarize_chain(llm, chain_type="map_reduce", map_prompt=PROMPT, combine_prompt=PROMPT)
+        llm = OpenAI(model=os.getenv("OPENAI_MODEL_SUMMARY"), temperature=0.2)
+        chain = load_summarize_chain(
+            llm, chain_type="map_reduce", map_prompt=PROMPT, combine_prompt=PROMPT
+        )
         result = chain.run(docs)
         return result
+
 
 plugin = StorySummaryPlugin()

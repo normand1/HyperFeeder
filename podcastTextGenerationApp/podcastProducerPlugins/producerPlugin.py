@@ -1,12 +1,18 @@
 from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
 
-class ProducerPlugin(BaseProducerPlugin):
 
+class ProducerPlugin(BaseProducerPlugin):
     def identify(self) -> str:
         return "Producer plugin"
-    
-    def updateFileNames(self, stories, outroTextDirName, introDirName, segmentTextDirNameLambda, fileNameLambda):
-        
+
+    def updateFileNames(
+        self,
+        stories,
+        outroTextDirName,
+        introDirName,
+        segmentTextDirNameLambda,
+        fileNameLambda,
+    ):
         # update all of the filenames with an integer based on their ordering
         # The intro should be first
         self.rename_file(introDirName, "intro.txt", "0_intro.txt")
@@ -20,5 +26,6 @@ class ProducerPlugin(BaseProducerPlugin):
             self.rename_file(segmentTextDirNameLambda, filename, f"{rank+1}_{filename}")
 
         self.rename_file(outroTextDirName, "outro.txt", f"{len(stories)+2}_outro.txt")
+
 
 plugin = ProducerPlugin()
