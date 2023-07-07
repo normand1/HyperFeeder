@@ -1,7 +1,11 @@
 # HyperFeeder - Autonomous Podcast Generator
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![Python unit tests](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml/badge.svg)](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml)
+
+HyperFeeder generates a personally tailored podcast -- just for you (or your audience)!
 
 HyperFeeder generates a personally tailored podcast -- just for you (or your audience)! 
 
