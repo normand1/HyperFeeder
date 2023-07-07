@@ -13,6 +13,8 @@ At each step you can either choose from an existing list of plugins that will ge
 
 With existing tools and plugins you can currently build a podcast with data from Hacker News, Reddit, any podcast with transcripts in the RSS Feed, RSS Newsletters like those on Substack. The plan is to expand this tool to ingest many different configurable sources for building podcast content from as well as new sources for augmenting the source content. See the [Issues Tab](https://github.com/normand1/HyperFeeder/issues) for the planned and in-progress roadmap. Also, feel free to open new issues for feature requests or pull requests for new features you'd like to contribute back.
 
+![Demo GIF](./demo.gif)
+
 ## Project Goals
 - The podcasts produced by this framework should be fully autonomous and need no human intervention to search for content, generate audio, compose audio segments, produce instrospective metadata about podcast content and publish to a podcast feed. (In progress)
 - Anyone should be able to submit easily composable new features that can help make all autonomous podcasts better. (In Progress)
