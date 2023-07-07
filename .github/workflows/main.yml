@@ -24,12 +24,16 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f podcastTextGenerationApp/ci-requirements.txt ]; then pip install -r podcastTextGenerationApp/ci-requirements.txt; fi
     
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
-
     - name: Set PYTHONPATH and run tests
       run: |
         export PYTHONPATH=${PYTHONPATH}:$(pwd)/podcastTextGenerationApp
         echo "PYTHONPATH=$PYTHONPATH:$(pwd)/podcastTextGenerationApp" >> $GITHUB_ENV
+    
+    - name: Analysing the code with pylint
+      run: |
+        pylint $(git ls-files '*.py')
+
+    - name: Run Tests
+      run : |
         python -m unittest
+
