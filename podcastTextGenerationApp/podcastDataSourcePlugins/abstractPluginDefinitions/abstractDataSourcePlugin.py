@@ -13,11 +13,11 @@ class AbstractDataSourcePlugin(ABC):
         pass
 
     @abstractmethod
-    def writePodcastDetails(self, podcastName, topStories):
+    def writePodcastDetails(self, podcastName, stories):
         pass
 
     @abstractmethod
-    def writeToDisk(self, topStories, storiesDirName, storyFileNameLambda):
+    def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
         pass
 
     @abstractmethod

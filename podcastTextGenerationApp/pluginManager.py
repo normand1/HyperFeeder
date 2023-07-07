@@ -59,14 +59,14 @@ class PluginManager:
                 plugin.plugin.writePodcastDetails(f"output/{podcastName}", stories)
 
     def runIntroPlugins(
-        self, plugins, topStories, podcastName, introDirName, typeOfPodcast
+        self, plugins, stories, podcastName, introDirName, typeOfPodcast
     ):
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseIntroPlugin):
                 print(f"Running Intro Plugins: {plugin.plugin.identify()}")
                 if not plugin.plugin.doesOutputFileExist(introDirName):
                     introText = plugin.plugin.writeIntro(
-                        topStories, podcastName, typeOfPodcast
+                        stories, podcastName, typeOfPodcast
                     )
                     plugin.plugin.writeToDisk(introText, introDirName)
             else:
@@ -119,7 +119,7 @@ class PluginManager:
                     if not plugin.plugin.doesOutputFileExist(
                         story, segmentTextDirNameLambda, segmentTextFileNameLambda
                     ):
-                        segmentText = plugin.plugin.writeStorySegment(story)
+                        segmentText = plugin.plugin.writeStorySegment(story, stories)
                         plugin.plugin.writeToDisk(
                             story,
                             segmentText,
@@ -146,7 +146,7 @@ class PluginManager:
         outroTextDirName,
         introDirName,
         segmentTextDirNameLambda,
-        fileName,
+        fileNameLambda,
     ):
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseProducerPlugin):
@@ -156,7 +156,7 @@ class PluginManager:
                     outroTextDirName,
                     introDirName,
                     segmentTextDirNameLambda,
-                    fileName,
+                    fileNameLambda,
                 )
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")

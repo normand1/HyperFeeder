@@ -1,46 +1,46 @@
-from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
-import requests
 import json
 import os
 
+import requests
+from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.hackerNewsStory import HackerNewsStory
 
 
 class HackerNewsAPIPlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
-        self.base_url = "https://hacker-news.firebaseio.com/v0/"
+        self.baseUrl = "https://hacker-news.firebaseio.com/v0/"
 
     def identify(self) -> str:
         return "👨‍🎤 Hacker News API Plugin"
 
     def fetchStories(self):
-        top_stories_url = f"{self.base_url}topstories.json"
-        response = requests.get(top_stories_url)
-        top_stories_ids = response.json()
+        topStoriesUrl = f"{self.baseUrl}topstories.json"
+        response = requests.get(topStoriesUrl, timeout=10)
+        topStoriesIds = response.json()
 
         stories = []
 
-        for rank, story_id in enumerate(top_stories_ids[:5]):
-            story_url = f"{self.base_url}item/{story_id}.json"
-            response = requests.get(story_url)
-            story_data = response.json()
+        for rank, storyId in enumerate(topStoriesIds[:5]):
+            storyUrl = f"{self.baseUrl}item/{storyId}.json"
+            response = requests.get(storyUrl, timeout=10)
+            storyData = response.json()
 
             story = HackerNewsStory(
                 newsRank=rank,
-                title=story_data.get("title"),
-                link=story_data.get("url"),
-                storyType=story_data.get("type"),
+                title=storyData.get("title"),
+                link=storyData.get("url"),
+                storyType=storyData.get("type"),
                 uniqueId=self.makeUniqueStoryIdentifier(),
             )
             stories.append(story.to_dict())
 
         return stories
 
-    def writePodcastDetails(self, podcastName, topStories):
+    def writePodcastDetails(self, podcastName, stories):
         os.makedirs(podcastName, exist_ok=True)
-        with open(podcastName + "/podcastDetails.json", "w") as file:
-            json.dump(topStories, file)
+        with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
+            json.dump(stories, file)
 
 
 plugin = HackerNewsAPIPlugin()

@@ -1,9 +1,11 @@
+import json
+import os
 from abc import abstractmethod
-import os, json
+
+from dotenv import load_dotenv
 from podcastOutroWriterPlugins.abstractPluginDefinitions.abstractOutroPlugin import (
     AbstractOutroPlugin,
 )
-from dotenv import load_dotenv
 
 
 class BaseOutroWriterPlugin(AbstractOutroPlugin):
@@ -13,7 +15,7 @@ class BaseOutroWriterPlugin(AbstractOutroPlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.outro"))
 
     @abstractmethod
-    def writeOutro(self, story):
+    def writeOutro(self, stories, introText):
         pass
 
     @abstractmethod
@@ -23,7 +25,7 @@ class BaseOutroWriterPlugin(AbstractOutroPlugin):
     def writeToDisk(self, outroText, outroTextDirName):
         directory = os.path.dirname(outroTextDirName)
         os.makedirs(directory, exist_ok=True)
-        with open(outroTextDirName, "w") as file:
+        with open(outroTextDirName, "w", encoding="utf-8") as file:
             json.dump(outroText, file)
             file.flush()
 

@@ -1,6 +1,5 @@
-from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 import requests
-import os
+from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 
 
 class RawScraperPlugin(BaseStoryScraperPlugin):
@@ -9,8 +8,8 @@ class RawScraperPlugin(BaseStoryScraperPlugin):
 
     def scrapeSiteForText(self, story) -> str:
         url = story["link"]
-        raw_text_from_url_response = requests.get(url)
-        return raw_text_from_url_response.text
+        rawTextFromUrlResponse = requests.get(url, timeout=10)
+        return rawTextFromUrlResponse.text
 
 
 plugin = RawScraperPlugin()

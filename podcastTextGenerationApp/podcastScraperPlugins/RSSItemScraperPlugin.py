@@ -1,5 +1,6 @@
-from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 import xml.etree.ElementTree as ET
+
+from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 
 
 class RSSItemScraperPlugin(BaseStoryScraperPlugin):

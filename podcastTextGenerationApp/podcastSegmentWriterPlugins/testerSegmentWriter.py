@@ -9,7 +9,7 @@ class TesterSegmentWriter(BaseSegmentWriterPlugin):
     def identify(self) -> str:
         return "tester segment writer"
 
-    def writeStorySegment(self, story):
+    def writeStorySegment(self, story, stories):
         assert story is not None
         assert story["link"] is not None
         return "test segment text"

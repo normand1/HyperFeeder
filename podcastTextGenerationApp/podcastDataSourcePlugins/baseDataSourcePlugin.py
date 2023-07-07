@@ -18,13 +18,19 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.datasource"))
 
     def fetchStories(self) -> List[Story]:
-        raise Exception("fetchStories() not implemented")
+        raise NotImplementedError(
+            "fetchStories() not implemented, make sure to override it in your plugin"
+        )
 
     def identify(self) -> str:
-        raise Exception("identify() not implemented")
+        raise NotImplementedError(
+            "identify() not implemented, make sure to override it in your plugin"
+        )
 
-    def writePodcastDetails(self, podcastName, topStories):
-        raise Exception("writePodcastDetails() not implemented")
+    def writePodcastDetails(self, podcastName, stories):
+        raise NotImplementedError(
+            "writePodcastDetails() not implemented, make sure to override it in your plugin"
+        )
 
     def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
         url = story["link"]
@@ -32,14 +38,14 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         rawTextFileName = storyFileNameLambda(uniqueId, url)
         filePath = os.path.join(storiesDirName, rawTextFileName)
         os.makedirs(storiesDirName, exist_ok=True)
-        with open(filePath, "w") as file:
+        with open(filePath, "w", encoding="utf-8") as file:
             json.dump(story, file)
             file.flush()
 
     def makeUniqueStoryIdentifier(self) -> str:
         characters = string.ascii_uppercase + string.ascii_lowercase + string.digits
-        random_id = "".join(random.choice(characters) for _ in range(6))
-        return random_id
+        randomId = "".join(random.choice(characters) for _ in range(6))
+        return randomId
 
     def doesOutputFileExist(self, story, storiesDirName, storyFileNameLambda) -> bool:
         url = story["link"]

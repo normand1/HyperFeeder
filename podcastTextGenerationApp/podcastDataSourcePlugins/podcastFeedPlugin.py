@@ -66,8 +66,8 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
                 )
         return stories
 
-    def writePodcastDetails(self, podcastName, topStories):
-        copiedTopStories = copy.deepcopy(topStories)
+    def writePodcastDetails(self, podcastName, stories):
+        copiedTopStories = copy.deepcopy(stories)
         for item in copiedTopStories:
             item["link"] = item["podcastEpisodeLink"]
         os.makedirs(podcastName, exist_ok=True)

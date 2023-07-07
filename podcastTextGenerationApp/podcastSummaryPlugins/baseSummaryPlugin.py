@@ -29,7 +29,7 @@ class BaseSummaryPlugin(AbstractStorySummaryPlugin):
         rawTextFileName = summaryTextFileNameLambda(uniqueId, url)
         filePath = os.path.join(summaryTextDirName, rawTextFileName)
         os.makedirs(summaryTextDirName, exist_ok=True)
-        with open(filePath, "w") as file:
+        with open(filePath, "w", encoding="utf-8") as file:
             json.dump(summaryText, file)
             file.flush()
 
@@ -47,38 +47,37 @@ class BaseSummaryPlugin(AbstractStorySummaryPlugin):
                 + ", skipping summarizing story"
             )
             return True
-        else:
-            return False
+        return False
 
     def prepareForSummarization(self, texts):
         if (
-            self.num_tokens_from_string(texts)
+            self.numberOfTokensFromString(texts)
             < (4096 - int(os.getenv("OPENAI_MAX_TOKENS_SUMMARY"))) - 265
         ):
             return [texts]
 
-        CHUNK_SIZE = int(os.getenv("CHUNK_SIZE"))
-        text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-            separator=".\n", chunk_size=CHUNK_SIZE, chunk_overlap=0  # no overlap
+        chunkSize = int(os.getenv("CHUNK_SIZE"))
+        textSplitter = CharacterTextSplitter.from_tiktoken_encoder(
+            separator=".\n", chunk_size=chunkSize, chunk_overlap=0  # no overlap
         )
-        splitTexts = text_splitter.split_text(texts)
+        splitTexts = textSplitter.split_text(texts)
         if len(splitTexts) <= 2:
-            text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-                separator="<p>", chunk_size=CHUNK_SIZE, chunk_overlap=0  # no overlap
+            textSplitter = CharacterTextSplitter.from_tiktoken_encoder(
+                separator="<p>", chunk_size=chunkSize, chunk_overlap=0  # no overlap
             )
-            splitTexts = text_splitter.split_text(texts)
+            splitTexts = textSplitter.split_text(texts)
         if len(splitTexts) <= 2:
-            text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-                separator=" ", chunk_size=CHUNK_SIZE, chunk_overlap=0  # no overlap
+            textSplitter = CharacterTextSplitter.from_tiktoken_encoder(
+                separator=" ", chunk_size=chunkSize, chunk_overlap=0  # no overlap
             )
-            splitTexts = text_splitter.split_text(texts)
+            splitTexts = textSplitter.split_text(texts)
         if len(splitTexts) <= 2:
             raise ValueError(
                 "Text cannot be summarized, please check the text and the above separators and try again."
             )
         return splitTexts
 
-    def num_tokens_from_string(self, string: str) -> int:
+    def numberOfTokensFromString(self, string: str) -> int:
         encoding = tiktoken.get_encoding("cl100k_base")
-        num_tokens = len(encoding.encode(string))
-        return num_tokens
+        numTokens = len(encoding.encode(string))
+        return numTokens

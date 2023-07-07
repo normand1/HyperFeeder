@@ -13,7 +13,7 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.writer"))
 
     @abstractmethod
-    def writeStorySegment(self, story):
+    def writeStorySegment(self, story, stories):
         pass
 
     @abstractmethod

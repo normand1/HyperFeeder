@@ -40,10 +40,10 @@ class TesterDataSourcePlugin(BaseDataSourcePlugin):
 
         return [story1.to_dict(), story2.to_dict(), story3.to_dict()]
 
-    def writePodcastDetails(self, podcastName, topStories):
+    def writePodcastDetails(self, podcastName, stories):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w") as file:
-            json.dump(topStories, file)
+            json.dump(stories, file)
 
 
 plugin = TesterDataSourcePlugin()

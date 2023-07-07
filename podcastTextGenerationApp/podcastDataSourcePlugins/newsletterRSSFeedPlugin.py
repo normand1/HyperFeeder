@@ -44,10 +44,10 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 stories.append(story.to_dict())
         return stories
 
-    def writePodcastDetails(self, podcastName, topStories):
+    def writePodcastDetails(self, podcastName, stories):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w") as file:
-            json.dump(topStories, file)
+            json.dump(stories, file)
 
     def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
         url = story["link"]

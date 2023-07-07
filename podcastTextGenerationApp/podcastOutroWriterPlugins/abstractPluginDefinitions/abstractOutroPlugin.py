@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class AbstractOutroPlugin(ABC):
     @abstractmethod
-    def writeOutro(self, topStories):
+    def writeOutro(self, stories, introText):
         pass
 
     @abstractmethod
@@ -11,5 +11,5 @@ class AbstractOutroPlugin(ABC):
         pass
 
     @abstractmethod
-    def writeToDisk(self, story, scrapedText, directory, fileNameLambda):
+    def writeToDisk(self, outroText, outroTextDirName):
         pass

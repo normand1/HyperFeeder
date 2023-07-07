@@ -17,13 +17,13 @@ class BaseIntroPlugin(AbstractIntroPlugin):
         pass
 
     @abstractmethod
-    def writeIntro(self, topStories, podcastName, typeOfPodcast) -> str:
+    def writeIntro(self, stories, podcastName, typeOfPodcast) -> str:
         pass
 
     def writeToDisk(self, introText, fileNameIntro):
         directory = os.path.dirname(fileNameIntro)
         os.makedirs(directory, exist_ok=True)
-        with open(fileNameIntro, "w") as file:
+        with open(fileNameIntro, "w", encoding="utf-8") as file:
             file.write(introText)
 
     def doesOutputFileExist(self, fileNameIntro) -> bool:

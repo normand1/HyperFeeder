@@ -41,10 +41,10 @@ class RedditAPIPlugin(AbstractDataSourcePlugin):
 
         return stories
 
-    def writePodcastDetails(self, podcastName, topStories):
+    def writePodcastDetails(self, podcastName, stories):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w") as file:
-            json.dump(topStories, file)
+            json.dump(stories, file)
 
 
 plugin = RedditAPIPlugin()

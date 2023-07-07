@@ -4,7 +4,7 @@ create_env_file() {
     echo "## Environment variables" > .env
     echo "PODCAST_DATA_SOURCE_PLUGINS=hackerNewsAPIPlugin" >> .env
     echo "PODCAST_INTRO_PLUGINS=standardIntroPlugin" >> .env
-    echo "PODCAST_SCRAPER_PLUGINS=NewsStoryScraperPlugin" >> .env
+    echo "PODCAST_SCRAPER_PLUGINS=newsStoryScraperPlugin" >> .env
     echo "PODCAST_SUMMARY_PLUGINS=storySummaryPlugin" >> .env
     echo "PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin" >> .env
     echo "PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin" >> .env

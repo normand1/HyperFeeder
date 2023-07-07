@@ -8,7 +8,7 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
     def identify(self) -> str:
         return "TopTenSegmentWriterPlugin"
 
-    def writeStorySegment(self, story):
+    def writeStorySegment(self, story, stories):
         url = story["link"]
         print("Writing Segment: " + url)
         storyCopy = story.copy()

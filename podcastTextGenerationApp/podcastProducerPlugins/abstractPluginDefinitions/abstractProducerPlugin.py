@@ -4,7 +4,12 @@ from abc import ABC, abstractmethod
 class AbstractProducerPlugin(ABC):
     @abstractmethod
     def updateFileNames(
-        self, stories, outroTextDirName, introDirName, segmentTextDirNameLambda
+        self,
+        stories,
+        outroTextDirName,
+        introDirName,
+        segmentTextDirNameLambda,
+        fileNameLambda,
     ):
         pass
 
@@ -13,5 +18,5 @@ class AbstractProducerPlugin(ABC):
         pass
 
     @abstractmethod
-    def rename_file(directory, old_name, new_name):
+    def renameFile(self, directory, oldName, newName):
         pass

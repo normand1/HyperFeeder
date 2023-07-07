@@ -6,8 +6,8 @@ class StandardIntroPlugin(BaseIntroPlugin):
     def identify(self) -> str:
         return "📑 Standard Intro Plugin"
 
-    def writeIntro(self, topStories, podcastName, typeOfPodcast) -> str:
-        storyTitles = list(map(lambda story: story["title"], topStories))
+    def writeIntro(self, stories, podcastName, typeOfPodcast) -> str:
+        storyTitles = list(map(lambda story: story["title"], stories))
         introText = PodcastIntroWriter().writeIntro(
             storyTitles, podcastName, typeOfPodcast
         )

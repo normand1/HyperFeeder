@@ -49,11 +49,13 @@ class App:
         directoryOutro = f"output/{podcastName}/outro_text/"
 
         stories = self.readStoriesFromFolder(storyDirName)
-        fileName = lambda *params: f"{str(params[0])}-{params[1].split('/')[-2]}.txt"
+
+        def fileNameLambda(uniqueId, url):
+            return f"{str(uniqueId)}-{url.split('/')[-2]}.txt"
 
         if len(stories) == 0:
             self.pluginManager.runDataSourcePlugins(
-                self.dataSourcePlugins, storyDirName, fileName
+                self.dataSourcePlugins, storyDirName, fileNameLambda
             )
             stories = self.readStoriesFromFolder(storyDirName)
 
@@ -71,21 +73,21 @@ class App:
         introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
 
         self.pluginManager.runStoryScraperPlugins(
-            self.scraperPlugins, stories, rawTextDirName, fileName
+            self.scraperPlugins, stories, rawTextDirName, fileNameLambda
         )
         stories = self.readFilesFromFolderIntoStories(
             rawTextDirName, "rawSplitText", stories
         )
 
         self.pluginManager.runStorySummarizerPlugins(
-            self.summarizerPlugins, stories, summaryTextDirName, fileName
+            self.summarizerPlugins, stories, summaryTextDirName, fileNameLambda
         )
         stories = self.readFilesFromFolderIntoStories(
             summaryTextDirName, "summary", stories
         )
 
         self.pluginManager.runStorySegmentWriterPlugins(
-            self.segmentWriterPlugins, stories, segmentTextDirName, fileName
+            self.segmentWriterPlugins, stories, segmentTextDirName, fileNameLambda
         )
 
         self.pluginManager.runOutroWriterPlugins(
@@ -98,7 +100,7 @@ class App:
             directoryOutro,
             directoryIntro,
             segmentTextDirName,
-            fileName,
+            fileNameLambda,
         )
 
     def getPreviouslyWrittenIntroText(self, fileNameIntro):
