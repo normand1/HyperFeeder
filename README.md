@@ -5,8 +5,6 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Python unit tests](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml/badge.svg)](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml)
 
-HyperFeeder generates a personally tailored podcast -- just for you (or your audience)!
-
 HyperFeeder generates a personally tailored podcast -- just for you (or your audience)! 
 
 HyperFeeder is a fully configurable and extensible framework for building automated podcasts however you want.
