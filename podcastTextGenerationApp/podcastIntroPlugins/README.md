@@ -38,5 +38,17 @@ The method `writeIntroSegment` must write the new intro segment to the directory
            | podcastSegment   |
            |   WriterPlugins  |
            +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastOutro     |
+           |   WriterPlugins  |
+           +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastProducer   |
+           |   Plugins         |
+           +-------------------+
 
 ```

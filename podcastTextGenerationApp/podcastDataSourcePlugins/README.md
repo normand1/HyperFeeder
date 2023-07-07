@@ -38,5 +38,17 @@ Most importantly this plugin must return a `List` of `Story` Objects. These stor
            | podcastSegment   |
            |   WriterPlugins  |
            +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastOutro     |
+           |   WriterPlugins  |
+           +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastProducer   |
+           |   Plugins         |
+           +-------------------+
 
 ```

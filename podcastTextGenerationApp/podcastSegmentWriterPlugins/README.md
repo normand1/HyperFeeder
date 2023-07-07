@@ -38,5 +38,17 @@ The `Story` models are passed to this plugin via the `stories` parameter in the 
            | podcastSegment   | <---- HERE
            |   WriterPlugins  |
            +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastOutro     |
+           |   WriterPlugins  |
+           +-------------------+
+                     |
+                     |
+           +---------v---------+
+           | podcastProducer   |
+           |   Plugins         |
+           +-------------------+
 
 ```
