@@ -23,19 +23,6 @@ create_env_file() {
     echo "PODCAST_TYPE=$5" >> .env
     echo "PODCAST_DESCRIPTION=$6" >> .env
     echo "" >> .env
-    echo "# Optional Plugin Variables" >> .env
-    echo "PODCAST_FEEDS=" >> .env
-    echo "NEWSLETTER_RSS_FEEDS=" >> .env
-    echo "" >> .env
-    echo "## Summarization plugin Variables" >> .env
-    echo "MAX_SUMMARY_SEGMENTS=10" >> .env
-    echo "CHUNK_SIZE=1000" >> .env
-    echo "OPENAI_MODEL_SUMMARY="text-davinci-003"" >> .env
-    echo "OPENAI_MAX_TOKENS_SUMMARY=1000" >> .env
-    echo "OPENAI_TEMPERATURE_SUMMARY=0.2" >> .env
-    echo "" >> .env
-    echo "## Outro Writer Plugin Variables" >> .env
-    echo "OPENAI_MAX_TOKENS_OUTRO=1000" >> .env
 }
 
 main() {
