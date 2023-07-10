@@ -75,6 +75,11 @@ class App:
         self.pluginManager.runStoryScraperPlugins(
             self.scraperPlugins, stories, rawTextDirName, fileNameLambda
         )
+
+        if len(stories) == 0:
+            print("ERROR: No stories found. Exiting.")
+            sys.exit(0)
+
         stories = self.readFilesFromFolderIntoStories(
             rawTextDirName, "rawSplitText", stories
         )

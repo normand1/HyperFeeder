@@ -11,12 +11,18 @@ class RSSItemStory(Story):
         source: str,
         rssItem: str,
         uniqueId: str,
+        rootLink: str,
+        pubDate: str,
     ):
         super().__init__(itemOrder, title, link, storyType, uniqueId, source)
         self.itemOrder = itemOrder
         self.uniqueId = uniqueId
         self.rssItem = rssItem
+        self.rootLink = rootLink
+        self.pubDate = pubDate
         self.keysToIgnoreForWritingSegment.append("rssItem")
+        self.keysToIgnoreForWritingSegment.append("rootLink")
+        self.keysToIgnoreForWritingSegment.append("pubDate")
 
     def to_dict(self):
         return {
@@ -29,4 +35,6 @@ class RSSItemStory(Story):
             "uniqueId": self.uniqueId,
             "rssItem": self.rssItem,
             "keysToIgnoreForWritingSegment": self.keysToIgnoreForWritingSegment,
+            "rootLink": self.rootLink,
+            "pubDate": self.pubDate,
         }
