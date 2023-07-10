@@ -5,8 +5,7 @@ from datetime import datetime
 from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from dateutil.parser import parse
-import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import db
 
 import pytz
 import requests
@@ -25,13 +24,11 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
     def fetchStories(self):
         # pylint: disable=import-outside-toplevel
         newsletterRSSFeed = os.getenv("NEWSLETTER_RSS_FEEDS")
-        firebaseServiceAccountKeyPath = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH")
         lastFetched = None
         if not newsletterRSSFeed:
             raise ValueError(
                 "NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again."
             )
-        self.setupFirebaseIfNeeded(firebaseServiceAccountKeyPath)
 
         self.feeds = newsletterRSSFeed.split(",")
         numberOfItemsToFetch = int(os.getenv("NUMBER_OF_ITEMS_TO_FETCH"))
@@ -45,6 +42,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 "No podcast feeds in .env file, please add one and try again."
             )
         stories = []
+        # Iterate through each Newsletter Feed
         for feedUrl in self.feeds:
             response = requests.get(feedUrl, timeout=10)
             root = ET.fromstring(response.content)
@@ -53,11 +51,12 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             cleanLink = parsedUrl.netloc + parsedUrl.path
             cleanLink = re.sub(r"\W+", "", cleanLink)
 
-            if firebaseServiceAccountKeyPath:
+            if self.firebaseServiceAccountKeyPath:
                 ref = db.reference(f"newsletter/{cleanLink}/")
                 lastFetched = ref.get()
                 if lastFetched:
                     lastFetched = parse(lastFetched["lastFetched"])
+            # Iterate through each newsletter item
             self.getStoriesFromFeed(
                 lastFetched, numberOfItemsToFetch, stories, root, cleanLink
             )
@@ -78,7 +77,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             itemXml = ET.tostring(item, encoding="utf8").decode("utf8")
             itemGuid = item.find("guid").text
             pubDateString = item.find("pubDate").text
-            pubDate = datetime.strptime(pubDateString, "%a, %d %b %Y %H:%M:%S %Z")
+            pubDate = self.parseDate(pubDateString)
             pubDate = pubDate.replace(tzinfo=pytz.UTC)
             story = RSSItemStory(
                 itemOrder=index,
@@ -110,18 +109,6 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
         with open(filePath, "w", encoding="utf-8") as file:
             json.dump(story, file)
             file.flush()
-
-    def setupFirebaseIfNeeded(self, firebaseServiceAccountKeyPath):
-        if firebaseServiceAccountKeyPath:
-            if os.getenv("FIREBASE_DATABASE_URL") is None:
-                raise ValueError(
-                    "FIREBASE_DATABASE_URL environment variable is not set, please set it in .env and try again."
-                )
-            cred = credentials.Certificate(firebaseServiceAccountKeyPath)
-            firebase_admin.initialize_app(
-                cred,
-                {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")},
-            )
 
 
 plugin = NewsletterRSSFeedPlugin()
