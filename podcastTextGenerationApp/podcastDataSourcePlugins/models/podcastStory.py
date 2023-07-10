@@ -11,12 +11,16 @@ class PodcastStory(Story):
         source: str,
         podcastEpisodeLink: str,
         uniqueId: str,
+        rootLink: str,
+        pubDate: str,
     ):
         super().__init__(podcastOrder, title, link, storyType, uniqueId, source)
         self.podcastOrder = podcastOrder
         self.podcastEpisodeLink = podcastEpisodeLink
         self.uniqueId = uniqueId
         self.keysToIgnoreForWritingSegment.append("rawContent")
+        self.rootLink = rootLink
+        self.pubDate = pubDate
 
     def to_dict(self):
         return {
@@ -28,4 +32,6 @@ class PodcastStory(Story):
             "source": self.source,
             "podcastEpisodeLink": self.podcastEpisodeLink,
             "uniqueId": self.uniqueId,
+            "rootLink": self.rootLink,
+            "pubDate": self.pubDate,
         }
