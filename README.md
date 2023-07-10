@@ -136,6 +136,25 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
 
 - [podcastOutroWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastOutroWriterPlugins): These plugins generate a the outro to the podcast. This is another good place to inject some personality or branding to the podcast based on your choice of plugins or modification to existing plugins.
 
+## Retaining Memory Between Runs
+
+In order to build a useful long term podcast you're going to need to be able to store some state about stories covered in the past. 
+To ensure the rest of this application can remain stateless to allow greater deployability options any state that plugins need to access should be stored in a simple Firebase Realtime DB. However, this app should work without firebase as a dependency and any firebase dependencies will remain optional for anyone wanting to run this app.
+Firebase is extremely simple to setup in your project by following a few simple steps:
+
+1. Go to your Firebase Console and add a new project: https://console.firebase.google.com/
+2. Once you've created your new project, go to "Project Settings" and open the "Service Accounts" Tab.
+3. Click the "Generate New Private Key" button
+4. Add the newly downloaded private key file to the `/secrets` folder in this directory.
+This folder should be ignored by git, but you should ensure this file is not uploaded to a git repository or anywhere public.
+5. Update the `FIREBASE_SERVICE_ACCOUNT_KEY_PATH` variable in this directory's `.env` with a path to the private key file.
+6. Finally open the Realtime Database page in your new Firebase Project and copy the Database Reference Url ending with `.firebaseio.com`
+7. Also add this url to the same `.env` file with the key `FIREBASE_DATABASE_URL`.
+
+## Plugins That Can Retain Memory Between Runs
+
+The `NewsletterRSSFeedPlugin` fetches stories from newsletters in RSS feed format and uses Firebase to store the timestamp of the last fetched story for each feed. If a Firebase `FIREBASE_DATABASE_URL` environment variable is not defined then this plugin simply returns a list of the most recent <X> newsletter items in the RSS Feed.
+
 ## Podcast Plugin Pipeline
 ```
            +-------------------+
@@ -174,7 +193,13 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
            +-------------------+
                      |
                      |
-                     v
+           +---------v---------+
+           | podcastProducer   |
+           |   Plugins         |
+           +-------------------+
+                    |
+                    |
+                    v
 
 ```
 ## Easy Podcast Modification Points
