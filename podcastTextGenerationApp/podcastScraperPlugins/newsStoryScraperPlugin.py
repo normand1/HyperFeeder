@@ -7,7 +7,7 @@ from podcastScraperPlugins.utilities.newsScraper import NewsScraper
 
 class NewsStoryScraperPlugin(BaseStoryScraperPlugin):
     def identify(self) -> str:
-        return "NewsStoryScraperPlugin"
+        return "📰 NewsStoryScraperPlugin"
 
     def scrapeSiteForText(self, story) -> str:
         url = story["link"]

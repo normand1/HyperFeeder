@@ -7,7 +7,7 @@ from podcastScraperPlugins.utilities.newsScraper import NewsScraper
 
 class TesterScraperPlugin(BaseStoryScraperPlugin):
     def identify(self) -> str:
-        return "NewsStoryScraperPlugin"
+        return "📰🧪 NewsStoryScraperPlugin"
 
     def scrapeSiteForText(self, story) -> str:
         assert story is not None

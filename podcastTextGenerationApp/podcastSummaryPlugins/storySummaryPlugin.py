@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 
 class StorySummaryPlugin(BaseSummaryPlugin):
     def identify(self) -> str:
-        return "OpenAI Summarizer"
+        return "📓 OpenAI Summarizer"
 
     def summarizeText(self, story):
         url = story["link"]

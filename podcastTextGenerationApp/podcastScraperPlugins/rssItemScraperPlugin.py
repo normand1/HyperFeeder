@@ -5,7 +5,7 @@ from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 
 class RSSItemScraperPlugin(BaseStoryScraperPlugin):
     def identify(self) -> str:
-        return "RSSItemScraperPlugin"
+        return "🛜 RSSItemScraperPlugin"
 
     def scrapeSiteForText(self, story) -> str:
         rssItem = story["rssItem"]
