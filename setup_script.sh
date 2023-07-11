@@ -7,7 +7,7 @@ create_env_file() {
     echo "PODCAST_SCRAPER_PLUGINS=newsStoryScraperPlugin" >> .env
     echo "PODCAST_SUMMARY_PLUGINS=storySummaryPlugin" >> .env
     echo "PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin" >> .env
-    echo "PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin" >> .env
+    echo "PODCAST_OUTRO_PLUGINS=outroWriterPlugin" >> .env
     echo "PODCAST_PRODUCER_PLUGINS=producerPlugin" >> .env
     echo "" >> .env
     echo "# The following environment variables are required to generate the podcast" >> .env
