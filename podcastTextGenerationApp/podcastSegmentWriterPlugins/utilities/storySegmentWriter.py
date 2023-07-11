@@ -11,12 +11,7 @@ class StorySegmentWriter:
             max_tokens=int(os.getenv("OPENAI_MAX_TOKENS_SUMMARY")),
             temperature=0.3,
         )
-        templateString = """Relay this story to listeners in a short segment for a podcast. Do not say welcome back or outro the segment, this segment should flow into and out of other segments easily and this segment should be modular and easy to swap with other segments. Include relevant information included beyond just the summary
-                            ```
-                            {storySummary}
-                            ```
-                            Please include only the host's dialogue in the answer without specifying the speaker and don't include intro or outro tags.
-                        """
+        templateString = os.getenv("SEGMENT_WRITER_STRING")
         prompt = PromptTemplate(
             input_variables=["storySummary"],
             template=templateString,

@@ -16,13 +16,7 @@ class FunnyOutroWriterPlugin(BaseOutroWriterPlugin):
             max_tokens=int(os.getenv("OPENAI_MAX_TOKENS_OUTRO")),
             temperature=0.3,
         )
-        templateString = """The following text is the *intro* to my podcast. Write a funny joke I can make at the *outro* of the podcast based on this intro:
-
-                            ```
-                            {introText}
-                            ```
-                            After saying the joke make sure to end with an outro and invite the listener to tune in again soon.
-                        """
+        templateString = os.getenv("OUTRO_TEMPLATE_STRING")
         prompt = PromptTemplate(
             input_variables=["introText"],
             template=templateString,
