@@ -79,6 +79,11 @@ class PluginManager:
             if isinstance(plugin.plugin, BaseStoryScraperPlugin):
                 print(f"Running Scraper Plugins: {plugin.plugin.identify()}")
                 for story in stories:
+                    if not plugin.plugin.doesHandleStory(story):
+                        print(
+                            f"Plugin {name} does not handle story {story['uniqueId']}"
+                        )
+                        continue
                     if not plugin.plugin.doesOutputFileExist(
                         story, rawTextDirName, rawTextFileNameLambda
                     ):

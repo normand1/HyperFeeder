@@ -9,6 +9,9 @@ class TesterScraperPlugin(BaseStoryScraperPlugin):
     def identify(self) -> str:
         return "📰🧪 NewsStoryScraperPlugin"
 
+    def doesHandleStory(self, story) -> bool:
+        return True
+
     def scrapeSiteForText(self, story) -> str:
         assert story is not None
         assert story["link"] is not None
