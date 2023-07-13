@@ -3,7 +3,7 @@ from podcastOutroWriterPlugins.baseOutroWriterPlugin import BaseOutroWriterPlugi
 
 class TesterOutroPlugin(BaseOutroWriterPlugin):
     def identify(self) -> str:
-        return "tester outro plugin"
+        return "🔬 tester outro plugin"
 
     def writeOutro(self, stories, introText):
         return "test outro text"

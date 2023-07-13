@@ -3,7 +3,7 @@ from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
 
 class ProducerPlugin(BaseProducerPlugin):
     def identify(self) -> str:
-        return "Producer plugin"
+        return "💿 Producer plugin"
 
     def updateFileNames(
         self,

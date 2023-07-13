@@ -7,7 +7,7 @@ from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmen
 
 class TesterSegmentWriter(BaseSegmentWriterPlugin):
     def identify(self) -> str:
-        return "tester segment writer"
+        return "🧪📝 tester segment writer"
 
     def writeStorySegment(self, story, stories):
         assert story is not None

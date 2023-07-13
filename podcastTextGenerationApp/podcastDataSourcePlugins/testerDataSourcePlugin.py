@@ -10,7 +10,7 @@ class TesterDataSourcePlugin(BaseDataSourcePlugin):
         super().__init__()
 
     def identify(self) -> str:
-        return "Tester Data Source Plugin"
+        return "🧪 Tester Data Source Plugin"
 
     def fetchStories(self):
         story1 = Story(

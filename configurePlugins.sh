@@ -11,7 +11,7 @@ if [[ "$choice" == "news" || "$choice" == "n" ]]; then
     NEW_PODCAST_SCRAPER_PLUGINS=newsStoryScraperPlugin
     NEW_PODCAST_SUMMARY_PLUGINS=storySummaryPlugin
     NEW_PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
-    NEW_PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin
+    NEW_PODCAST_OUTRO_PLUGINS=outroWriterPlugin
     NEW_PODCAST_PRODUCER_PLUGINS=producerPlugin
 elif [[ "$choice" == "podcasts" || "$choice" == "p" ]]; then
     echo -n "Enter the podcast RSS Feed: "
@@ -37,7 +37,7 @@ elif [[ "$choice" == "podcasts" || "$choice" == "p" ]]; then
     NEW_PODCAST_SCRAPER_PLUGINS=rawScraperPlugin
     NEW_PODCAST_SUMMARY_PLUGINS=storySummaryPlugin
     NEW_PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
-    NEW_PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin
+    NEW_PODCAST_OUTRO_PLUGINS=outroWriterPlugin
     NEW_PODCAST_PRODUCER_PLUGINS=producerPlugin
 elif [[ "$choice" == "newsletter" || "$choice" == "nl" ]]; then
     echo -n "Enter the newsletter RSS Feed: "
@@ -63,7 +63,7 @@ elif [[ "$choice" == "newsletter" || "$choice" == "nl" ]]; then
     NEW_PODCAST_SCRAPER_PLUGINS=rssItemScraperPlugin
     NEW_PODCAST_SUMMARY_PLUGINS=storySummaryPlugin
     NEW_PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
-    NEW_PODCAST_OUTRO_PLUGINS=funnyOutroWriterPlugin
+    NEW_PODCAST_OUTRO_PLUGINS=outroWriterPlugin
     NEW_PODCAST_PRODUCER_PLUGINS=producerPlugin
 else
     echo "Invalid choice. Exiting."

@@ -11,6 +11,9 @@ from pluginManager import PluginManager
 class App:
     def __init__(self):
         load_dotenv()
+        currentFile = os.path.realpath(__file__)
+        currentDirectory = os.path.dirname(currentFile)
+        load_dotenv(os.path.join(currentDirectory, "../secrets/.env.auth"))
         self.pluginManager = PluginManager()
         self.dataSourcePlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastDataSourcePlugins",

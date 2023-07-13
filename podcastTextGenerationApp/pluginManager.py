@@ -14,14 +14,14 @@ from pluginTypes import PluginType
 class PluginManager:
     def load_plugins(self, plugin_dir, plugin_type: PluginType):
         load_dotenv()  # load environment variables from .env file
-        env_var_name = f"PODCAST_{plugin_type.value}_PLUGINS"
-        allowed_plugins = os.getenv(env_var_name).split(",")
+        envVarName = f"PODCAST_{plugin_type.value}_PLUGINS"
+        allowedPlugins = os.getenv(envVarName).split(",")
 
         plugins = {}
         for filename in os.listdir(plugin_dir):
             if filename.endswith(".py"):
                 name = filename[:-3]
-                if name in allowed_plugins:
+                if name in allowedPlugins:
                     spec = importlib.util.spec_from_file_location(
                         name, os.path.join(plugin_dir, filename)
                     )
@@ -79,6 +79,11 @@ class PluginManager:
             if isinstance(plugin.plugin, BaseStoryScraperPlugin):
                 print(f"Running Scraper Plugins: {plugin.plugin.identify()}")
                 for story in stories:
+                    if not plugin.plugin.doesHandleStory(story):
+                        print(
+                            f"Plugin {name} does not handle story {story['uniqueId']}"
+                        )
+                        continue
                     if not plugin.plugin.doesOutputFileExist(
                         story, rawTextDirName, rawTextFileNameLambda
                     ):

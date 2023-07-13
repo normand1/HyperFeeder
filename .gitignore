@@ -1,6 +1,7 @@
 secrets/*
 podcastUploader/node_modules
 node_modules/
+.env.auth
 
 # Byte-compiled / optimized / DLL files
 .DS_STORE

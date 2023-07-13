@@ -86,10 +86,12 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
                     "FIREBASE_DATABASE_URL environment variable is not set, please set it in .env and try again."
                 )
             cred = credentials.Certificate(firebaseServiceAccountKeyPath)
-            firebase_admin.initialize_app(
-                cred,
-                {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")},
-            )
+            # check if firebase is already initialized
+            if len(firebase_admin._apps) == 0:
+                firebase_admin.initialize_app(
+                    cred,
+                    {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")},
+                )
 
     def parseDate(self, dateString):
         dateFormats = ["%a, %d %b %Y %H:%M:%S %Z", "%a, %d %b %Y %H:%M:%S %z"]

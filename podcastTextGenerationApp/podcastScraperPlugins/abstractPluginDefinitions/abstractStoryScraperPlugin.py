@@ -17,3 +17,7 @@ class AbstractStoryScraperPlugin(ABC):
     @abstractmethod
     def doesOutputFileExist(self, rawTextDirNameLambda, rawTextFileNameLambda) -> bool:
         pass
+
+    @abstractmethod
+    def doesHandleStory(self, story) -> bool:
+        pass
