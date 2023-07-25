@@ -16,7 +16,7 @@ const defaultValues = {
   AUDIO_FILE_TEMPLATE: 'episode.%(ext)s',
   THUMBNAIL_FILE_FORMAT: 'jpg',
   THUMBNAIL_FILE_TEMPLATE: 'thumbnail.%(ext)s',
-  PUPETEER_HEADLESS: false,
+  PUPETEER_HEADLESS: true,
 };
 
 const dotEnvVariables = parseDotEnvVariables();
