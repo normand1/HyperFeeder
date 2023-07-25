@@ -16,14 +16,14 @@ const defaultValues = {
   AUDIO_FILE_TEMPLATE: 'episode.%(ext)s',
   THUMBNAIL_FILE_FORMAT: 'jpg',
   THUMBNAIL_FILE_TEMPLATE: 'thumbnail.%(ext)s',
-  PUPETEER_HEADLESS: true,
+  PUPETEER_HEADLESS: false,
 };
 
 const dotEnvVariables = parseDotEnvVariables();
 
 function parseDotEnvVariables() {
   try {
-    const envBuf = fs.readFileSync('../secrets/env.auth');
+    const envBuf = fs.readFileSync('../secrets/.env.auth');
     return dotenv.parse(envBuf);
   } catch (err) {
     return {};

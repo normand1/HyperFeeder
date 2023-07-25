@@ -155,7 +155,9 @@ async function postEpisode(youtubeVideoInfo) {
       saveDraftOrPublishOrScheduleButtonDescription.xpath
     );
     await navigationPromise;
-
+    await new Promise((r) => {
+      setTimeout(r, 10 * 1000);
+    });
     console.log('Yay');
   } catch (err) {
     throw new Error(`Unable to post episode to anchorfm: ${err}`);
