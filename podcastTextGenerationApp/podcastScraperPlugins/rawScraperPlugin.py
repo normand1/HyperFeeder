@@ -4,7 +4,10 @@ from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 
 class RawScraperPlugin(BaseStoryScraperPlugin):
     def identify(self) -> str:
-        return "RawScraperPlugin"
+        return "🍣 RawScraperPlugin"
+
+    def doesHandleStory(self, story) -> bool:
+        return "link" in story and "rssItem" not in story
 
     def scrapeSiteForText(self, story) -> str:
         url = story["link"]

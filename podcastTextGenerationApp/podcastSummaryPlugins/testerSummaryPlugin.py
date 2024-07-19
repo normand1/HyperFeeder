@@ -3,7 +3,7 @@ from podcastSummaryPlugins.baseSummaryPlugin import BaseSummaryPlugin
 
 class TesterSummaryPlugin(BaseSummaryPlugin):
     def identify(self) -> str:
-        return "tester summary plugin"
+        return "🧪📓 tester summary plugin"
 
     def summarizeText(self, story):
         assert story is not None

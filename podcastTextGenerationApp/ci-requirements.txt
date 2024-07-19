@@ -93,3 +93,4 @@ warcio==1.7.4
 yarl==1.9.2
 zope.interface==6.0
 pylint==2.17.4
+firebase-admin==6.2.0

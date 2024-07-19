@@ -11,6 +11,8 @@ class PodcastStory(Story):
         source: str,
         podcastEpisodeLink: str,
         uniqueId: str,
+        rootLink: str,
+        pubDate: str,
     ):
         super().__init__(podcastOrder, title, link, storyType, uniqueId, source)
         self.podcastOrder = podcastOrder
@@ -27,4 +29,6 @@ class PodcastStory(Story):
             "source": self.source,
             "podcastEpisodeLink": self.podcastEpisodeLink,
             "uniqueId": self.uniqueId,
+            "rootLink": self.rootLink,
+            "pubDate": self.pubDate,
         }

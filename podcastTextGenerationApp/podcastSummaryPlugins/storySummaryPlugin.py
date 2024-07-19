@@ -10,7 +10,7 @@ from langchain.chains.summarize import load_summarize_chain
 
 class StorySummaryPlugin(BaseSummaryPlugin):
     def identify(self) -> str:
-        return "OpenAI Summarizer"
+        return "📓 OpenAI Summarizer"
 
     def summarizeText(self, story):
         url = story["link"]

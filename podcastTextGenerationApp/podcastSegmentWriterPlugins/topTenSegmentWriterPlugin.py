@@ -6,7 +6,7 @@ from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmen
 
 class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
     def identify(self) -> str:
-        return "TopTenSegmentWriterPlugin"
+        return "🤙 TopTenSegmentWriterPlugin"
 
     def writeStorySegment(self, story, stories):
         url = story["link"]

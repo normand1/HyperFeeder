@@ -12,7 +12,7 @@ class HackerNewsAPIPlugin(BaseDataSourcePlugin):
         self.baseUrl = "https://hacker-news.firebaseio.com/v0/"
 
     def identify(self) -> str:
-        return "👨‍🎤 Hacker News API Plugin"
+        return "🧑‍💻 Hacker News API Plugin"
 
     def fetchStories(self):
         topStoriesUrl = f"{self.baseUrl}topstories.json"

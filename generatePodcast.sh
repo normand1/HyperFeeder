@@ -1,52 +1,60 @@
 #!/bin/bash
 
+# Check if UPLOAD_ONLY is set, if not, set it to 0
+if [ "$#" -lt 2 ]; then
+    UPLOAD_ONLY=0
+else
+    UPLOAD_ONLY=$2
+fi
+
 # Generate a folder name if the user has not provided one
-if [ "$#" -ne 1 ]; then
+if [ "$#" -lt 1 ]; then
     FOLDER="output/Podcast-$(date +"%b%d-%Y-%I%p")"
 else
     FOLDER="output/$1"
 fi
 
 # Generate Name without output folder
-if [ "$#" -ne 1 ]; then
+if [ "$#" -lt 1 ]; then
     FOLDERCLEAN="Podcast-$(date +"%b%d-%Y-%I%p")"
 else
     FOLDERCLEAN="$1"
 fi
 
-# Create the new directory if it does not exist
-mkdir -p ${FOLDER}
+# If UPLOAD_ONLY is set to 1, then execute all the commands
+if [ "$UPLOAD_ONLY" -eq 1 ]; then
 
-# Execute the scripts in sequence, waiting for each to complete before starting the next
-python podcastTextGenerationApp/app.py ${FOLDERCLEAN}
-if [ "$?" -ne 0 ]; then
-    echo "Error occurred during generating podcast text."
-    exit 1
-fi
+    mkdir -p ${FOLDER}
 
-./audioScripts/ttsScript.sh ${FOLDER} 
-if [ "$?" -ne 0 ]; then
-    echo "Error occurred during generating podcast audio from text."
-    exit 1
-fi
+    python podcastTextGenerationApp/app.py ${FOLDERCLEAN}
+    if [ "$?" -ne 0 ]; then
+        echo "Error occurred during generating podcast text."
+        exit 1
+    fi
 
-./audioScripts/generateIntroWithMusic.sh "./${FOLDER}" 
-if [ "$?" -ne 0 ]; then
-    echo "Error occurred during generating intro with music."
-    exit 1
-fi
+    ./audioScripts/ttsScript.sh ${FOLDER} 
+    if [ "$?" -ne 0 ]; then
+        echo "Error occurred during generating podcast audio from text."
+        exit 1
+    fi
 
-./audioScripts/combineAudioFiles.sh "./${FOLDER}" 
-if [ "$?" -ne 0 ]; then
-    echo "Error occurred during generating final podcast."
-    exit 1
-fi
+    ./audioScripts/generateIntroWithMusic.sh "./${FOLDER}" 
+    if [ "$?" -ne 0 ]; then
+        echo "Error occurred during generating intro with music."
+        exit 1
+    fi
 
-python podcastTextGenerationApp/generatePodcastChapterFile.py ${FOLDER}
-if [ "$?" -ne 0 ]; then
-    echo "Error occurred during generating podcast chapters."
-    exit 1
-fi
+    ./audioScripts/combineAudioFiles.sh "./${FOLDER}" 
+    if [ "$?" -ne 0 ]; then
+        echo "Error occurred during generating final podcast."
+        exit 1
+    fi
+
+    python podcastTextGenerationApp/generatePodcastChapterFile.py ${FOLDER}
+    if [ "$?" -ne 0 ]; then
+        echo "Error occurred during generating podcast chapters."
+        exit 1
+    fi
 
 ./podcastMetaInfoScripts/generatePodcastDescriptionText.sh "./${FOLDER}" 
 if [ "$?" -ne 0 ]; then

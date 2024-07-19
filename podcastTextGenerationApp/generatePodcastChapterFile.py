@@ -75,6 +75,23 @@ for i, mp3_file in enumerate(mp3_files):
     # increase the total duration
     total_duration += duration
 
+# get duration of outro and add it to total_duration
+outro_file = next(
+    (f for f in os.listdir(audio_folder_path) if f.endswith("_outro.mp3")), None
+)
+if outro_file:
+    outro_tag = TinyTag.get(os.path.join(audio_folder_path, outro_file))
+    total_duration += outro_tag.duration
+
+    # Add outro chapter
+    chapters.append(
+        {
+            "startTime": round(total_duration),
+            "title": "Outro",
+            "url": None,
+        }
+    )
+
 # save the chapters to a json file
 with open(os.path.join(folder_path, "chapters.json"), "w") as f:
     json.dump({"version": "1.2.0", "chapters": chapters}, f)

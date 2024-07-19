@@ -6,7 +6,7 @@ from podcastSummaryPlugins import storySummaryPlugin
 class TestsSorySummaryPlugin(unittest.TestCase):
     def test_identify(self):
         plugin = storySummaryPlugin.StorySummaryPlugin()
-        self.assertEqual(plugin.identify(), "OpenAI Summarizer")
+        self.assertEqual(plugin.identify(), "📓 OpenAI Summarizer")
 
     def test_prepareForSummarization_transcript_podnews(self):
         plugin = storySummaryPlugin.StorySummaryPlugin()

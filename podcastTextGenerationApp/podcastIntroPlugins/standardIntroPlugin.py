@@ -4,7 +4,7 @@ from podcastIntroPlugins.utilities.podcastIntroWriter import PodcastIntroWriter
 
 class StandardIntroPlugin(BaseIntroPlugin):
     def identify(self) -> str:
-        return "📑 Standard Intro Plugin"
+        return "🎹 Standard Intro Plugin"
 
     def writeIntro(self, stories, podcastName, typeOfPodcast) -> str:
         storyTitles = list(map(lambda story: story["title"], stories))

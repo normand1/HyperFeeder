@@ -23,7 +23,7 @@ const dotEnvVariables = parseDotEnvVariables();
 
 function parseDotEnvVariables() {
   try {
-    const envBuf = fs.readFileSync('../.env');
+    const envBuf = fs.readFileSync('../secrets/.env.auth');
     return dotenv.parse(envBuf);
   } catch (err) {
     return {};

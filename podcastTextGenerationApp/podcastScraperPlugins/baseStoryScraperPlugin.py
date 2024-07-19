@@ -22,6 +22,10 @@ class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
     def identify(self) -> str:
         pass
 
+    @abstractmethod
+    def doesHandleStory(self, story) -> bool:
+        pass
+
     def writeToDisk(self, story, scrapedText, storiesDirName, storyFileNameLambda):
         url = story["link"]
         uniqueId = story["uniqueId"]
