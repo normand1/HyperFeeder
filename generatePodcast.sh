@@ -54,12 +54,6 @@ if [ "$?" -ne 0 ]; then
     exit 1
 fi
 
-./podcastMetaInfoScripts/podcastDescriptionGenerator.sh "./${FOLDER}" 
-if [ "$?" -ne 0 ]; then
-    echo "Error occurred during generating podcast description."
-    exit 1
-fi
-
 ./podcastMetaInfoScripts/generateUploadJsonBody.sh "${FOLDER}"
 if [ "$?" -ne 0 ]; then
     echo "Error occurred during generateUploadJsonBody.sh."

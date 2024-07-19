@@ -1,6 +1,5 @@
 podcastUploader/node_modules
 node_modules/
-
 # Byte-compiled / optimized / DLL files
 .DS_STORE
 output/*

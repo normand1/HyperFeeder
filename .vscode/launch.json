@@ -2,6 +2,7 @@
     "version": "0.2.0",
     "trace": true,
     "configurations": [
+
         {
             "name": "Launch via NPM",
             "request": "launch",
@@ -22,7 +23,16 @@
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
             "console": "integratedTerminal",
-            // "args": ["Podcast-Jul01-2023-09PM"],
+            "args": ["Podcast-Jul17-2024-02PM"],
+            "justMyCode": true
+        },
+        {
+            "name": "Run Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": ["output/Podcast-Jul17-2024-06AM/intro_text/0_intro.txt", "0_intro.mp3"],
             "justMyCode": true
         },
         {
@@ -30,6 +40,15 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Generate Chapter Files",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcastChapterFile.py",
+            "args": ["output/Podcast-Jul17-2024-04PM"],
             "console": "integratedTerminal",
             "justMyCode": true
         },

@@ -50,6 +50,7 @@ class BaseSummaryPlugin(AbstractStorySummaryPlugin):
         return False
 
     def prepareForSummarization(self, texts):
+        return [texts]
         if (
             self.numberOfTokensFromString(texts)
             < (4096 - int(os.getenv("OPENAI_MAX_TOKENS_SUMMARY"))) - 265

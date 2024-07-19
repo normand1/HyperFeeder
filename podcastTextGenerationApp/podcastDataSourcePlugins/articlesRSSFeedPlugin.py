@@ -2,29 +2,31 @@ import requests, os, json, copy
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.RSSItemStory import RSSItemStory
 from xml.etree import ElementTree as ET
+from dotenv import load_dotenv
 
 
-class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
+class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
         self.feeds = []
+        load_dotenv("../.env")
 
     def identify(self) -> str:
-        return "🗞️ Newsletter Feed API Plugin"
+        return "🗞️ Articles Feed API Plugin"
 
     def fetchStories(self):
+        load_dotenv("../.env")
         newsletter_rss_feeds = os.getenv("NEWSLETTER_RSS_FEEDS")
-        print(newsletter_rss_feeds + " is the value of NEWSLETTER_RSS_FEEDS")
         if not newsletter_rss_feeds:
             raise ValueError(
-                "NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again."
+                "ARTICLES_RSS_FEEDS environment variable is not set, please set it and try again."
             )
 
         self.feeds = newsletter_rss_feeds.split(",")
-
+        print(self.feeds)
         if not self.feeds:
             raise ValueError(
-                "No podcast feeds in .env file, please add one and try again."
+                "No articles RSS feeds in .env file, please add one and try again."
             )
         stories = []
         for feed_url in self.feeds:
@@ -36,7 +38,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 story = RSSItemStory(
                     itemOrder=index,
                     title=item.find("title").text,
-                    link=item.find("guid").text,
+                    link=item.find("link").text,
                     storyType=root.find(".//channel/title").text,
                     source="RSS Feed",
                     rssItem=item_xml,
@@ -61,4 +63,4 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             file.flush()
 
 
-plugin = NewsletterRSSFeedPlugin()
+plugin = ArticlesRSSFeedPlugin()

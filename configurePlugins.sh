@@ -40,7 +40,7 @@ else
     # If the variable doesn't exist in the file, add it
     echo "NEWSLETTER_RSS_FEEDS=$newsletter_feed" >> podcastTextGenerationApp/podcastDataSourcePlugins/.env.datasource
 fi
-    NEW_PODCAST_DATA_SOURCE_PLUGINS=newsletterRSSFeedPlugin
+    NEW_PODCAST_DATA_SOURCE_PLUGINS=articlesRSSFeedPlugin
     NEW_PODCAST_INTRO_PLUGINS=standardIntroPlugin
     NEW_PODCAST_SCRAPER_PLUGINS=rssItemScraperPlugin
     NEW_PODCAST_SUMMARY_PLUGINS=storySummaryPlugin

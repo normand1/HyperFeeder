@@ -16,7 +16,6 @@ class PodcastStory(Story):
         self.podcastOrder = podcastOrder
         self.podcastEpisodeLink = podcastEpisodeLink
         self.uniqueId = uniqueId
-        self.keysToIgnoreForWritingSegment.append("rawContent")
 
     def to_dict(self):
         return {

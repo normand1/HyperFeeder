@@ -10,7 +10,7 @@ from pluginManager import PluginManager
 
 class App:
     def __init__(self):
-        load_dotenv()
+        load_dotenv("../.env")
         self.pluginManager = PluginManager()
         self.dataSourcePlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastDataSourcePlugins",
@@ -51,7 +51,10 @@ class App:
         stories = self.readStoriesFromFolder(storyDirName)
 
         def fileNameLambda(uniqueId, url):
-            return f"{str(uniqueId)}-{url.split('/')[-2]}.txt"
+            if "/" in url:
+                return f"{str(uniqueId)}-{url.split('/')[-2]}.txt"
+            else:
+                return f"{str(uniqueId)}-{url}.txt"
 
         if len(stories) == 0:
             self.pluginManager.runDataSourcePlugins(
@@ -79,12 +82,10 @@ class App:
             rawTextDirName, "rawSplitText", stories
         )
 
-        self.pluginManager.runStorySummarizerPlugins(
-            self.summarizerPlugins, stories, summaryTextDirName, fileNameLambda
-        )
-        stories = self.readFilesFromFolderIntoStories(
-            summaryTextDirName, "summary", stories
-        )
+        for story in stories:
+            if "rawSplitText" in story:
+                if "This story could not be scraped" in story["rawSplitText"]:
+                    raise ValueError("This story could not be scraped")
 
         self.pluginManager.runStorySegmentWriterPlugins(
             self.segmentWriterPlugins, stories, segmentTextDirName, fileNameLambda
