@@ -88,6 +88,8 @@ class PluginManager:
                         story, rawTextDirName, rawTextFileNameLambda
                     ):
                         scrapedText = plugin.plugin.scrapeSiteForText(story)
+                        scrapedText = plugin.plugin.cleanupText(scrapedText)
+
                         plugin.plugin.writeToDisk(
                             story, scrapedText, rawTextDirName, rawTextFileNameLambda
                         )
@@ -125,9 +127,10 @@ class PluginManager:
                         story, segmentTextDirNameLambda, segmentTextFileNameLambda
                     ):
                         segmentText = plugin.plugin.writeStorySegment(story, stories)
+                        cleanSegmentText = plugin.plugin.cleanText(segmentText)
                         plugin.plugin.writeToDisk(
                             story,
-                            segmentText,
+                            cleanSegmentText,
                             segmentTextDirNameLambda,
                             segmentTextFileNameLambda,
                         )

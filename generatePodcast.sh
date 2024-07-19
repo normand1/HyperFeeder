@@ -56,34 +56,26 @@ if [ "$UPLOAD_ONLY" -eq 1 ]; then
         exit 1
     fi
 
-    ./podcastMetaInfoScripts/generatePodcastDescriptionText.sh "./${FOLDER}" 
-    if [ "$?" -ne 0 ]; then
-        echo "Error occurred during generating podcast description."
-        exit 1
-    fi
-
-    ./podcastMetaInfoScripts/podcastDescriptionGenerator.sh "./${FOLDER}" 
-    if [ "$?" -ne 0 ]; then
-        echo "Error occurred during generating podcast description."
-        exit 1
-    fi
-
-    ./podcastMetaInfoScripts/generateUploadJsonBody.sh "${FOLDER}"
-    if [ "$?" -ne 0 ]; then
-        echo "Error occurred during generateUploadJsonBody.sh."
-        exit 1
-    fi
-
-    # Read the content from the file
-    config=$(cat "./${FOLDER}/uploadJsonBody.json")
-    echo "config: ${config}"
-    npm --prefix install
-    npm --prefix podcastUploader run upload -- "${config}"
-    if [ "$?" -ne 0 ]; then
-        echo "Error occurred during the upload process."
-        exit 1
-    fi
+./podcastMetaInfoScripts/generatePodcastDescriptionText.sh "./${FOLDER}" 
+if [ "$?" -ne 0 ]; then
+    echo "Error occurred during generating podcast description."
+    exit 1
 fi
 
+./podcastMetaInfoScripts/generateUploadJsonBody.sh "${FOLDER}"
+if [ "$?" -ne 0 ]; then
+    echo "Error occurred during generateUploadJsonBody.sh."
+    exit 1
+fi
+
+# Read the content from the file
+config=$(cat "./${FOLDER}/uploadJsonBody.json")
+echo "config: ${config}"
+npm --prefix install
+npm --prefix podcastUploader run upload -- "${config}"
+if [ "$?" -ne 0 ]; then
+    echo "Error occurred during the upload process."
+    exit 1
+fi
 # Print out a message if everything was successful
 echo "All operations completed successfully."

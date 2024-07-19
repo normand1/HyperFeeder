@@ -22,10 +22,9 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
         return "🗞️ Newsletter Feed API Plugin"
 
     def fetchStories(self):
-        # pylint: disable=import-outside-toplevel
-        newsletterRSSFeed = os.getenv("NEWSLETTER_RSS_FEEDS")
-        lastFetched = None
-        if not newsletterRSSFeed:
+        newsletter_rss_feeds = os.getenv("NEWSLETTER_RSS_FEEDS")
+        print(newsletter_rss_feeds + " is the value of NEWSLETTER_RSS_FEEDS")
+        if not newsletter_rss_feeds:
             raise ValueError(
                 "NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again."
             )
