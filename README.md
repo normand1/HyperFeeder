@@ -74,7 +74,7 @@ HyperFeeder is made to be easily configurable and extensible with plugins. You c
 ![Config Demo GIF](./config_demo.gif)
 
 Different plugins require specific data sources and configuration options to be set in the `.env` to work properly. These must be updated manually (for now). 
-Check the plugin directories for details on what each plugin requires in the `.env` file to be run. You can also check your active plugins by looking at the very top of the .env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS`, `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
+Check the plugin directories for details on what each plugin requires in the `.env` file to be run. You can also check your active plugins by looking at the very top of the .env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS` (DEPRECATED), `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
 
 ## Dependencies
 
@@ -130,7 +130,7 @@ When the app is run by the ./generatePodcast.sh script it will proceed to genera
 
 - [podcastScraperPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastScraperPlugins): These plugins will be invoked to scrape the text from the urls determined by the `podcastDataSourcePlugins`. This plugin adds a 'raw_text' directory filled with the raw text scraped from these urls that will be used by the next set of plugins.
 
-- [podcastSummaryPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSummaryPlugins): These plugins summarize the raw text returned from the `podcastScraperPlugins`.
+- (DEPRECATED) [podcastSummaryPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSummaryPlugins): These plugins summarize the raw text returned from the `podcastScraperPlugins`.
 
 - [podcastSegmentWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSegmentWriterPlugins): These plugins generate the final text that will be used to produce spoken audio for the podcast. The output of this plugin will be written to the podcast's `segment_text` directory.
 
@@ -176,7 +176,7 @@ The `NewsletterRSSFeedPlugin` fetches stories from newsletters in RSS feed forma
                      |
                      |
            +---------v---------+
-           | podcastSummary   |
+           | podcastSummary   | (DEPRECATED)
            |    Plugins       |
            +---------+---------+
                      |

@@ -15,7 +15,7 @@ class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.scraper"))
 
     @abstractmethod
-    def scrapeSiteForText(self, story) -> str:
+    def scrapeSiteForText(self, story, storiesDirName) -> str:
         pass
 
     @abstractmethod

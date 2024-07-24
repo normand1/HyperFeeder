@@ -16,7 +16,7 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
 
     def fetchStories(self):
         load_dotenv("../.env")
-        newsletter_rss_feeds = os.getenv("NEWSLETTER_RSS_FEEDS")
+        newsletter_rss_feeds = os.getenv("ARTICLES_RSS_FEEDS")
         if not newsletter_rss_feeds:
             raise ValueError(
                 "ARTICLES_RSS_FEEDS environment variable is not set, please set it and try again."
@@ -37,12 +37,15 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
                 item_xml = ET.tostring(item, encoding="utf8").decode("utf8")
                 story = RSSItemStory(
                     itemOrder=index,
-                    title=item.find("title").text,
+                    title=item.find("title").text or root.find(".//channel/title").text,
                     link=item.find("link").text,
-                    storyType=root.find(".//channel/title").text,
+                    storyType="Article",
                     source="RSS Feed",
                     rssItem=item_xml,
                     uniqueId=self.url_to_filename(item.find("guid").text),
+                    rootLink=feed_url,
+                    pubDate=item.find("pubDate").text,
+                    newsRank=index,
                 )
                 stories.append(story.to_dict())
         return stories

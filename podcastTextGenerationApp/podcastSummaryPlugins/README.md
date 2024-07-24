@@ -1,3 +1,11 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# DEPRECATED!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# Deprecation Note:
+Summarization was a bandaid to reduce the content we're sending to the LLM for turning the content into a new segment.
+Now that input token limits for LLMs have exploded this is currently no longer necessary and has been mostly removed.
+
 # Podcast Summary Plugins
 
 ## Description
@@ -29,7 +37,7 @@ The `Story` models are passed to this plugin via the `stories` parameter in the 
                      |
                      |
            +---------v---------+
-           | podcastSummary   | <---- HERE
+           | podcastSummary   | <---- HERE (Deprecated and no longer invoked by app.py)
            |    Plugins       |
            +---------+---------+
                      |

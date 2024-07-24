@@ -21,7 +21,7 @@ txt_output_file="$directory/podcastDescription_formatted.txt"
 title=$(basename "$directory")
 
 # Initialize HTML and TXT data
-html_data="<h1>$title</h1>"
+html_data="Podcast Chapters\n"
 txt_data="$title"$'\n'
 
 # Process chapter information
@@ -37,10 +37,10 @@ if [ -f "$chapter_file" ]; then
         formatted_timestamp=$(printf "%02d:%02d" $minutes $seconds)
 
         if [ "$url" != "null" ]; then
-            html_data+="<p><strong><a href=\"#t=$formatted_timestamp\">$formatted_timestamp</a></strong> $chapter_title - <a href=\"$url\">Link</a></p>"
+            html_data+="        <p><strong><a href=\"#t=$formatted_timestamp\">$formatted_timestamp</a></strong> <a href=\"$url\">$chapter_title</a></p>\n"
             txt_data+="$formatted_timestamp $chapter_title - $url"$'\n'
         else
-            html_data+="<p><strong><a href=\"#t=$formatted_timestamp\">$formatted_timestamp</a></strong> $chapter_title</p>"
+            html_data+="        <p><strong><a href=\"#t=$formatted_timestamp\">$formatted_timestamp</a></strong> $chapter_title</p>\n"
             txt_data+="$formatted_timestamp $chapter_title"$'\n'
         fi
     done <<< "$chapters"
@@ -49,10 +49,10 @@ else
 fi
 
 # Write the parsed data to the HTML output file
-echo "$html_data" > "$html_output_file"
+echo -e "$html_data" > "$html_output_file"
 
 # Write the parsed data to the TXT output file
-echo "$txt_data" > "$txt_output_file"
+echo -e "$txt_data" > "$txt_output_file"
 
 echo "Podcast description saved to $html_output_file"
 echo "Simple formatted description saved to $txt_output_file"

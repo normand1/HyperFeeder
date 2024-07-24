@@ -46,6 +46,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
             "console": "integratedTerminal",
+            // "args": ["Podcast-Jul24-2024-05PM"],
             "justMyCode": true
         },
         {
@@ -53,7 +54,7 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcastChapterFile.py",
-            "args": ["output/Podcast-Jul17-2024-04PM"],
+            // "args": ["output/Podcast-Jul23-2024-09AM"],
             "console": "integratedTerminal",
             "justMyCode": true
         },

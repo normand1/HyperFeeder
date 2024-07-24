@@ -15,6 +15,7 @@ class EndToEndTests(unittest.TestCase):
         os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] = "testerSegmentWriter"
         os.environ["PODCAST_OUTRO_PLUGINS"] = "testerOutroPlugin"
         os.environ["PODCAST_PRODUCER_PLUGINS"] = "producerPlugin"
+        os.environ["SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING"] = "false"
 
         # Clear Previous Test Artifacts
         if os.path.exists("output/test-podcast"):

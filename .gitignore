@@ -1,3 +1,5 @@
+.daily-news-env.env
+.podcast-env.env
 secrets/*
 podcastUploader/node_modules
 node_modules/
