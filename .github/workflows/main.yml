@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        if [ -f podcastTextGenerationApp/ci-requirements.txt ]; then pip install -r podcastTextGenerationApp/ci-requirements.txt; fi
+        if [ -f podcastTextGenerationApp/requirements.txt ]; then pip install -r podcastTextGenerationApp/requirements.txt; fi
     
     - name: Set PYTHONPATH and run tests
       run: |
