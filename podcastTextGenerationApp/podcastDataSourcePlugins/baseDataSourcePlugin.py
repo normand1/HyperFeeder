@@ -83,7 +83,7 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         if firebaseServiceAccountKeyPath:
             if os.getenv("FIREBASE_DATABASE_URL") is None:
                 raise ValueError(
-                    "FIREBASE_DATABASE_URL environment variable is not set, please set it in .env and try again."
+                    "FIREBASE_DATABASE_URL environment variable is not set, please set it in .config.env and try again."
                 )
             cred = credentials.Certificate(firebaseServiceAccountKeyPath)
             # check if firebase is already initialized

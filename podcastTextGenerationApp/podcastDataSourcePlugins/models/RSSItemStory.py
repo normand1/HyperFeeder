@@ -13,6 +13,7 @@ class RSSItemStory(Story):
         uniqueId: str,
         rootLink: str,
         pubDate: str,
+        newsRank: int,
     ):
         super().__init__(itemOrder, title, link, storyType, uniqueId, source)
         self.itemOrder = itemOrder
@@ -20,6 +21,7 @@ class RSSItemStory(Story):
         self.rssItem = rssItem
         self.rootLink = rootLink
         self.pubDate = pubDate
+        self.newsRank = newsRank
         self.keysToIgnoreForWritingSegment.append("rssItem")
         self.keysToIgnoreForWritingSegment.append("rootLink")
         self.keysToIgnoreForWritingSegment.append("pubDate")

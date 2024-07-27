@@ -3,19 +3,23 @@ import importlib.util
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastIntroPlugins.baseIntroPlugin import BaseIntroPlugin
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
-from podcastSummaryPlugins.baseSummaryPlugin import BaseSummaryPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from podcastOutroWriterPlugins.baseOutroWriterPlugin import BaseOutroWriterPlugin
 from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
-from dotenv import load_dotenv
 from pluginTypes import PluginType
+import json
 
 
 class PluginManager:
     def load_plugins(self, plugin_dir, plugin_type: PluginType):
-        load_dotenv()  # load environment variables from .env file
         envVarName = f"PODCAST_{plugin_type.value}_PLUGINS"
-        allowedPlugins = os.getenv(envVarName).split(",")
+        env_value = os.getenv(envVarName)
+        if env_value is None:
+            allowedPlugins = []
+        elif "," in env_value:
+            allowedPlugins = env_value.split(",")
+        else:
+            allowedPlugins = [env_value]
 
         plugins = {}
         for filename in os.listdir(plugin_dir):
@@ -87,31 +91,16 @@ class PluginManager:
                     if not plugin.plugin.doesOutputFileExist(
                         story, rawTextDirName, rawTextFileNameLambda
                     ):
-                        scrapedText = plugin.plugin.scrapeSiteForText(story)
+                        scrapedText = plugin.plugin.scrapeSiteForText(
+                            story, rawTextDirName
+                        )
+                        if scrapedText is None:
+                            print(f"Scraped text is None for story {story['uniqueId']}")
+                            continue
                         scrapedText = plugin.plugin.cleanupText(scrapedText)
 
                         plugin.plugin.writeToDisk(
                             story, scrapedText, rawTextDirName, rawTextFileNameLambda
-                        )
-            else:
-                print(f"Plugin {name} does not implement the necessary interface.")
-
-    def runStorySummarizerPlugins(
-        self, plugins, stories, summaryTextDirName, summaryTextFileNameLambda
-    ):
-        for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, BaseSummaryPlugin):
-                print(f"Running Summary Plugins: {plugin.plugin.identify()}")
-                for story in stories:
-                    if not plugin.plugin.doesOutputFileExist(
-                        story, summaryTextDirName, summaryTextFileNameLambda
-                    ):
-                        summaryText = plugin.plugin.summarizeText(story)
-                        plugin.plugin.writeToDisk(
-                            story,
-                            summaryText,
-                            summaryTextDirName,
-                            summaryTextFileNameLambda,
                         )
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
@@ -159,6 +148,11 @@ class PluginManager:
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseProducerPlugin):
                 print(f"Running Producer Plugins: {plugin.plugin.identify()}")
+                stories = plugin.plugin.orderStories(stories)
+
+                # Write updated stories back to disk
+                self.writeStoriesToDisk(stories, fileNameLambda)
+
                 plugin.plugin.updateFileNames(
                     stories,
                     outroTextDirName,
@@ -168,3 +162,18 @@ class PluginManager:
                 )
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
+
+    def writeStoriesToDisk(self, stories, fileNameLambda):
+        stories_dir = "output/stories"  # Adjust this path as needed
+        os.makedirs(stories_dir, exist_ok=True)
+
+        for story in stories:
+            uniqueId = story["uniqueId"]
+            url = story.get("link", "")  # Use an empty string if 'link' is not present
+            filename = fileNameLambda(uniqueId, url)
+            filepath = os.path.join(stories_dir, filename)
+            with open(filepath, "w") as file:
+                json.dump(story, file, indent=2)
+                file.flush()
+
+        print(f"Updated stories written to {stories_dir}")

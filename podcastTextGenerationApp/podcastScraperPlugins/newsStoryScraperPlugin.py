@@ -10,9 +10,12 @@ class NewsStoryScraperPlugin(BaseStoryScraperPlugin):
         return "📰 NewsStoryScraperPlugin"
 
     def doesHandleStory(self, story) -> bool:
-        return "link" in story and "rssItem" not in story
+        return (
+            story.get("storyType") == "Article"
+            or story.get("storyType") == "Newsletter"
+        )
 
-    def scrapeSiteForText(self, story) -> str:
+    def scrapeSiteForText(self, story, storiesDirName) -> str:
         if "link" not in story:
             return ""
         url = story["link"]

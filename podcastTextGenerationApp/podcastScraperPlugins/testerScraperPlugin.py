@@ -12,7 +12,7 @@ class TesterScraperPlugin(BaseStoryScraperPlugin):
     def doesHandleStory(self, story) -> bool:
         return True
 
-    def scrapeSiteForText(self, story) -> str:
+    def scrapeSiteForText(self, story, storiesDirName) -> str:
         assert story is not None
         assert story["link"] is not None
         texts = self.scrapeStoryText(story["link"])

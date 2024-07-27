@@ -32,9 +32,7 @@ class RedditAPIPlugin(BaseDataSourcePlugin):
                 newsRank=rank,
                 title=post["data"].get("title"),
                 link=post["data"].get("url"),
-                storyType=post["data"].get(
-                    "post_hint", "text"
-                ),  # Default to 'text' if no post_hint.
+                storyType="Reddit",  # Default to 'text' if no post_hint.
                 uniqueId=self.makeUniqueStoryIdentifier(),
             )
             stories.append(story.to_dict())

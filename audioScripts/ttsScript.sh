@@ -59,6 +59,7 @@ mkdir -p $AUDIO_DIR
 
 # Function to convert text file to audio using Python script
 convert_to_audio() {
+    echo "using 3rd party TTS"
     local text_file=$1
     local base_name=$(basename $text_file .txt)
     local audio_file="${AUDIO_DIR}${base_name}.mp3"

@@ -29,7 +29,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 "NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again."
             )
 
-        self.feeds = newsletterRSSFeed.split(",")
+        self.feeds = newsletter_rss_feeds.split(",")
         numberOfItemsToFetch = int(os.getenv("NUMBER_OF_ITEMS_TO_FETCH"))
         if not numberOfItemsToFetch:
             raise ValueError(
@@ -38,7 +38,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
 
         if not self.feeds:
             raise ValueError(
-                "No podcast feeds in .env file, please add one and try again."
+                "No podcast feeds in .config.env file, please add one and try again."
             )
         stories = []
         # Iterate through each Newsletter Feed
@@ -80,14 +80,15 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             pubDate = pubDate.replace(tzinfo=pytz.UTC)
             story = RSSItemStory(
                 itemOrder=index,
-                title=itemGuid,
+                title=root.find(".//channel/title").text or itemGuid,
                 link=itemGuid,
-                storyType=root.find(".//channel/title").text,
+                storyType="Newsletter",
                 source="RSS Feed",
                 rssItem=itemXml,
                 uniqueId=self.url_to_filename(itemGuid),
                 rootLink=cleanLink,
                 pubDate=pubDate.isoformat(),
+                newsRank=index,
             )
             # If you've provided the firebaseServiceAccountKeyPath then we'll use firebase to store the lastFetched date
             # otherwise we'll return the <NUMBER_OF_ITEMS_TO_FETCH> most recent stories in the feed

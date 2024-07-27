@@ -30,7 +30,7 @@ class HackerNewsAPIPlugin(BaseDataSourcePlugin):
                 newsRank=rank,
                 title=storyData.get("title"),
                 link=storyData.get("url"),
-                storyType=storyData.get("type"),
+                storyType="Hacker News",
                 uniqueId=self.makeUniqueStoryIdentifier(),
             )
             stories.append(story.to_dict())

@@ -1,9 +1,6 @@
 import requests
-import os
-from bs4 import BeautifulSoup
-from goose3 import Goose
-from newsplease import NewsPlease
 from dotenv import load_dotenv
+import time
 
 
 class NewsScraper:
@@ -15,8 +12,10 @@ class NewsScraper:
         try:
             # Try scraping with Jina API
             jina_url = f"https://r.jina.ai/{url}"
-            headers = {"Authorization": f"Bearer {os.getenv('JINA_API_KEY')}"}
-            response = requests.get(jina_url, headers=headers)
+            # headers = {"Authorization": f"Bearer {os.getenv('JINA_API_KEY')}"}
+            response = requests.get(jina_url)
+            print(response)
+            time.sleep(10)
             response.raise_for_status()
             text = response.text
             if not text:
