@@ -32,7 +32,7 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
 
         if not self.feeds:
             raise ValueError(
-                "No podcast feeds in .env file, please add one and try again."
+                "No podcast feeds in .config.env file, please add one and try again."
             )
 
         numberOfItemsToFetch = int(os.getenv("NUMBER_OF_ITEMS_TO_FETCH"))

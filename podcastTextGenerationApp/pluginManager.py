@@ -3,18 +3,15 @@ import importlib.util
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastIntroPlugins.baseIntroPlugin import BaseIntroPlugin
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
-from podcastSummaryPlugins.baseSummaryPlugin import BaseSummaryPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from podcastOutroWriterPlugins.baseOutroWriterPlugin import BaseOutroWriterPlugin
 from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
-from dotenv import load_dotenv
 from pluginTypes import PluginType
 import json
 
 
 class PluginManager:
     def load_plugins(self, plugin_dir, plugin_type: PluginType):
-        load_dotenv()  # load environment variables from .env file
         envVarName = f"PODCAST_{plugin_type.value}_PLUGINS"
         env_value = os.getenv(envVarName)
         if env_value is None:

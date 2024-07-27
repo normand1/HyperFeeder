@@ -1,5 +1,5 @@
 #!/bin/zsh
-
+echo "ttsLocalScript.sh started"
 set -e  # Exit immediately if a command exits with a non-zero status
 
 # Function for logging
@@ -28,8 +28,6 @@ log "Using Local TTS"
 convert_to_audio() {
     local text_file=$1
     local base_name=$(basename $text_file .txt)
-    local audio_file="${AUDIO_DIR}${base_name}.aiff"
-    local mp3_file="${AUDIO_DIR}${base_name}.mp3"
 
     log "Converting text to audio for file: $text_file"
 
@@ -37,6 +35,15 @@ convert_to_audio() {
         log "Error: Text file not found: $text_file"
         return 1
     fi
+
+    # Check if any audio file already contains the base name
+    if ls "$AUDIO_DIR" | grep -q "$base_name"; then
+        log "Audio file for $base_name already exists. Skipping conversion."
+        return 0
+    fi
+
+    local audio_file="${AUDIO_DIR}${base_name}.aiff"
+    local mp3_file="${AUDIO_DIR}${base_name}.mp3"
 
     # Read the text file and convert it to speech
     if ! say -f "$text_file" -o "$audio_file"; then

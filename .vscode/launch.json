@@ -4,7 +4,7 @@
     "configurations": [
 
         {
-            "name": "Launch via NPM",
+            "name": "Debug Upload Podcast",
             "request": "launch",
             "runtimeArgs": [
                 "run-script",
@@ -12,7 +12,7 @@
                 "--",
             ],
             "args": [
-                "{\"audioFilePath\":\"../output/Podcast-Jul24-2023-05PM/final-podcast-to-upload.mp3\",\"podcastTitle\":\"Podcast-Jul24-2023-05PM\",\"podcastDescription\":\"The Autonomous Tech Podcast output/Podcast-Jul24-2023-05PM\"}"
+                "{\"descriptionFilePath\":\"../output/Podcast-Jul25-2024-08AM/podcastDescription.html\",\"audioFilePath\":\"../output/Podcast-Jul25-2024-08AM/final-podcast-to-upload.mp3\",\"podcastTitle\":\"Podcast-Jul25-2024-08AM\",\"podcastDescription\":\"The Autonomous Tech Podcast output/Podcast-Jul25-2024-08AM\"}"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [
@@ -20,6 +20,7 @@
             ],
             "type": "node",
             "trace": true,
+            "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/podcastUploader",
         },
         {
@@ -58,6 +59,14 @@
             "console": "integratedTerminal",
             "justMyCode": true
         },
-        
+        {
+            "name": "run generatePodcast.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
+            "console": "integratedTerminal",
+            // "args": ["-u", "-f Podcast-Jul26-2024-09PM"],
+            "justMyCode": true
+        },        
     ]
 }

@@ -2,20 +2,17 @@ import requests, os, json, copy
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.RSSItemStory import RSSItemStory
 from xml.etree import ElementTree as ET
-from dotenv import load_dotenv
 
 
 class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
         self.feeds = []
-        load_dotenv("../.env")
 
     def identify(self) -> str:
         return "🗞️ Articles Feed API Plugin"
 
     def fetchStories(self):
-        load_dotenv("../.env")
         newsletter_rss_feeds = os.getenv("ARTICLES_RSS_FEEDS")
         if not newsletter_rss_feeds:
             raise ValueError(
@@ -26,7 +23,7 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
         print(self.feeds)
         if not self.feeds:
             raise ValueError(
-                "No articles RSS feeds in .env file, please add one and try again."
+                "No articles RSS feeds in .config.env file, please add one and try again."
             )
         stories = []
         for feed_url in self.feeds:
@@ -44,7 +41,11 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
                     rssItem=item_xml,
                     uniqueId=self.url_to_filename(item.find("guid").text),
                     rootLink=feed_url,
-                    pubDate=item.find("pubDate").text,
+                    pubDate=(
+                        item.find("pubDate").text
+                        if item.find("pubDate") is not None
+                        else None
+                    ),
                     newsRank=index,
                 )
                 stories.append(story.to_dict())

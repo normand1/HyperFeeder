@@ -38,7 +38,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
 
         if not self.feeds:
             raise ValueError(
-                "No podcast feeds in .env file, please add one and try again."
+                "No podcast feeds in .config.env file, please add one and try again."
             )
         stories = []
         # Iterate through each Newsletter Feed

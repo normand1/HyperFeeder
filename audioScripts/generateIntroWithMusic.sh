@@ -18,7 +18,12 @@ temp_file="${variable_directory_path}/audio/temp_output.mp3"
 # Ensure the audio directory exists
 mkdir -p "${variable_directory_path}/audio/"
 
-# Check if input files exist
+if [[ -f "$output_file" ]]; then
+    echo "Error: Output file already exists at $output_file"
+    exit 0
+fi
+
+# Check if input files exist and if output file already exists
 if [[ ! -f "$spoken_file" ]]; then
     echo "Error: Spoken file not found at $spoken_file"
     exit 1

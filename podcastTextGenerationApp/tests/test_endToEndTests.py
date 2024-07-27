@@ -1,6 +1,6 @@
 import unittest
 import os
-from podcastTextGenerationApp.app import App
+from podcastTextGenerator import App
 
 
 class EndToEndTests(unittest.TestCase):

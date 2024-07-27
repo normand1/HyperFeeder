@@ -2,7 +2,7 @@ import os
 import json
 import sys
 import datetime
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore, Style
 
 init(autoreset=True)  # Initialize colorama
 
@@ -11,7 +11,7 @@ from pluginTypes import PluginType
 from pluginManager import PluginManager
 
 
-class App:
+class PodcastTextGenerator:
     def __init__(self):
         load_dotenv(".env")
         self.pluginManager = PluginManager()
@@ -41,15 +41,9 @@ class App:
 
     def run(self, podcastName):
         stories = []
-        # Print the contents of .env file
-        # print(f"{Fore.GREEN}Contents of .env file:{Style.RESET_ALL}")
-        # with open(".env", "r") as env_file:
-        #     for line in env_file:
-        #         # Skip empty lines and comments
-        #         if line.strip() and not line.strip().startswith("#"):
-        #             print(line.strip())
-        # print(f"{Fore.GREEN}End of .env file contents{Style.RESET_ALL}")
-        load_dotenv(".env")
+
+        podcastName = podcastName.strip()
+        load_dotenv(".config.env")
         storyDirName = f"output/{podcastName}/stories/"
         rawTextDirName = f"output/{podcastName}/raw_text/"
         segmentTextDirName = f"output/{podcastName}/segment_text/"
@@ -81,7 +75,12 @@ class App:
         self.pluginManager.runPodcastDetailsPlugins(
             self.dataSourcePlugins, podcastName, stories
         )
-        if os.environ["SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING"] == "true":
+        if (
+            os.getenv(
+                "SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING", "false"
+            ).lower()
+            == "true"
+        ):
             self.pauseAndValidateStories(stories)
         self.pluginManager.runIntroPlugins(
             self.introPlugins,
@@ -113,7 +112,6 @@ class App:
                     print(
                         f"{Fore.RED}{Style.BRIGHT}Error: A story could not be scraped.{Style.RESET_ALL}"
                     )
-                    raise ValueError("This story could not be scraped")
 
         self.pluginManager.runStorySegmentWriterPlugins(
             self.segmentWriterPlugins, stories, segmentTextDirName, fileNameLambda
@@ -181,7 +179,7 @@ class App:
 
 
 if __name__ == "__main__":
-    app = App()
+    app = PodcastTextGenerator()
     if len(sys.argv) > 1:
         parameter = sys.argv[1]  # Get the first parameter passed to the script
         print(f"{Fore.GREEN}Running with parameter: {parameter}{Style.RESET_ALL}")

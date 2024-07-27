@@ -1,5 +1,6 @@
 .daily-news-env.env
 .podcast-env.env
+.auth.env
 secrets/*
 podcastUploader/node_modules
 node_modules/
