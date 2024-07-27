@@ -25,9 +25,6 @@ class PodcastTextGenerator:
         self.scraperPlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastScraperPlugins", PluginType.SCRAPER
         )
-        self.summarizerPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastSummaryPlugins", PluginType.SUMMARY
-        )
         self.segmentWriterPlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastSegmentWriterPlugins",
             PluginType.SEGMENT_WRITER,

@@ -1,6 +1,6 @@
 import unittest
 import os
-from podcastTextGenerator import App
+from podcastTextGenerator import PodcastTextGenerator
 
 
 class EndToEndTests(unittest.TestCase):
@@ -22,4 +22,4 @@ class EndToEndTests(unittest.TestCase):
             os.system("rm -rf output/test-podcast")
 
         # Run App
-        App().run("test-podcast")
+        PodcastTextGenerator().run("test-podcast")
