@@ -42,26 +42,19 @@ Next, we'll be examining an article titled {SOURCE_NAME}.
 {NEWS_ARTICLE}
 </article>
 
-3. Discuss the contents of the article in detail. Break down the main points and present them in a clear, conversational manner. Use transitions between topics to maintain a smooth flow.
+3. This segment should flow into and out of other segments easily and this segment should be modular and easy to swap with other segments, so no need to greet the audience. Include relevant information included beyond just the summary
 
-4. As you discuss the article, make insightful comments about the content. Consider the following aspects:
+4. Discuss the contents of the article in detail. Use transitions between topics to maintain a smooth flow.
+
+5. As you discuss the article, make insightful comments about the content. Consider the following aspects:
    - The potential implications of the news
    - How it relates to broader trends or issues
    - Any unique or surprising elements in the story
    - Questions that the article raises but doesn't answer
 
-5. Throughout the segment, relate the contents to the audience. This could include:
-   - Explaining how the news might affect listeners
-   - Drawing connections to other recent events or common experiences
-   - Posing thought-provoking questions to the audience
+6. Use a conversational tone appropriate for a podcast, but remain professional and informative.
 
-6. Maintain a balanced perspective. If the article presents multiple viewpoints, acknowledge them fairly.
-
-7. Use a conversational tone appropriate for a podcast, but remain professional and informative.
-
-8. Conclude the segment by summarizing the key points and, if appropriate, suggesting what listeners might want to watch for in future developments of this story.
-
-Present your podcast segment within <podcast_segment> tags. Aim for a length that would take about 5-7 minutes to read aloud.
+Present your podcast segment within <podcast_segment> tags. Aim for a length that would take about 4-5 minutes to read aloud.
 
 Remember to speak as if you're addressing a listening audience, not reading an essay. Use phrases like "As we can see from this article..." or "This brings up an interesting point..." to maintain an engaging, conversational style."""
 

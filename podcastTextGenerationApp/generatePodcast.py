@@ -19,9 +19,7 @@ def load_env():
                         key, value = line.strip().split("=", 1)
                         os.environ[key] = value
         else:
-            print(
-                f"Warning: {env_file} file not found. Some environment variables may not be set correctly."
-            )
+            print(f"Warning: {env_file} file not found. Some environment variables may not be set correctly.")
 
 
 def import_module(module_path):
@@ -40,12 +38,8 @@ def run_command(command):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Podcast generation and upload script")
-    parser.add_argument(
-        "-f", "--folder", help="Folder name for the podcast", default=None
-    )
-    parser.add_argument(
-        "-u", "--upload-only", action="store_true", help="Perform upload only"
-    )
+    parser.add_argument("-f", "--folder", help="Folder name for the podcast", default=None)
+    parser.add_argument("-u", "--upload-only", action="store_true", help="Perform upload only")
     return parser.parse_args()
 
 
@@ -58,9 +52,7 @@ def main():
     print(f"UPLOAD_ONLY: {upload_only}")
 
     if upload_only:
-        run_command(
-            f"podcastMetaInfoScripts/generateUploadJsonBody.sh output/{args.folder.strip()}"
-        )
+        run_command(f"podcastMetaInfoScripts/generateUploadJsonBody.sh output/{args.folder.strip()}")
         upload(f"output/{args.folder.strip()}")
         return
 
@@ -68,8 +60,10 @@ def main():
         folder = f"output/{args.folder.strip()}"
         folder_clean = args.folder.strip()
     else:
-        folder = f"output/Podcast-{datetime.now().strftime('%b%d-%Y-%I%p')}"
-        folder_clean = f"Podcast-{datetime.now().strftime('%b%d-%Y-%I%p')}"
+        podcast_name = os.environ.get("PODCAST_NAME", "").replace(" ", "-").replace('"', "")
+        timestamp = datetime.now().strftime("%b%d-%Y-%I%p")
+        folder = f"output/{podcast_name}-{timestamp}"
+        folder_clean = f"{podcast_name}-{timestamp}"
 
     os.makedirs(folder, exist_ok=True)
 
@@ -77,8 +71,10 @@ def main():
     app = PodcastTextGenerator()
     app.run(folder_clean)
 
-    # These scripts are still run as shell commands as they're not Python scripts
-    run_command(f"audioScripts/ttsLocalScript.sh {folder}")
+    # Use the TTS_SCRIPT environment variable to determine which script to run
+    tts_script = os.environ.get("TTS_SCRIPT", "ttsLocalScript.sh")
+    run_command(f"audioScripts/{tts_script} {folder}")
+
     run_command(f"audioScripts/generateIntroWithMusic.sh ./{folder}")
     run_command(f"audioScripts/combineAudioFiles.sh ./{folder}")
 

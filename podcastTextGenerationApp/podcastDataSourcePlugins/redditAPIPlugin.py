@@ -9,33 +9,48 @@ from podcastDataSourcePlugins.models.redditStory import RedditStory
 class RedditAPIPlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
-        subreddit = os.getenv("SUBREDDIT")
-        if not subreddit:
+        subreddits = os.getenv("SUBREDDIT")
+        if not subreddits:
             raise ValueError(
                 "SUBREDDIT environment variable is not set, please set it and try again."
             )
-        self.baseUrl = f"https://www.reddit.com/r/{subreddit}.json"
+        self.subreddits = [s.strip() for s in subreddits.split(",")]
+        self.baseUrl = "https://www.reddit.com/r/{}.json"
 
     def identify(self) -> str:
         return "👽 Reddit API Plugin"
 
     def fetchStories(self):
-        response = requests.get(
-            self.baseUrl, headers={"User-agent": "Mozilla/5.0"}, timeout=10
-        )
-        data = response.json()
-
         stories = []
         numberOfPostsToFetch = int(os.getenv("NUMBER_OF_POSTS_TO_FETCH"))
-        for rank, post in enumerate(data["data"]["children"][:numberOfPostsToFetch]):
-            story = RedditStory(
-                newsRank=rank,
-                title=post["data"].get("title"),
-                link=post["data"].get("url"),
-                storyType="Reddit",  # Default to 'text' if no post_hint.
-                uniqueId=self.makeUniqueStoryIdentifier(),
+
+        for subreddit in self.subreddits:
+            response = requests.get(
+                self.baseUrl.format(subreddit),
+                headers={"User-agent": "Mozilla/5.0"},
+                timeout=10,
             )
-            stories.append(story.to_dict())
+            data = response.json()
+
+            rank = 0
+            for post in data["data"]["children"]:
+                if (
+                    post["data"].get("author") != "AutoModerator"
+                    and post["data"].get("link_flair_text") != "Subreddit Stats"
+                    and "reddit.com" not in post["data"].get("url")
+                    and not post["data"].get("is_video")
+                ):
+                    if rank >= numberOfPostsToFetch:
+                        break
+                    story = RedditStory(
+                        newsRank=rank,
+                        title=post["data"].get("title"),
+                        link=post["data"].get("url"),
+                        storyType="Article",
+                        uniqueId=self.makeUniqueStoryIdentifier(),
+                    )
+                    stories.append(story.to_dict())
+                    rank += 1
 
         return stories
 

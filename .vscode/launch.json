@@ -65,7 +65,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
             "console": "integratedTerminal",
-            // "args": ["-u", "-f Podcast-Jul26-2024-09PM"],
+            // "args": ["-u", "-f Podcast-Jul27-2024-01PM"],
             "justMyCode": true
         },        
     ]
