@@ -72,11 +72,11 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
         if len(stories) > 0:
             # Sort the stories by publication date in descending order
             stories.sort(key=lambda x: x["pubDate"], reverse=True)
-            mostRecentStory = stories[0]
-            mostRecentTimestamp = mostRecentStory["pubDate"]
+            mostRecentStories = stories[0:5]
+            mostRecentTimestamp = max(story["pubDate"] for story in mostRecentStories)
             if ref:
                 ref.set({"lastFetched": mostRecentTimestamp})
-            return stories
+            return mostRecentStories
         return []
 
     def getStoriesFromFeed(
