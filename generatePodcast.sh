@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Check if UPLOAD_ONLY is set, if not, set it to 0
+# Check if UPLOAD_ONLY is set, if not, set it to 1
 if [ "$#" -lt 2 ]; then
-    UPLOAD_ONLY=0
+    UPLOAD_ONLY=1
 else
     UPLOAD_ONLY=$2
 fi
@@ -21,8 +21,8 @@ else
     FOLDERCLEAN="$1"
 fi
 
-# If UPLOAD_ONLY is set to 1, then execute all the commands
-if [ "$UPLOAD_ONLY" -eq 1 ]; then
+# If UPLOAD_ONLY is set to 0, skip processing
+if [ "$UPLOAD_ONLY" -ne 0 ]; then
 
     mkdir -p ${FOLDER}
 

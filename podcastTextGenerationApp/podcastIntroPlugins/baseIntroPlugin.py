@@ -23,6 +23,11 @@ class BaseIntroPlugin(AbstractIntroPlugin):
     def writeToDisk(self, introText, fileNameIntro):
         directory = os.path.dirname(fileNameIntro)
         os.makedirs(directory, exist_ok=True)
+
+        # Convert dict to string if necessary
+        if isinstance(introText, dict):
+            introText = str(introText)
+
         with open(fileNameIntro, "w", encoding="utf-8") as file:
             file.write(introText)
 

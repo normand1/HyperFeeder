@@ -1,0 +1,10 @@
+langchain
+tinytag
+feedparser
+python-dotenv
+requests
+python-dateutil
+urllib3
+tenacity
+pylint
+langchain-openai

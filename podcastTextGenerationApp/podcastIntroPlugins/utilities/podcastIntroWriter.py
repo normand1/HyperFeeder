@@ -1,12 +1,12 @@
-from langchain.prompts import PromptTemplate
-from langchain.llms import OpenAI
-from langchain.chains import LLMChain
 import os
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain.chains.llm import LLMChain
 
 
 class PodcastIntroWriter:
     def writeIntro(self, allStoryTitles, podcastName, typeOfPodcast):
-        llm = OpenAI(
+        llm = ChatOpenAI(
             model=os.getenv("OPENAI_MODEL_SUMMARY"),
             max_tokens=int(os.getenv("OPENAI_MAX_TOKENS_SUMMARY")),
             temperature=0.3,
@@ -17,7 +17,7 @@ class PodcastIntroWriter:
             template=templateString,
         )
         chain = LLMChain(llm=llm, prompt=prompt)
-        return chain.run(
+        return chain.invoke(
             {
                 "allStoryTitles": allStoryTitles,
                 "podcastName": podcastName,
