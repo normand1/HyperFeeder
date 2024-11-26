@@ -1,43 +1,44 @@
 {
-    "version": "0.2.0",
-    "trace": true,
-    "configurations": [
-        {
-            "name": "Launch via NPM",
-            "request": "launch",
-            "runtimeArgs": [
-                "run-script",
-                "upload",
-                "--",
-            ],
-            "args": [
-                "{\"audioFilePath\":\"../output/Podcast-Jul24-2023-05PM/final-podcast-to-upload.mp3\",\"podcastTitle\":\"Podcast-Jul24-2023-05PM\",\"podcastDescription\":\"The Autonomous Tech Podcast output/Podcast-Jul24-2023-05PM\"}"
-            ],
-            "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node",
-            "trace": true,
-            "cwd": "${workspaceFolder}/podcastUploader",
-        },
-        {
-            "name": "Python: Debug App",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
-            "console": "integratedTerminal",
-            // "args": ["Podcast-Jul01-2023-09PM"],
-            "justMyCode": true
-        },
-        {
-            "name": "Generate Podcast Text Files",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        
-    ]
+  "version": "0.2.0",
+  "trace": true,
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Launch via NPM",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "upload", "--"],
+      "args": [
+        "{\"audioFilePath\":\"../output/Podcast-Jul24-2023-05PM/final-podcast-to-upload.mp3\",\"podcastTitle\":\"Podcast-Jul24-2023-05PM\",\"podcastDescription\":\"The Autonomous Tech Podcast output/Podcast-Jul24-2023-05PM\"}"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "trace": true,
+      "cwd": "${workspaceFolder}/podcastUploader"
+    },
+    {
+      "name": "Python: Debug App",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
+      "console": "integratedTerminal",
+      // "args": ["Podcast-Jul01-2023-09PM"],
+      "justMyCode": true
+    },
+    {
+      "name": "Generate Podcast Text Files",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
 }
