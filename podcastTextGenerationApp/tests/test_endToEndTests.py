@@ -55,16 +55,10 @@ class EndToEndTests(unittest.TestCase):
             )
 
             for file in actual_files:
-                self.assertIn(
-                    file, files, f"Unexpected file {file} found in {subdir_path}"
-                )
+                self.assertIn(file, files, f"Unexpected file {file} found in {subdir_path}")
 
         # Check if all expected directories are present in the output directory
-        actual_subdirs = set(
-            d
-            for d in os.listdir(output_dir)
-            if os.path.isdir(os.path.join(output_dir, d))
-        )
+        actual_subdirs = set(d for d in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, d)))
         expected_subdirs = set(expected_files.keys())
         missing_subdirs = expected_subdirs - actual_subdirs
         self.assertEqual(
@@ -76,6 +70,4 @@ class EndToEndTests(unittest.TestCase):
         # Optionally, print a warning if there are additional directories
         additional_subdirs = actual_subdirs - expected_subdirs
         if additional_subdirs:
-            print(
-                f"Warning: Additional directories found in {output_dir}: {additional_subdirs}"
-            )
+            print(f"Warning: Additional directories found in {output_dir}: {additional_subdirs}")

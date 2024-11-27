@@ -8,3 +8,6 @@ urllib3
 tenacity
 pylint
 langchain-openai
+colorama
+firebase-admin
+anthropic
