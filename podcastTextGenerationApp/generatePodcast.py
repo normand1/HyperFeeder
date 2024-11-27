@@ -10,7 +10,7 @@ from generatePodcastChapterFile import GeneratePodcastChapterFile
 
 
 def load_env():
-    env_files = ["./.config.env", "./.auth.env"]
+    env_files = [".config.env", "./secrets/.auth.env"]
     for env_file in env_files:
         if os.path.isfile(env_file):
             with open(env_file, "r") as f:
@@ -19,7 +19,7 @@ def load_env():
                         key, value = line.strip().split("=", 1)
                         os.environ[key] = value
         else:
-            print(f"Warning: {env_file} file not found. Some environment variables may not be set correctly.")
+            raise FileNotFoundError(f"{env_file} file not found. Some environment variables may not be set correctly.")
 
 
 def import_module(module_path):
@@ -85,7 +85,8 @@ def main():
     run_command(f"podcastMetaInfoScripts/generatePodcastDescriptionText.sh ./{folder}")
     run_command(f"podcastMetaInfoScripts/generateUploadJsonBody.sh output/{folder}")
 
-    upload(f"output/{folder}")
+    # TODO: Fix Podcast Upload
+    # upload(f"output/{folder}")
 
     print("All operations completed successfully.")
 

@@ -86,9 +86,7 @@ Remember to speak as if you're addressing a listening audience, not reading an e
                         "content": [
                             {
                                 "type": "text",
-                                "text": self.user_prompt.format(
-                                    SOURCE_NAME=source_name, NEWS_ARTICLE=storySummary
-                                ),
+                                "text": self.user_prompt.format(SOURCE_NAME=source_name, NEWS_ARTICLE=storySummary),
                             }
                         ],
                     }

@@ -1,7 +1,8 @@
+import os
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-import os
+from langchain_core.messages import BaseMessage
 
 
 class PodcastIntroWriter:
@@ -24,9 +25,6 @@ class PodcastIntroWriter:
             ]
         )
 
-        # Combine the components into a chain
-        self.chain = self.prompt_template | self.model | self.parser
-
     def writeIntro(self, allStoryTitles, podcastName, typeOfPodcast):
         # Create the input dictionary for the chain
         input_dict = {
@@ -35,5 +33,17 @@ class PodcastIntroWriter:
             "typeOfPodcast": typeOfPodcast,
         }
 
-        # Run the chain and return the result
-        return self.chain.invoke(input_dict)
+        # Generate the prompt
+        prompt = self.prompt_template.format_prompt(**input_dict).to_messages()
+
+        # Convert prompt to a list of BaseMessages if necessary
+        if isinstance(prompt, BaseMessage):
+            prompt = [prompt]
+        elif not isinstance(prompt, list) or not all(isinstance(msg, BaseMessage) for msg in prompt):
+            raise TypeError("Prompt must be a list of BaseMessages")
+
+        # Pass the prompt to the model and parse the response
+
+        response = self.model.invoke(prompt)
+
+        return self.parser.parse(response)

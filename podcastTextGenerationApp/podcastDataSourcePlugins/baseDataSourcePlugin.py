@@ -21,25 +21,17 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         currentDirectory = os.path.dirname(currentFile)
         load_dotenv(os.path.join(currentDirectory, ".env.datasource"))
         # Optional Firebase Initialization
-        self.firebaseServiceAccountKeyPath = os.getenv(
-            "FIREBASE_SERVICE_ACCOUNT_KEY_PATH"
-        )
+        self.firebaseServiceAccountKeyPath = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH")
         self.setupFirebaseIfNeeded(self.firebaseServiceAccountKeyPath)
 
     def fetchStories(self) -> List[Story]:
-        raise NotImplementedError(
-            "fetchStories() not implemented, make sure to override it in your plugin"
-        )
+        raise NotImplementedError("fetchStories() not implemented, make sure to override it in your plugin")
 
     def identify(self) -> str:
-        raise NotImplementedError(
-            "identify() not implemented, make sure to override it in your plugin"
-        )
+        raise NotImplementedError("identify() not implemented, make sure to override it in your plugin")
 
     def writePodcastDetails(self, podcastName, stories):
-        raise NotImplementedError(
-            "writePodcastDetails() not implemented, make sure to override it in your plugin"
-        )
+        raise NotImplementedError("writePodcastDetails() not implemented, make sure to override it in your plugin")
 
     def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
         url = story["link"]
@@ -62,11 +54,7 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         rawTextFileName = storyFileNameLambda(uniqueId, url)
         filePath = os.path.join(storiesDirName, rawTextFileName)
         if os.path.exists(filePath):
-            print(
-                "Story file already exists at filepath: "
-                + filePath
-                + ", skipping scraping story"
-            )
+            print("Story file already exists at filepath: " + filePath + ", skipping scraping story")
             return True
         else:
             return False
@@ -82,9 +70,7 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
     def setupFirebaseIfNeeded(self, firebaseServiceAccountKeyPath):
         if firebaseServiceAccountKeyPath:
             if os.getenv("FIREBASE_DATABASE_URL") is None:
-                raise ValueError(
-                    "FIREBASE_DATABASE_URL environment variable is not set, please set it in .config.env and try again."
-                )
+                raise ValueError("FIREBASE_DATABASE_URL environment variable is not set, please set it in .config.env and try again.")
             cred = credentials.Certificate(firebaseServiceAccountKeyPath)
             # check if firebase is already initialized
             if len(firebase_admin._apps) == 0:

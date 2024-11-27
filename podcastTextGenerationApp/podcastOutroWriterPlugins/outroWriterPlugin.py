@@ -1,9 +1,10 @@
 import os
 from langchain_openai import ChatOpenAI
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
 from podcastOutroWriterPlugins.baseOutroWriterPlugin import BaseOutroWriterPlugin
 from dotenv import load_dotenv
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import BaseMessage, SystemMessage
 
 
 class OutroWriterPlugin(BaseOutroWriterPlugin):
@@ -23,7 +24,7 @@ class OutroWriterPlugin(BaseOutroWriterPlugin):
         )
 
         # Define the prompt template
-        self.promptTemplate = ChatPromptTemplate.from_messages(  # Change attribute name to promptTemplate
+        self.promptTemplate = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
@@ -33,16 +34,25 @@ class OutroWriterPlugin(BaseOutroWriterPlugin):
             ]
         )
 
-        # Combine the components into a chain
-        self.chain = self.promptTemplate | self.model | self.parser
-
     def writeOutro(self, stories, introText):
         print("Writing funny Outro")
         # Create the input dictionary for the chain
         input_dict = {"introText": introText}
 
-        # Run the chain and return the result
-        return self.chain.invoke(input_dict)
+        # Generate the prompt
+        prompt = self.promptTemplate.format_prompt(**input_dict).to_messages()
+
+        # Ensure prompt is a list of BaseMessages
+        if isinstance(prompt, BaseMessage):
+            prompt = [prompt]
+        elif not isinstance(prompt, list) or not all(isinstance(msg, BaseMessage) for msg in prompt):
+            # Raise an error if the prompt is not properly formatted
+            raise TypeError("Prompt must be a list of BaseMessages")
+
+        # Pass the prompt to the model
+        response = self.model.invoke(prompt)
+
+        return self.parser.parse(response).content
 
 
 plugin = OutroWriterPlugin()

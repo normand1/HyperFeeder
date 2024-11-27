@@ -80,7 +80,11 @@ Check the plugin directories for details on what each plugin requires in the `.c
 
 After setting up, install the required dependencies:
 
+make sure you have pip-tools installed:
+`pip install pip-tools`
+
 ```bash
+pip-compile requirements.in
 pip install -r requirements.txt
 ```
 

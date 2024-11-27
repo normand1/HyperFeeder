@@ -31,21 +31,15 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
         self.feeds = podcastFeeds.split(",")
 
         if not self.feeds:
-            raise ValueError(
-                "No podcast feeds in .config.env file, please add one and try again."
-            )
+            raise ValueError("No podcast feeds in .config.env file, please add one and try again.")
 
         numberOfItemsToFetch = int(os.getenv("NUMBER_OF_ITEMS_TO_FETCH"))
         if not numberOfItemsToFetch:
-            raise ValueError(
-                "NUMBER_OF_ITEMS_TO_FETCH environment variable is not set, please set it and try again."
-            )
+            raise ValueError("NUMBER_OF_ITEMS_TO_FETCH environment variable is not set, please set it and try again.")
         stories = []
         # Iterate through each Podcast Feed
         for feedUrl in self.feeds:
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
-            }
+            headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
             response = requests.get(feedUrl, headers=headers, timeout=10)
             root = ET.fromstring(response.content)
             rootLink = root.find(".//channel/link").text
@@ -99,29 +93,17 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
 
         for index, item in enumerate(items):
             enclosure = item.find(".//enclosure")
-            episodeLink = (
-                enclosure.get("url")
-                if enclosure is not None
-                else "No Episode Link Found"
-            )
+            episodeLink = enclosure.get("url") if enclosure is not None else "No Episode Link Found"
 
             itemGuid = find_element(item, ["guid"])
             itemGuid = itemGuid.text if itemGuid is not None else f"no-guid-{index}"
 
             pubDateElement = find_element(item, ["pubDate"])
-            pubDateString = (
-                pubDateElement.text
-                if pubDateElement is not None
-                else datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
-            )
+            pubDateString = pubDateElement.text if pubDateElement is not None else datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
             pubDate = self.parseDate(pubDateString).replace(tzinfo=pytz.UTC)
 
             episodeTitle = find_element(item, ["title"])
-            episodeTitle = (
-                episodeTitle.text
-                if episodeTitle is not None
-                else f"Untitled Episode {index + 1}"
-            )
+            episodeTitle = episodeTitle.text if episodeTitle is not None else f"Untitled Episode {index + 1}"
 
             if (lastFetched and pubDate > lastFetched) or not lastFetched:
                 stories.append(
@@ -129,11 +111,7 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
                         itemOrder=index + 1,
                         title=episodeTitle,
                         link=episodeLink,
-                        source=(
-                            podcastTitle.text
-                            if hasattr(podcastTitle, "text")
-                            else str(podcastTitle)
-                        ),
+                        source=(podcastTitle.text if hasattr(podcastTitle, "text") else str(podcastTitle)),
                         podcastEpisodeLink=episodeLink,
                         uniqueId=self.url_to_filename(itemGuid),
                         rootLink=cleanLink,
