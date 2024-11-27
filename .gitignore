@@ -1,10 +1,11 @@
 audioScripts/podcast_intro_music_new.mp3
 
+.daily-news-env.env
+.podcast-env.env
+.auth.env
 secrets/*
 podcastUploader/node_modules
 node_modules/
-.env.auth
-
 # Byte-compiled / optimized / DLL files
 .DS_STORE
 output/*

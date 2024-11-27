@@ -1,44 +1,72 @@
 {
-  "version": "0.2.0",
-  "trace": true,
-  "configurations": [
-    {
-      "name": "Python: Current File",
-      "type": "python",
-      "request": "launch",
-      "program": "${file}",
-      "console": "integratedTerminal",
-      "justMyCode": true
-    },
-    {
-      "name": "Launch via NPM",
-      "request": "launch",
-      "runtimeArgs": ["run-script", "upload", "--"],
-      "args": [
-        "{\"audioFilePath\":\"../output/Podcast-Jul24-2023-05PM/final-podcast-to-upload.mp3\",\"podcastTitle\":\"Podcast-Jul24-2023-05PM\",\"podcastDescription\":\"The Autonomous Tech Podcast output/Podcast-Jul24-2023-05PM\"}"
-      ],
-      "runtimeExecutable": "npm",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node",
-      "trace": true,
-      "cwd": "${workspaceFolder}/podcastUploader"
-    },
-    {
-      "name": "Python: Debug App",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
-      "console": "integratedTerminal",
-      // "args": ["Podcast-Jul01-2023-09PM"],
-      "justMyCode": true
-    },
-    {
-      "name": "Generate Podcast Text Files",
-      "type": "python",
-      "request": "launch",
-      "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
-      "console": "integratedTerminal",
-      "justMyCode": true
-    }
-  ]
+    "version": "0.2.0",
+    "trace": true,
+    "configurations": [
+
+        {
+            "name": "Debug Upload Podcast",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "upload",
+                "--",
+            ],
+            "args": [
+                "{\"descriptionFilePath\":\"../output/Podcast-Jul25-2024-08AM/podcastDescription.html\",\"audioFilePath\":\"../output/Podcast-Jul25-2024-08AM/final-podcast-to-upload.mp3\",\"podcastTitle\":\"Podcast-Jul25-2024-08AM\",\"podcastDescription\":\"The Autonomous Tech Podcast output/Podcast-Jul25-2024-08AM\"}"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "trace": true,
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/podcastUploader",
+        },
+        {
+            "name": "Python: Debug App",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
+            "console": "integratedTerminal",
+            "args": ["Podcast-Jul17-2024-02PM"],
+            "justMyCode": true
+        },
+        {
+            "name": "Run Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": ["output/Podcast-Jul17-2024-06AM/intro_text/0_intro.txt", "0_intro.mp3"],
+            "justMyCode": true
+        },
+        {
+            "name": "Generate Podcast Text Files",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
+            "console": "integratedTerminal",
+            // "args": ["Podcast-Jul24-2024-05PM"],
+            "justMyCode": true
+        },
+        {
+            "name": "Generate Chapter Files",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcastChapterFile.py",
+            // "args": ["output/Podcast-Jul23-2024-09AM"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "run generatePodcast.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
+            "console": "integratedTerminal",
+            // "args": ["-u", "-f Podcast-Jul27-2024-01PM"],
+            "justMyCode": true
+        },        
+    ]
 }

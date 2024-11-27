@@ -20,10 +20,10 @@ class StandardIntroPlugin(BaseIntroPlugin):
         storyTitles = list(map(lambda story: story["title"], stories))
         introText = PodcastIntroWriter().writeIntro(storyTitles, podcastName, typeOfPodcast)
 
-        if not isinstance(introText, dict) or "text" not in introText:
-            raise ValueError("Invalid response from PodcastIntroWriter: expected dictionary with 'text' key")
+        if not hasattr(introText, "content"):
+            raise ValueError("Invalid response from PodcastIntroWriter: expected an object with 'content' attribute")
 
-        return introText["text"]
+        return introText.content
 
 
 plugin = StandardIntroPlugin()

@@ -2,69 +2,62 @@ import os
 import json
 import sys
 import datetime
+from colorama import init, Fore, Style
+
+init(autoreset=True)  # Initialize colorama
 
 from dotenv import load_dotenv
 from pluginTypes import PluginType
 from pluginManager import PluginManager
 
 
-class App:
+class PodcastTextGenerator:
     def __init__(self):
-        load_dotenv()
-        currentFile = os.path.realpath(__file__)
-        currentDirectory = os.path.dirname(currentFile)
-        load_dotenv(os.path.join(currentDirectory, "../secrets/.env.auth"))
+        load_dotenv(".env")
         self.pluginManager = PluginManager()
         self.dataSourcePlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastDataSourcePlugins",
             PluginType.DATA_SOURCE,
         )
-        self.introPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastIntroPlugins", PluginType.INTRO
-        )
-        self.scraperPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastScraperPlugins", PluginType.SCRAPER
-        )
-        self.summarizerPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastSummaryPlugins", PluginType.SUMMARY
-        )
+        self.introPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastIntroPlugins", PluginType.INTRO)
+        self.scraperPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastScraperPlugins", PluginType.SCRAPER)
         self.segmentWriterPlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastSegmentWriterPlugins",
             PluginType.SEGMENT_WRITER,
         )
-        self.outroWriterPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastOutroWriterPlugins", PluginType.OUTRO
-        )
-        self.producerPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastProducerPlugins", PluginType.PRODUCER
-        )
+        self.outroWriterPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastOutroWriterPlugins", PluginType.OUTRO)
+        self.producerPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastProducerPlugins", PluginType.PRODUCER)
 
     def run(self, podcastName):
         stories = []
 
+        podcastName = podcastName.strip()
+        load_dotenv(".config.env")
         storyDirName = f"output/{podcastName}/stories/"
         rawTextDirName = f"output/{podcastName}/raw_text/"
-        summaryTextDirName = f"output/{podcastName}/summary_text/"
         segmentTextDirName = f"output/{podcastName}/segment_text/"
         fileNameIntro = f"output/{podcastName}/intro_text/intro.txt"
         directoryIntro = f"output/{podcastName}/intro_text/"
         fileNameOutro = f"output/{podcastName}/outro_text/outro.txt"
         directoryOutro = f"output/{podcastName}/outro_text/"
 
+        print(f"{Fore.CYAN}{Style.BRIGHT}Starting podcast generation for: {podcastName}{Style.RESET_ALL}")
         stories = self.readStoriesFromFolder(storyDirName)
 
         def fileNameLambda(uniqueId, url):
-            return f"{str(uniqueId)}-{url.split('/')[-2]}.txt"
+            if "/" in url:
+                return f"{str(uniqueId)}-{url.split('/')[-2]}.txt"
+            else:
+                return f"{str(uniqueId)}-{url}.txt"
 
         if len(stories) == 0:
-            self.pluginManager.runDataSourcePlugins(
-                self.dataSourcePlugins, storyDirName, fileNameLambda
-            )
+            print(f"{Fore.YELLOW}No stories found. Fetching new stories...{Style.RESET_ALL}")
+            self.pluginManager.runDataSourcePlugins(self.dataSourcePlugins, storyDirName, fileNameLambda)
             stories = self.readStoriesFromFolder(storyDirName)
 
-        self.pluginManager.runPodcastDetailsPlugins(
-            self.dataSourcePlugins, podcastName, stories
-        )
+        self.pluginManager.runPodcastDetailsPlugins(self.dataSourcePlugins, podcastName, stories)
+        if os.getenv("SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING", "false").lower() == "true":
+            self.pauseAndValidateStories(stories)
         self.pluginManager.runIntroPlugins(
             self.introPlugins,
             stories,
@@ -75,32 +68,22 @@ class App:
 
         introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
 
-        self.pluginManager.runStoryScraperPlugins(
-            self.scraperPlugins, stories, rawTextDirName, fileNameLambda
-        )
+        self.pluginManager.runStoryScraperPlugins(self.scraperPlugins, stories, rawTextDirName, fileNameLambda)
 
         if len(stories) == 0:
-            print("ERROR: No stories found. Exiting.")
+            print(f"{Fore.RED}{Style.BRIGHT}ERROR: No stories found. Exiting.{Style.RESET_ALL}")
             sys.exit(0)
 
-        stories = self.readFilesFromFolderIntoStories(
-            rawTextDirName, "rawSplitText", stories
-        )
+        stories = self.readFilesFromFolderIntoStories(rawTextDirName, "rawSplitText", stories)
 
-        self.pluginManager.runStorySummarizerPlugins(
-            self.summarizerPlugins, stories, summaryTextDirName, fileNameLambda
-        )
-        stories = self.readFilesFromFolderIntoStories(
-            summaryTextDirName, "summary", stories
-        )
+        for story in stories:
+            if "rawSplitText" in story:
+                if "This story could not be scraped" in story["rawSplitText"]:
+                    print(f"{Fore.RED}{Style.BRIGHT}Error: A story could not be scraped.{Style.RESET_ALL}")
 
-        self.pluginManager.runStorySegmentWriterPlugins(
-            self.segmentWriterPlugins, stories, segmentTextDirName, fileNameLambda
-        )
+        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, stories, segmentTextDirName, fileNameLambda)
 
-        self.pluginManager.runOutroWriterPlugins(
-            self.outroWriterPlugins, stories, introText, fileNameOutro
-        )
+        self.pluginManager.runOutroWriterPlugins(self.outroWriterPlugins, stories, introText, fileNameOutro)
 
         self.pluginManager.runPodcastProducerPlugins(
             self.producerPlugins,
@@ -119,6 +102,8 @@ class App:
 
     def readFilesFromFolderIntoStories(self, folderPath, key, stories):
         for filename in os.listdir(folderPath):
+            if filename.endswith(".mp3") or filename.endswith(".srt"):
+                continue
             filePath = os.path.join(folderPath, filename)
             if os.path.isfile(filePath):
                 fileText = open(filePath, "r").read()
@@ -141,16 +126,23 @@ class App:
                             story = json.loads(fileText)
                             stories.append(story)
                         except json.JSONDecodeError:
-                            print(f"Error parsing JSON from {filename}")
+                            print(f"{Fore.RED}Error parsing JSON from {filename}{Style.RESET_ALL}")
         else:
-            print(f"Folder {folderPath} does not exist already, will be created...")
+            print(f"{Fore.YELLOW}Folder {folderPath} does not exist already, will be created...{Style.RESET_ALL}")
         return stories
+
+    def pauseAndValidateStories(self, stories):
+        print(f"{Fore.GREEN}{Style.BRIGHT}Stories found:{Style.RESET_ALL}")
+        for story in stories:
+            print(f"{Fore.CYAN}{story['title']}{Style.RESET_ALL}")
+        input(f"{Fore.YELLOW}Press Enter to continue...{Style.RESET_ALL}")
 
 
 if __name__ == "__main__":
-    app = App()
+    app = PodcastTextGenerator()
     if len(sys.argv) > 1:
         parameter = sys.argv[1]  # Get the first parameter passed to the script
+        print(f"{Fore.GREEN}Running with parameter: {parameter}{Style.RESET_ALL}")
         app.run(parameter)
     else:
         # Get current date and time
@@ -164,4 +156,5 @@ if __name__ == "__main__":
 
         # Generate the folder name
         folder_name = f"Podcast-{month}{day}-{year}-{time}"
+        print(f"{Fore.GREEN}Running with generated folder name: {folder_name}{Style.RESET_ALL}")
         app.run(folder_name)

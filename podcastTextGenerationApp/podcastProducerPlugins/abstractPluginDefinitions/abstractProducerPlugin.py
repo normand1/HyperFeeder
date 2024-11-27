@@ -20,3 +20,7 @@ class AbstractProducerPlugin(ABC):
     @abstractmethod
     def renameFile(self, directory, oldName, newName):
         pass
+
+    @abstractmethod
+    def orderStories(self, stories):
+        pass

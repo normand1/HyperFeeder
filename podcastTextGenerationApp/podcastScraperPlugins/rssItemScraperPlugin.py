@@ -10,7 +10,7 @@ class RSSItemScraperPlugin(BaseStoryScraperPlugin):
     def doesHandleStory(self, story) -> bool:
         return "rssItem" in story
 
-    def scrapeSiteForText(self, story) -> str:
+    def scrapeSiteForText(self, story, storiesDirName) -> str:
         if "rssItem" not in story:
             return ""
         rssItem = story["rssItem"]

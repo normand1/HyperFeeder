@@ -13,7 +13,7 @@ directory=$1
 podcastTitle=$(basename "$directory")
 
 # Define the JSON string
-json="{\"audioFilePath\":\"../${directory}/final-podcast-to-upload.mp3\",\"podcastTitle\":\"${podcastTitle}\",\"podcastDescription\":\"The Autonomous Tech Podcast ${directory}\"}"
+json="{\"audioFilePath\":\"../${directory}/final-podcast-to-upload.mp3\",\"descriptionFilePath\":\"../${directory}/podcastDescription.html\",\"podcastTitle\":\"${podcastTitle}\",\"podcastDescription\":\"The Autonomous Tech Podcast ${directory}\"}"
 
 # Create the directory if it doesn't exist
 mkdir -p "$directory"
