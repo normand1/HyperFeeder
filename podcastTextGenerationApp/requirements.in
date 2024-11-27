@@ -10,3 +10,4 @@ pylint
 langchain-openai
 colorama
 firebase-admin
+anthropic
