@@ -4,6 +4,7 @@ import re
 from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from dateutil.parser import parse
+from firebase_admin import db
 
 import pytz
 import requests
