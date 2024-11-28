@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class AbstractStoryScraperPlugin(ABC):
     @abstractmethod
-    def scrapeSiteForText(self, story):
+    def scrapeSiteForText(self, story, storiesDirName):
         pass
 
     @abstractmethod

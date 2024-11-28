@@ -12,13 +12,13 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
         url = story["link"]
         print("Writing Segment: " + url)
         storyCopy = story.copy()
-        for key in story["keysToIgnoreForWritingSegment"]:
-            if key in storyCopy:
-                del storyCopy[key]
-        storySummary = self.cleanupStorySummary(
-            yaml.dump(storyCopy, default_flow_style=False)
-        )
-        storyText = StorySegmentWriter().writeSegmentFromSummary(storySummary)
+        if "keysToIgnoreForWritingSegment" in story:
+            for key in story["keysToIgnoreForWritingSegment"]:
+                if key in storyCopy:
+                    del storyCopy[key]
+        storySummary = self.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
+        # TODO: don't hardcode the model type
+        storyText = StorySegmentWriter("openai").writeSegmentFromSummary(storySummary, story["title"])
         return storyText
 
 

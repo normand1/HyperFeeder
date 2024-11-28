@@ -4,6 +4,8 @@ from podcastScraperPlugins.abstractPluginDefinitions.abstractStoryScraperPlugin 
 )
 import os, json
 from dotenv import load_dotenv
+import re
+from collections import OrderedDict
 
 
 class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
@@ -13,7 +15,7 @@ class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.scraper"))
 
     @abstractmethod
-    def scrapeSiteForText(self, story) -> str:
+    def scrapeSiteForText(self, story, storiesDirName) -> str:
         pass
 
     @abstractmethod
@@ -48,3 +50,18 @@ class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
             return True
         else:
             return False
+
+    def cleanupText(self, text):
+        # Extract all links and their corresponding text
+        link_pattern = re.compile(r"\[([^\]]+)\]\((https?://[^\)]+)\)")
+        links = link_pattern.findall(text)
+
+        # Use an OrderedDict to remove duplicates while preserving order
+        unique_links = OrderedDict((link, url) for link, url in links)
+
+        # Reconstruct the cleaned text
+        cleaned_text = link_pattern.sub("", text)  # Remove all links from the text
+        for link, url in unique_links.items():
+            cleaned_text += f"[{link}]({url})\n"
+
+        return cleaned_text

@@ -1,11 +1,9 @@
 import json
 import os
 import re
-from datetime import datetime
 from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from dateutil.parser import parse
-from firebase_admin import db
 
 import pytz
 import requests
@@ -22,25 +20,18 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
         return "🗞️ Newsletter Feed API Plugin"
 
     def fetchStories(self):
-        # pylint: disable=import-outside-toplevel
-        newsletterRSSFeed = os.getenv("NEWSLETTER_RSS_FEEDS")
-        lastFetched = None
-        if not newsletterRSSFeed:
-            raise ValueError(
-                "NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again."
-            )
+        newsletter_rss_feeds = os.getenv("NEWSLETTER_RSS_FEEDS")
+        print(newsletter_rss_feeds + " is the value of NEWSLETTER_RSS_FEEDS")
+        if not newsletter_rss_feeds:
+            raise ValueError("NEWSLETTER_RSS_FEEDS environment variable is not set, please set it and try again.")
 
-        self.feeds = newsletterRSSFeed.split(",")
+        self.feeds = newsletter_rss_feeds.split(",")
         numberOfItemsToFetch = int(os.getenv("NUMBER_OF_ITEMS_TO_FETCH"))
         if not numberOfItemsToFetch:
-            raise ValueError(
-                "NUMBER_OF_ITEMS_TO_FETCH environment variable is not set, please set it and try again."
-            )
+            raise ValueError("NUMBER_OF_ITEMS_TO_FETCH environment variable is not set, please set it and try again.")
 
         if not self.feeds:
-            raise ValueError(
-                "No podcast feeds in .env file, please add one and try again."
-            )
+            raise ValueError("No podcast feeds in .config.env file, please add one and try again.")
         stories = []
         # Iterate through each Newsletter Feed
         for feedUrl in self.feeds:
@@ -57,9 +48,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 if lastFetched:
                     lastFetched = parse(lastFetched["lastFetched"])
             # Iterate through each newsletter item
-            self.getStoriesFromFeed(
-                lastFetched, numberOfItemsToFetch, stories, root, cleanLink
-            )
+            self.getStoriesFromFeed(lastFetched, numberOfItemsToFetch, stories, root, cleanLink)
         if len(stories) > 0:
             # Sort the stories by publication date in descending order
             stories.sort(key=lambda x: x["pubDate"], reverse=True)
@@ -69,9 +58,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             return stories
         return []
 
-    def getStoriesFromFeed(
-        self, lastFetched, numberOfItemsToFetch, stories, root, cleanLink
-    ):
+    def getStoriesFromFeed(self, lastFetched, numberOfItemsToFetch, stories, root, cleanLink):
         for index, item in enumerate(root.findall(".//item")[:numberOfItemsToFetch]):
             # serialize the item to a string
             itemXml = ET.tostring(item, encoding="utf8").decode("utf8")
@@ -81,14 +68,15 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             pubDate = pubDate.replace(tzinfo=pytz.UTC)
             story = RSSItemStory(
                 itemOrder=index,
-                title=itemGuid,
+                title=root.find(".//channel/title").text or itemGuid,
                 link=itemGuid,
-                storyType=root.find(".//channel/title").text,
+                storyType="Newsletter",
                 source="RSS Feed",
                 rssItem=itemXml,
                 uniqueId=self.url_to_filename(itemGuid),
                 rootLink=cleanLink,
                 pubDate=pubDate.isoformat(),
+                newsRank=index,
             )
             # If you've provided the firebaseServiceAccountKeyPath then we'll use firebase to store the lastFetched date
             # otherwise we'll return the <NUMBER_OF_ITEMS_TO_FETCH> most recent stories in the feed

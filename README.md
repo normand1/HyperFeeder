@@ -69,18 +69,22 @@ Run the setup script:
 
 ## Configure Plugins
 
-HyperFeeder is made to be easily configurable and extensible with plugins. You can easily use existing plugins in different configurations by either modifying the plugins used in each step of the podcast generation process manually in the `.env` file or you can run the `configurePlugins.sh` script to use preset plugin configurations for generating a podcast based on either `news` or `podcasts`. 
+HyperFeeder is made to be easily configurable and extensible with plugins. You can easily use existing plugins in different configurations by either modifying the plugins used in each step of the podcast generation process manually in the `.config.env` file or you can run the `configurePlugins.sh` script to use preset plugin configurations for generating a podcast based on either `news` or `podcasts`. 
 
 ![Config Demo GIF](./config_demo.gif)
 
-Different plugins require specific data sources and configuration options to be set in the `.env` to work properly. These must be updated manually (for now). 
-Check the plugin directories for details on what each plugin requires in the `.env` file to be run. You can also check your active plugins by looking at the very top of the .env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS`, `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
+Different plugins require specific data sources and configuration options to be set in the `.config.env` to work properly. These must be updated manually (for now). 
+Check the plugin directories for details on what each plugin requires in the `.config.env` file to be run. You can also check your active plugins by looking at the very top of the .config.env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS` (DEPRECATED), `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
 
 ## Dependencies
 
 After setting up, install the required dependencies:
 
+make sure you have pip-tools installed:
+`pip install pip-tools`
+
 ```bash
+pip-compile requirements.in
 pip install -r requirements.txt
 ```
 
@@ -96,18 +100,18 @@ Here's a brief overview of the main folders and files in this project:
 
 ## Running the Application
 
-To generate a new podcast you can run the generatePodcast script by running `./generatePodcast.sh`.
+To generate a new podcast you can run the generatePodcast script by running `python generatePodcast.py`.
 
-If the podcast generation process fails at some point you can re-run any of the failed script directly.
-Running `generatePodcast.sh` just runs these scripts in the correct sequence.
+If the podcast generation process fails at some point you can re-run any of the failed scripts defined in generatePodcast.py directly.
+Running `generatePodcast.py` just runs the scripts in the correct sequence.
 
-If you want to run / debug / modify the python app for podcast text generation you can follow these instructions:
+If you want to run / debug / modify the python app for podcast text generation (this is where most of the podcast script generation logic lives) you can follow these instructions:
 
 To run the application, navigate to the `podcastTextGenerationApp` directory and run `app.py`:
 
 ```bash
 cd podcastTextGenerationApp
-python app.py
+python podcastTextGenerator.py
 ```
 
 ## Error Recovery
@@ -120,17 +124,15 @@ Every output produced by each plugin is saved in the output directory under a fo
 
 ## podcastTextGenerationApp Details
 
-The `podcastTextGenerationApp` is the heart of this framework. When modifying and creating your own podcasts this is most likely where you will want to start. The `podcastTextGenerationApp` uses a plugin architecture so you can extend the functionality of this app and easily contribute your own plugins! 
+The `podcastTextGenerationApp` directory is the heart of this framework. When modifying and creating your own podcasts this is most likely where you will want to start. The `podcastTextGenerationApp` uses a plugin architecture so you can extend the functionality of this app and easily contribute your own plugins! 
 
-When the app is run by the ./generatePodcast.sh script it will proceed to generate text for a podcast by invoking plugins in the following order:
+When the app is run by the generatePodcast.py script it will proceed to generate text for a podcast by invoking plugins in the following order:
 
 - [podcastDataSourcePlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastDataSourcePlugins): These plugins will be invoked to generate the urls for a set of "Stories" that will be used to generate the rest of the podcast. Any plugin used here must return data in the form of a ["Story" class](https://github.com/normand1/HyperFeeder/blob/master/podcastTextGenerationApp/story.py). Subclasses of Story are valid outputs of this plugin as well, see the [HackerNewsStory class](https://github.com/normand1/HyperFeeder/blob/master/podcastTextGenerationApp/podcastDataSourcePlugins/models/hackerNewsStory.py) as an example.
 
 - [podcastIntroPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastIntroPlugins): These plugins will be invoked to write the Intro for the podcast based on the "stories" picked by the `podcastDataSourcePlugins`. This is a good place to inject some personality or branding to the podcast based on your choice of plugins or modification to existing plugins. 
 
 - [podcastScraperPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastScraperPlugins): These plugins will be invoked to scrape the text from the urls determined by the `podcastDataSourcePlugins`. This plugin adds a 'raw_text' directory filled with the raw text scraped from these urls that will be used by the next set of plugins.
-
-- [podcastSummaryPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSummaryPlugins): These plugins summarize the raw text returned from the `podcastScraperPlugins`.
 
 - [podcastSegmentWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSegmentWriterPlugins): These plugins generate the final text that will be used to produce spoken audio for the podcast. The output of this plugin will be written to the podcast's `segment_text` directory.
 
@@ -147,9 +149,9 @@ Firebase is extremely simple to setup in your project by following a few simple 
 3. Click the "Generate New Private Key" button
 4. Add the newly downloaded private key file to the `/secrets` folder in this directory.
 This folder should be ignored by git, but you should ensure this file is not uploaded to a git repository or anywhere public.
-5. Update the `FIREBASE_SERVICE_ACCOUNT_KEY_PATH` variable in this directory's `.env` with a path to the private key file.
+5. Update the `FIREBASE_SERVICE_ACCOUNT_KEY_PATH` variable in this directory's `.config.env` with a path to the private key file.
 6. Finally open the Realtime Database page in your new Firebase Project and copy the Database Reference Url ending with `.firebaseio.com`
-7. Also add this url to the same `.env` file with the key `FIREBASE_DATABASE_URL`.
+7. Also add this url to the same `.config.env` file with the key `FIREBASE_DATABASE_URL`.
 
 ## Plugins That Can Retain Memory Between Runs
 
@@ -175,11 +177,6 @@ The `NewsletterRSSFeedPlugin` fetches stories from newsletters in RSS feed forma
            +---------+---------+
                      |
                      |
-           +---------v---------+
-           | podcastSummary   |
-           |    Plugins       |
-           +---------+---------+
-                     |
                      |
            +---------v---------+
            | podcastSegment   |
@@ -204,7 +201,7 @@ The `NewsletterRSSFeedPlugin` fetches stories from newsletters in RSS feed forma
 ```
 ## Easy Podcast Modification Points
 ### Background Music
-- You can easily change the intro background music by replacing the file `podcast_intro_music.mp3` with your own music. This file was generated with [Google's experimental Music LM](https://aitestkitchen.withgoogle.com/experiments/music-lm).
+- You can easily change the intro background music by replacing the file `podcast_intro_music.mp3` with your own music. This file was generated with [Suno](https://www.suno.com).
 
 ### Introduction
 - Modify the intro by modifying the prompt for the intro here: `podcastTextGenerationApp/podcastIntroWriter.py`

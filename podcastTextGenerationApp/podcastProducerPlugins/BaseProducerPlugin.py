@@ -27,6 +27,12 @@ class BaseProducerPlugin(AbstractProducerPlugin):
     def identify(self) -> str:
         pass
 
+    def orderStories(self, stories):
+        for index, story in enumerate(stories):
+            story["itemOrder"] = index
+            story["newsRank"] = index
+        return stories
+
     def renameFile(self, directory, oldName, newName):
         # Construct the full old file name.
         oldFile = os.path.join(directory, oldName)
