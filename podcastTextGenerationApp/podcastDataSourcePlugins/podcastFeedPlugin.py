@@ -8,7 +8,6 @@ from xml.etree import ElementTree as ET
 import pytz
 import requests
 from dateutil.parser import parse
-# from firebase_admin import db
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.podcastStory import PodcastStory
 
@@ -46,12 +45,6 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
             parsedUrl = urlparse(rootLink)
             cleanLink = parsedUrl.netloc + parsedUrl.path
             cleanLink = re.sub(r"\W+", "", cleanLink)
-
-            # if self.firebaseServiceAccountKeyPath:
-            #     ref = db.reference(f"podcast/{cleanLink}/")
-            #     lastFetched = ref.get()
-            #     if lastFetched:
-            #         lastFetched = parse(lastFetched["lastFetched"])
             lastFetched = self.sqlite_manager.get_last_fetched(cleanLink)
 
             podcastTitle = root.find(".//channel/title")
