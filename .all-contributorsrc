@@ -17,6 +17,15 @@
         "test",
         "code"
       ]
+    },
+    {
+      "login": "yukthi2000",
+      "name": "yukthi hettiarachchi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/101061736?v=4",
+      "profile": "https://github.com/yukthi2000",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
