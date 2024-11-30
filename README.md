@@ -1,7 +1,7 @@
 # HyperFeeder - Autonomous Podcast Generator
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Python unit tests](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml/badge.svg)](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml)
 
@@ -243,6 +243,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="http://www.davidwnorman.com"><img src="https://avatars.githubusercontent.com/u/1393261?v=4?s=100" width="100px;" alt="David Norman"/><br /><sub><b>David Norman</b></sub></a><br /><a href="#infra-normand1" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/normand1/HyperFeeder/commits?author=normand1" title="Tests">⚠️</a> <a href="https://github.com/normand1/HyperFeeder/commits?author=normand1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/yukthi2000"><img src="https://avatars.githubusercontent.com/u/101061736?v=4?s=100" width="100px;" alt="yukthi hettiarachchi"/><br /><sub><b>yukthi hettiarachchi</b></sub></a><br /><a href="https://github.com/normand1/HyperFeeder/commits?author=yukthi2000" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
