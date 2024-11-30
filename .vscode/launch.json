@@ -45,7 +45,7 @@
             "name": "Generate Podcast Text Files",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
+            "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
             "console": "integratedTerminal",
             // "args": ["Podcast-Jul24-2024-05PM"],
             "justMyCode": true

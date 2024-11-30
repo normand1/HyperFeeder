@@ -3,8 +3,6 @@ import os
 import re
 from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
-from dateutil.parser import parse
-# from firebase_admin import db
 
 import pytz
 import requests
@@ -44,13 +42,6 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             cleanLink = re.sub(r"\W+", "", cleanLink)
             lastFetched = self.sqlite_manager.get_last_fetched(cleanLink)
 
-            # if self.firebaseServiceAccountKeyPath:
-            #     ref = db.reference(f"newsletter/{cleanLink}/")
-            #     lastFetched = ref.get()
-            #     if lastFetched:
-            #         lastFetched = parse(lastFetched["lastFetched"])
-
-
             # Iterate through each newsletter item
             self.getStoriesFromFeed(lastFetched, numberOfItemsToFetch, stories, root, cleanLink)
         if len(stories) > 0:
@@ -84,8 +75,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 pubDate=pubDate.isoformat(),
                 newsRank=index,
             )
-            # If you've provided the firebaseServiceAccountKeyPath then we'll use firebase to store the lastFetched date
-            # otherwise we'll return the <NUMBER_OF_ITEMS_TO_FETCH> most recent stories in the feed
+
             if (lastFetched and pubDate > lastFetched) or not lastFetched:
                 stories.append(story.to_dict())
 
