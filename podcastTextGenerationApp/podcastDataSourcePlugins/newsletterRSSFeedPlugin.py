@@ -4,7 +4,7 @@ import re
 from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from dateutil.parser import parse
-from firebase_admin import db
+# from firebase_admin import db
 
 import pytz
 import requests
@@ -42,12 +42,15 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             parsedUrl = urlparse(rootLink)
             cleanLink = parsedUrl.netloc + parsedUrl.path
             cleanLink = re.sub(r"\W+", "", cleanLink)
+            lastFetched = self.sqlite_manager.get_last_fetched(cleanLink)
 
-            if self.firebaseServiceAccountKeyPath:
-                ref = db.reference(f"newsletter/{cleanLink}/")
-                lastFetched = ref.get()
-                if lastFetched:
-                    lastFetched = parse(lastFetched["lastFetched"])
+            # if self.firebaseServiceAccountKeyPath:
+            #     ref = db.reference(f"newsletter/{cleanLink}/")
+            #     lastFetched = ref.get()
+            #     if lastFetched:
+            #         lastFetched = parse(lastFetched["lastFetched"])
+
+
             # Iterate through each newsletter item
             self.getStoriesFromFeed(lastFetched, numberOfItemsToFetch, stories, root, cleanLink)
         if len(stories) > 0:
@@ -55,7 +58,9 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             stories.sort(key=lambda x: x["pubDate"], reverse=True)
             mostRecentStory = stories[0]
             mostRecentTimestamp = mostRecentStory["pubDate"]
-            ref.set({"lastFetched": mostRecentTimestamp})
+            # ref.set({"lastFetched": mostRecentTimestamp})
+            self.sqlite_manager.set_last_fetched(cleanLink, mostRecentTimestamp)
+
             return stories
         return []
 

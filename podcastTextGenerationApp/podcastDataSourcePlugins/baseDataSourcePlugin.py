@@ -6,13 +6,15 @@ from datetime import datetime
 from typing import List
 from urllib.parse import urlparse
 
-import firebase_admin
+# import firebase_admin
 from dotenv import load_dotenv
-from firebase_admin import credentials
+# from firebase_admin import credentials
 from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import (
     AbstractDataSourcePlugin,
 )
 from podcastDataSourcePlugins.models.story import Story
+from SQLiteManager import SQLiteManager
+
 
 
 class BaseDataSourcePlugin(AbstractDataSourcePlugin):
@@ -20,9 +22,11 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         currentFile = os.path.realpath(__file__)
         currentDirectory = os.path.dirname(currentFile)
         load_dotenv(os.path.join(currentDirectory, ".env.datasource"))
+        
+        self.sqlite_manager = SQLiteManager()
         # Optional Firebase Initialization
-        self.firebaseServiceAccountKeyPath = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH")
-        self.setupFirebaseIfNeeded(self.firebaseServiceAccountKeyPath)
+        # self.firebaseServiceAccountKeyPath = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_PATH")
+        # self.setupFirebaseIfNeeded(self.firebaseServiceAccountKeyPath)
 
     def fetchStories(self) -> List[Story]:
         raise NotImplementedError("fetchStories() not implemented, make sure to override it in your plugin")
@@ -67,17 +71,17 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         filename = filename.replace("-", "_")  # Replace dashes with underscores
         return filename
 
-    def setupFirebaseIfNeeded(self, firebaseServiceAccountKeyPath):
-        if firebaseServiceAccountKeyPath:
-            if os.getenv("FIREBASE_DATABASE_URL") is None:
-                raise ValueError("FIREBASE_DATABASE_URL environment variable is not set, please set it in .config.env and try again.")
-            cred = credentials.Certificate(firebaseServiceAccountKeyPath)
-            # check if firebase is already initialized
-            if len(firebase_admin._apps) == 0:
-                firebase_admin.initialize_app(
-                    cred,
-                    {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")},
-                )
+    # def setupFirebaseIfNeeded(self, firebaseServiceAccountKeyPath):
+    #     if firebaseServiceAccountKeyPath:
+    #         if os.getenv("FIREBASE_DATABASE_URL") is None:
+    #             raise ValueError("FIREBASE_DATABASE_URL environment variable is not set, please set it in .config.env and try again.")
+    #         cred = credentials.Certificate(firebaseServiceAccountKeyPath)
+    #         # check if firebase is already initialized
+    #         if len(firebase_admin._apps) == 0:
+    #             firebase_admin.initialize_app(
+    #                 cred,
+    #                 {"databaseURL": os.getenv("FIREBASE_DATABASE_URL")},
+    #             )
 
     def parseDate(self, dateString):
         dateFormats = ["%a, %d %b %Y %H:%M:%S %Z", "%a, %d %b %Y %H:%M:%S %z"]
