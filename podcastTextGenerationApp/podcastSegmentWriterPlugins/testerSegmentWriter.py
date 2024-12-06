@@ -11,7 +11,7 @@ class TesterSegmentWriter(BaseSegmentWriterPlugin):
 
     def writeStorySegment(self, story, stories):
         assert story is not None
-        assert story["link"] is not None
+        assert story.link is not None
         return "test segment text"
 
 

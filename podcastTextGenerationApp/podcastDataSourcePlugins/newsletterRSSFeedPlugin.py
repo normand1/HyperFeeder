@@ -48,7 +48,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             # Sort the stories by publication date in descending order
             stories.sort(key=lambda x: x["pubDate"], reverse=True)
             mostRecentStory = stories[0]
-            mostRecentTimestamp = mostRecentStory["pubDate"]
+            mostRecentTimestamp = mostRecentStory.pubDate
             # ref.set({"lastFetched": mostRecentTimestamp})
             self.sqlite_manager.set_last_fetched(cleanLink, mostRecentTimestamp)
 
@@ -67,7 +67,7 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
                 itemOrder=index,
                 title=root.find(".//channel/title").text or itemGuid,
                 link=itemGuid,
-                storyType="Newsletter",
+                storyType="RSS",
                 source="RSS Feed",
                 rssItem=itemXml,
                 uniqueId=self.url_to_filename(itemGuid),
@@ -85,8 +85,8 @@ class NewsletterRSSFeedPlugin(BaseDataSourcePlugin):
             json.dump(stories, file)
 
     def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
-        url = story["link"]
-        uniqueId = story["uniqueId"]
+        url = story.link
+        uniqueId = story.uniqueId
         rawTextFileName = storyFileNameLambda(uniqueId, url)
         filePath = os.path.join(storiesDirName, rawTextFileName)
         os.makedirs(storiesDirName, exist_ok=True)

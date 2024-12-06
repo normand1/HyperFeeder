@@ -19,9 +19,9 @@ class ProducerPlugin(BaseProducerPlugin):
 
         # The segments should be next and ordered based on their rank
         for story in stories:
-            url = story["link"]
-            uniqueId = story["uniqueId"]
-            rank = story["newsRank"]
+            url = story.link
+            uniqueId = story.uniqueId
+            rank = story.newsRank
             filename = fileNameLambda(uniqueId, url)
             self.renameFile(segmentTextDirNameLambda, filename, f"{rank+1}_{filename}")
 

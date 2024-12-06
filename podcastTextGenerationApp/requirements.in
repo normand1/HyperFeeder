@@ -10,3 +10,5 @@ pylint
 langchain-openai
 colorama
 anthropic
+requests-cache
+pyyaml

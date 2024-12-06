@@ -1,0 +1,3 @@
+PODCAST_DATA_SOURCE_PLUGINS: "newsletterRSSFeedPlugin"
+ARTICLES_RSS_FEEDS: "www.example.com/rss"
+NUMBER_OF_ITEMS_TO_FETCH: 5

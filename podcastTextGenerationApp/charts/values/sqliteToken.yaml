@@ -1,0 +1,2 @@
+PODCAST_DATA_SOURCE_PLUGINS: sqliteTokenPlugin
+TOKEN_STORIES_DB_PATH: "/Users/davidnorman/clanker-launch-bot/tokens.db"

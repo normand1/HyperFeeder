@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mypodcast
+description: A helm chart to generate a .config.env for a publication
+type: application
+version: 0.1.0
+appVersion: "1.0"

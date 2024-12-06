@@ -26,7 +26,12 @@ async-timeout==4.0.3
     #   aiohttp
     #   langchain
 attrs==24.2.0
-    # via aiohttp
+    # via
+    #   aiohttp
+    #   cattrs
+    #   requests-cache
+cattrs==24.1.2
+    # via requests-cache
 certifi==2024.8.30
     # via
     #   httpcore
@@ -43,7 +48,9 @@ distro==1.9.0
     #   anthropic
     #   openai
 exceptiongroup==1.2.2
-    # via anyio
+    # via
+    #   anyio
+    #   cattrs
 feedparser==6.0.11
     # via -r requirements.in
 frozenlist==1.5.0
@@ -105,7 +112,9 @@ orjson==3.10.12
 packaging==24.2
     # via langchain-core
 platformdirs==4.3.6
-    # via pylint
+    # via
+    #   pylint
+    #   requests-cache
 propcache==0.2.0
     # via
     #   aiohttp
@@ -136,14 +145,19 @@ requests==2.32.3
     #   -r requirements.in
     #   langchain
     #   langsmith
+    #   requests-cache
     #   requests-toolbelt
     #   tiktoken
+requests-cache==1.2.1
+    # via -r requirements.in
 requests-toolbelt==1.0.0
     # via langsmith
 sgmllib3k==1.0.0
     # via feedparser
 six==1.16.0
-    # via python-dateutil
+    # via
+    #   python-dateutil
+    #   url-normalize
 sniffio==1.3.1
     # via
     #   anthropic
@@ -172,6 +186,7 @@ typing-extensions==4.12.2
     #   anthropic
     #   anyio
     #   astroid
+    #   cattrs
     #   langchain-core
     #   multidict
     #   openai
@@ -179,9 +194,12 @@ typing-extensions==4.12.2
     #   pydantic-core
     #   pylint
     #   sqlalchemy
+url-normalize==1.4.3
+    # via requests-cache
 urllib3==2.2.3
     # via
     #   -r requirements.in
     #   requests
+    #   requests-cache
 yarl==1.18.0
     # via aiohttp

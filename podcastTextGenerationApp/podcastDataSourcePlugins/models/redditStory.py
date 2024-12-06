@@ -2,6 +2,21 @@ from podcastDataSourcePlugins.models.story import Story
 
 
 class RedditStory(Story):
+    @classmethod
+    def from_dict(cls, story_dict):
+        """Create a RedditStory instance from a dictionary"""
+        if story_dict.get("storyType") != "Reddit":
+            return None
+
+        return cls(
+            newsRank=story_dict.get("newsRank", 0),
+            title=story_dict.get("title", ""),
+            link=story_dict.get("link", ""),
+            storyType=story_dict.get("storyType", "Reddit"),
+            uniqueId=story_dict.get("uniqueId", ""),
+            source=story_dict.get("source", "Reddit"),
+        )
+
     def __init__(
         self,
         newsRank: int,

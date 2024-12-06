@@ -14,22 +14,19 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
 
     def fetchStories(self):
         newsletter_rss_feeds = os.getenv("ARTICLES_RSS_FEEDS")
+        number_of_items_to_fetch = os.getenv("NUMBER_OF_ITEMS_TO_FETCH")
         if not newsletter_rss_feeds:
-            raise ValueError(
-                "ARTICLES_RSS_FEEDS environment variable is not set, please set it and try again."
-            )
+            raise ValueError("ARTICLES_RSS_FEEDS environment variable is not set, please set it and try again.")
 
         self.feeds = newsletter_rss_feeds.split(",")
         print(self.feeds)
         if not self.feeds:
-            raise ValueError(
-                "No articles RSS feeds in .config.env file, please add one and try again."
-            )
+            raise ValueError("No articles RSS feeds in .config.env file, please add one and try again.")
         stories = []
         for feed_url in self.feeds:
             response = requests.get(feed_url)
             root = ET.fromstring(response.content)
-            for index, item in enumerate(root.findall(".//item")[:5]):
+            for index, item in enumerate(root.findall(".//item")[:number_of_items_to_fetch]):
                 # serialize the item to a string
                 item_xml = ET.tostring(item, encoding="utf8").decode("utf8")
                 story = RSSItemStory(
@@ -41,11 +38,7 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
                     rssItem=item_xml,
                     uniqueId=self.url_to_filename(item.find("guid").text),
                     rootLink=feed_url,
-                    pubDate=(
-                        item.find("pubDate").text
-                        if item.find("pubDate") is not None
-                        else None
-                    ),
+                    pubDate=(item.find("pubDate").text if item.find("pubDate") is not None else None),
                     newsRank=index,
                 )
                 stories.append(story.to_dict())
@@ -57,8 +50,8 @@ class ArticlesRSSFeedPlugin(BaseDataSourcePlugin):
             json.dump(stories, file)
 
     def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
-        url = story["link"]
-        uniqueId = story["uniqueId"]
+        url = story.link
+        uniqueId = story.uniqueId
         rawTextFileName = storyFileNameLambda(uniqueId, url)
         filePath = os.path.join(storiesDirName, rawTextFileName)
         os.makedirs(storiesDirName, exist_ok=True)

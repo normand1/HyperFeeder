@@ -11,9 +11,7 @@ class RedditAPIPlugin(BaseDataSourcePlugin):
         super().__init__()
         subreddits = os.getenv("SUBREDDIT")
         if not subreddits:
-            raise ValueError(
-                "SUBREDDIT environment variable is not set, please set it and try again."
-            )
+            raise ValueError("SUBREDDIT environment variable is not set, please set it and try again.")
         self.subreddits = [s.strip() for s in subreddits.split(",")]
         self.baseUrl = "https://www.reddit.com/r/{}.json"
 
@@ -46,7 +44,7 @@ class RedditAPIPlugin(BaseDataSourcePlugin):
                         newsRank=rank,
                         title=post["data"].get("title"),
                         link=post["data"].get("url"),
-                        storyType="Article",
+                        storyType="Reddit",
                         uniqueId=self.makeUniqueStoryIdentifier(),
                     )
                     stories.append(story.to_dict())

@@ -1,0 +1,108 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "PODCAST_DATA_SOURCE_PLUGINS": { "type": "string" },
+      "SUBREDDIT": { "type": "string" },
+      "ARTICLES_RSS_FEEDS": { "type": "string" },
+      "NUMBER_OF_ITEMS_TO_FETCH": { "type": "integer" },
+      "PODCAST_FEEDS": { "type": "string" },
+      "NUMBER_OF_POSTS_TO_FETCH": { "type": "integer" },
+      "TOKEN_STORIES_DB_PATH": { "type": "string" },
+      "ARXIV_SEARCH_QUERY": { "type": "string" },
+  
+      "PODCAST_INTRO_PLUGINS": { "type": "string" },
+      "PODCAST_SCRAPER_PLUGINS": { "type": "string" },
+      "PODCAST_SEGMENT_WRITER_PLUGINS": { "type": "string" },
+      "PODCAST_OUTRO_PLUGINS": { "type": "string" },
+      "PODCAST_PRODUCER_PLUGINS": { "type": "string" },
+  
+      "SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING": { "type": "string" },
+  
+      "PODCAST_NAME": { "type": "string" },
+      "PODCAST_TYPE": { "type": "string" },
+      "PODCAST_DESCRIPTION": { "type": "string" },
+  
+      "LLM_MODEL_PROVIDER": { "type": "string" },
+      "OPENAI_MODEL_SUMMARY": { "type": "string" },
+      "OPENAI_MAX_TOKENS_SUMMARY": { "type": "integer" },
+      "OPENAI_TEMPERATURE_SUMMARY": { "type": "number" },
+  
+      "TTS_SCRIPT": { "type": "string" }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "redditAPIPlugin" }
+          }
+        },
+        "then": { "required": ["SUBREDDIT"] }
+      },
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "articlesRSSFeedPlugin" }
+          }
+        },
+        "then": { "required": ["ARTICLES_RSS_FEEDS", "NUMBER_OF_ITEMS_TO_FETCH"] }
+      },
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "podcastFeedPlugin" }
+          }
+        },
+        "then": { "required": ["PODCAST_FEEDS", "NUMBER_OF_ITEMS_TO_FETCH"] }
+      },
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "sqliteTokenPlugin" }
+          }
+        },
+        "then": { "required": ["TOKEN_STORIES_DB_PATH"] }
+      },
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "newsletterRSSFeedPlugin" }
+          }
+        },
+        "then": { "required": ["ARTICLES_RSS_FEEDS", "NUMBER_OF_ITEMS_TO_FETCH"] }
+      },
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "hackerNewsAPIPlugin" }
+          }
+        },
+        "then": { "required": ["NUMBER_OF_POSTS_TO_FETCH"] }
+      },
+      {
+        "if": {
+          "properties": {
+            "PODCAST_DATA_SOURCE_PLUGINS": { "pattern": "arxivApiPlugin" }
+          }
+        },
+        "then": { "required": ["ARXIV_SEARCH_QUERY"] }
+      }
+    ],
+    "required": [
+      "PODCAST_DATA_SOURCE_PLUGINS",
+      "PODCAST_INTRO_PLUGINS",
+      "PODCAST_SCRAPER_PLUGINS",
+      "PODCAST_SEGMENT_WRITER_PLUGINS",
+      "PODCAST_OUTRO_PLUGINS",
+      "PODCAST_PRODUCER_PLUGINS",
+      "PODCAST_NAME",
+      "PODCAST_TYPE",
+      "PODCAST_DESCRIPTION",
+      "LLM_MODEL_PROVIDER",
+      "OPENAI_MODEL_SUMMARY",
+      "OPENAI_MAX_TOKENS_SUMMARY",
+      "OPENAI_TEMPERATURE_SUMMARY",
+      "TTS_SCRIPT"
+    ]
+  }
+  

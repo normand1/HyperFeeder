@@ -61,7 +61,7 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
             # Sort the stories by publication date in descending order
             stories.sort(key=lambda x: x["pubDate"], reverse=True)
             mostRecentStories = stories[0:5]
-            mostRecentTimestamp = max(story["pubDate"] for story in mostRecentStories)
+            mostRecentTimestamp = max(story.pubDate for story in mostRecentStories)
             self.sqlite_manager.set_last_fetched(cleanLink, mostRecentTimestamp)
             # if ref:
             #     ref.set({"lastFetched": mostRecentTimestamp})

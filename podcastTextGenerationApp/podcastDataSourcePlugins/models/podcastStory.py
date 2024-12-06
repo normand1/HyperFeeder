@@ -33,3 +33,20 @@ class PodcastStory(Story):
             "rootLink": self.rootLink,
             "pubDate": self.pubDate,
         }
+
+    @classmethod
+    def from_dict(cls, story_dict):
+        """Create a PodcastStory instance from a dictionary"""
+        if story_dict.get("storyType") != "Podcast":
+            return None
+
+        return cls(
+            itemOrder=story_dict.get("itemOrder", 0),
+            title=story_dict.get("title", ""),
+            link=story_dict.get("link", ""),
+            source=story_dict.get("source", "Unknown"),
+            podcastEpisodeLink=story_dict.get("podcastEpisodeLink", ""),
+            uniqueId=story_dict.get("uniqueId", ""),
+            rootLink=story_dict.get("rootLink"),
+            pubDate=story_dict.get("pubDate"),
+        )

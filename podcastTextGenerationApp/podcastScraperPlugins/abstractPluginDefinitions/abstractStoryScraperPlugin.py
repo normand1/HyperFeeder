@@ -11,13 +11,17 @@ class AbstractStoryScraperPlugin(ABC):
         pass
 
     @abstractmethod
-    def writeToDisk(self, story, rawTextDirNameLambda, rawTextFileNameLambda):
+    def writeToDisk(self, story, scrapedText, storiesDirName, storyFileNameLambda):
         pass
 
     @abstractmethod
-    def doesOutputFileExist(self, rawTextDirNameLambda, rawTextFileNameLambda) -> bool:
+    def doesOutputFileExist(self, story, storiesDirName, storyFileNameLambda) -> bool:
         pass
 
     @abstractmethod
     def doesHandleStory(self, story) -> bool:
+        pass
+
+    @abstractmethod
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName, researchDirectoryName):
         pass

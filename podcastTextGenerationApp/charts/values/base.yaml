@@ -1,0 +1,18 @@
+PODCAST_INTRO_PLUGINS: "standardIntroPlugin"
+PODCAST_SCRAPER_PLUGINS: "tokenResearchScraperPlugin"
+PODCAST_SEGMENT_WRITER_PLUGINS: "topTenSegmentWriterPlugin"
+PODCAST_OUTRO_PLUGINS: "outroWriterPlugin"
+PODCAST_PRODUCER_PLUGINS: "producerPlugin"
+
+SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING: "true"
+
+PODCAST_NAME: "Slop Cast"
+PODCAST_TYPE: "Meme Coins"
+PODCAST_DESCRIPTION: "An autonomously generated podcast about meme coins written by FOMO Bot"
+
+LLM_MODEL_PROVIDER: "openai"
+OPENAI_MODEL_SUMMARY: "gpt-4o-mini"
+OPENAI_MAX_TOKENS_SUMMARY: 4096
+OPENAI_TEMPERATURE_SUMMARY: 0.2
+
+TTS_SCRIPT: "ttsLocalScript.sh"

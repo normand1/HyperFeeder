@@ -8,12 +8,12 @@ class RSSItemScraperPlugin(BaseStoryScraperPlugin):
         return "🛜 RSSItemScraperPlugin"
 
     def doesHandleStory(self, story) -> bool:
-        return "rssItem" in story
+        return getattr(story, "rssItem", False)
 
     def scrapeSiteForText(self, story, storiesDirName) -> str:
-        if "rssItem" not in story:
+        if not getattr(story, "rssItem", False):
             return ""
-        rssItem = story["rssItem"]
+        rssItem = story.rssItem
         root = ET.fromstring(rssItem)
         namespaces = {"content": "http://purl.org/rss/1.0/modules/content/"}
         content = root.find("content:encoded", namespaces).text
