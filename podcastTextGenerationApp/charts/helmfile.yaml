@@ -1,3 +1,4 @@
+# Uncomment the plugins you want to use and update their values in the associated yaml file as needed
 releases:
   - name: hyperfeeder
     namespace: default
@@ -5,10 +6,9 @@ releases:
     values:
       - values/base.yaml
       # - values/reddit.yaml
+      - values/sqliteToken.yaml
       # - values/podcastFeed.yaml
       # - values/articlesRSS.yaml
-      - values/sqliteToken.yaml
       # - values/newsletterRSS.yaml
       # - values/hackerNewsAPI.yaml
       # - values/arxivApi.yaml
-# Uncomment the plugins you want to use:

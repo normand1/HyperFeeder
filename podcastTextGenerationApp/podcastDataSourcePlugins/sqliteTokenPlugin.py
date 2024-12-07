@@ -15,6 +15,7 @@ class SQLiteTokenPlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
         self.db_path = os.getenv("TOKEN_STORIES_DB_PATH")
+        self.stories_limit = os.getenv("TOKEN_STORIES_COUNT_LIMIT", "5")  # Add default value of "5"
 
     def identify(self) -> str:
         return "💰 Token Database Plugin"
@@ -36,8 +37,9 @@ class SQLiteTokenPlugin(BaseDataSourcePlugin):
             WHERE t.created_at >= datetime('now', '-1 hour')
                 AND cd.neynar_score > 0.95
             ORDER BY t.created_at DESC
-            LIMIT 5
-        """
+            LIMIT ?
+        """,
+            (self.stories_limit,),
         )
 
         rows = cursor.fetchall()

@@ -1,2 +1,3 @@
-PODCAST_DATA_SOURCE_PLUGINS: "redditAPIPlugin"
-SUBREDDIT: "programming"
+REDDIT_DATA_SOURCE_PLUGINS:
+  - redditAPIPlugin
+SUBREDDIT: "tech"

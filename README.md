@@ -81,8 +81,18 @@ HyperFeeder is made to be easily configurable and extensible with plugins. You c
 
 <!-- TODO: UPDATE EXAMPLE GIF FOR NEW WORKFLOW ![Config Demo GIF](./config_demo.gif) -->
 
-Different plugins require specific data sources and configuration options to be set in the `.config.env` to work properly. These must be updated manually (for now). 
-Check the plugin directories for details on what each plugin requires in the `.config.env` file to be run. You can also check your active plugins by looking at the very top of the .config.env file. The current Plugin Types are: `NEW_PODCAST_DATA_SOURCE_PLUGINS`, `NEW_PODCAST_INTRO_PLUGINS`, `NEW_PODCAST_SCRAPER_PLUGINS`, `NEW_PODCAST_SUMMARY_PLUGINS` (DEPRECATED), `NEW_PODCAST_SEGMENT_WRITER_PLUGINS`.
+Different plugins require specific data sources and configuration options to be set in `.config.env` to work properly. 
+Check the plugin directories for details on what each plugin requires in the `.config.env` file to be run. 
+
+We use Helm to configure these values and to ensure that requiremets for each plugin are met when modifying the script.
+
+To update general publication settings modify:
+[podcastTextGenerationApp/charts/values/base.yaml](podcastTextGenerationApp/charts/values/base.yaml)
+
+To update which plugins are active modify:
+[podcastTextGenerationApp/charts/helmfile.yaml](podcastTextGenerationApp/charts/helmfile.yaml)
+
+When you have made changes then run ./configurePlugins.sh
 
 ## Dependencies
 

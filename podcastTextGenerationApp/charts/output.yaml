@@ -9,24 +9,26 @@ data:
     
     #! This is the configuration file for the podcast generator
     
-    PODCAST_DATA_SOURCE_PLUGINS=sqliteTokenPlugin
+    PODCAST_DATA_SOURCE_PLUGINS="sqliteTokenPlugin"
+    
     PODCAST_INTRO_PLUGINS=standardIntroPlugin
-    PODCAST_SCRAPER_PLUGINS=tokenResearchScraperPlugin
+    PODCAST_SCRAPER_PLUGINS=defaultScraperPlugin
     PODCAST_SEGMENT_WRITER_PLUGINS=topTenSegmentWriterPlugin
     PODCAST_OUTRO_PLUGINS=outroWriterPlugin
     PODCAST_PRODUCER_PLUGINS=producerPlugin
     TOKEN_STORIES_DB_PATH=/Users/davidnorman/clanker-launch-bot/tokens.db
+    TOKEN_STORIES_COUNT_LIMIT=1
     
-    SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING=true
+    SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING=false
     
-    PODCAST_NAME="Slop Cast"
-    PODCAST_TYPE="Meme Coins"
-    PODCAST_DESCRIPTION="An autonomously generated podcast about meme coins written by FOMO Bot"
+    PODCAST_NAME="Slop Pod"
+    PODCAST_TYPE="Memes and internet culture"
+    PODCAST_DESCRIPTION="This is a podcast about the internet, memes and the people and stories behind it all"
     
-    LLM_MODEL_PROVIDER=openai
-    OPENAI_MODEL_SUMMARY=gpt-4o-mini
-    OPENAI_MAX_TOKENS_SUMMARY=4096
-    OPENAI_TEMPERATURE_SUMMARY=0.2
+    LLM_MODEL_PROVIDER=anthropic
+    LLM_MODEL_VERSION_NAME=claude-3-5-sonnet-latest
+    OPENAI_MAX_TOKENS_SUMMARY=2048
+    OPENAI_TEMPERATURE_SUMMARY=0.7
     
     TTS_SCRIPT=ttsLocalScript.sh
 

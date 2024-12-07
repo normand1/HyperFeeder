@@ -20,11 +20,7 @@ class StandardIntroPlugin(BaseIntroPlugin):
 
         storyTitles = list(map(lambda story: story.title, stories))
         introText = PodcastIntroWriter().writeIntro(storyTitles, podcastName, typeOfPodcast)
-
-        if not hasattr(introText, "content"):
-            raise ValueError("Invalid response from PodcastIntroWriter: expected an object with 'content' attribute")
-
-        return introText.content
+        return introText
 
 
 plugin = StandardIntroPlugin()

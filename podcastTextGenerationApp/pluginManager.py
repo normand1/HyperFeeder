@@ -1,5 +1,4 @@
 import importlib.util
-import json
 import os
 
 from pluginTypes import PluginType
@@ -10,6 +9,7 @@ from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
 from podcastResearcherPlugins.baseResearcherPlugin import BaseResearcherPlugin
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
+from json_utils import dump_json
 
 from podcastDataSourcePlugins.models.story import Story
 
@@ -22,9 +22,9 @@ class PluginManager:
         if env_value is None:
             allowedPlugins = []
         elif "," in env_value:
-            allowedPlugins = env_value.split(",")
+            allowedPlugins = [p.strip("\"'") for p in env_value.split(",")]
         else:
-            allowedPlugins = [env_value]
+            allowedPlugins = [env_value.strip("\"'")]
 
         plugins = {}
         for filename in os.listdir(plugin_dir):
@@ -64,7 +64,6 @@ class PluginManager:
     ):
         # Sort plugins by priority
         sorted_plugins = sorted(plugins.items(), key=lambda x: x[1].plugin.priority)
-
         for name, plugin in sorted_plugins:
             if isinstance(plugin.plugin, BaseResearcherPlugin):
                 print(f"Running Researcher Plugin: {plugin.plugin.identify()} (priority: {plugin.plugin.priority})")
@@ -81,12 +80,18 @@ class PluginManager:
         return stories
 
     def runPodcastDataSourcePluginsWritePodcastDetails(self, plugins, podcastName, stories):
+        print("Running Data Source Plugins to write podcast details")
+        if len(plugins.items()) == 0:
+            raise Exception("No plugins to run Data Source Plugins to write podcast details")
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseDataSourcePlugin):
                 print(f"Running Data Source Plugins again to write podcast details: {plugin.plugin.identify()}")
                 plugin.plugin.writePodcastDetails(f"output/{podcastName}", stories)
 
     def runIntroPlugins(self, plugins, stories, podcastName, introDirName, typeOfPodcast):
+        print("Running Intro Plugins")
+        if len(plugins.items()) == 0:
+            raise Exception("No plugins to run Intro Plugins")
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseIntroPlugin):
                 print(f"Running Intro Plugins: {plugin.plugin.identify()}")
@@ -97,6 +102,9 @@ class PluginManager:
                 print(f"Plugin {name} does not implement the necessary interface.")
 
     def runStoryScraperPlugins(self, plugins, stories, rawTextDirName, rawTextFileNameLambda, researchDirName):
+        print("Running Scraper Plugins")
+        if len(plugins.items()) == 0:
+            raise Exception("No plugins to run Scraper Plugins")
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseStoryScraperPlugin):
                 print(f"Running Scraper Plugins: {plugin.plugin.identify()}")
@@ -118,6 +126,9 @@ class PluginManager:
                 print(f"Plugin {name} does not implement the necessary interface.")
 
     def runStorySegmentWriterPlugins(self, plugins, stories, segmentTextDirNameLambda, segmentTextFileNameLambda):
+        print("Running Segment Writer Plugins")
+        if len(stories) == 0 or len(plugins.items()) == 0:
+            raise Exception("No stories or plugins to run Segment Writer Plugins")
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseSegmentWriterPlugin):
                 print(f"Running Segment Plugins: {plugin.plugin.identify()}")
@@ -181,7 +192,7 @@ class PluginManager:
             filename = fileNameLambda(uniqueId, url)
             filepath = os.path.join(stories_dir, filename)
             with open(filepath, "w") as file:
-                json.dump(story, file, indent=2)
+                dump_json(story, file, indent=2)
                 file.flush()
 
         print(f"Updated stories written to {stories_dir}")
