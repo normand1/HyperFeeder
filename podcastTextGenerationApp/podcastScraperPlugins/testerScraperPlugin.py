@@ -19,7 +19,7 @@ class TesterScraperPlugin(BaseStoryScraperPlugin):
         return "test scraped story text"
 
     def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName, researchDirectoryName):
-        return {}
+        return ""
 
 
 plugin = TesterScraperPlugin()

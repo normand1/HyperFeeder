@@ -1,5 +1,5 @@
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
-import json
+from json_utils import dump_json
 import os
 
 from podcastDataSourcePlugins.models.story import Story
@@ -43,7 +43,7 @@ class TesterDataSourcePlugin(BaseDataSourcePlugin):
     def writePodcastDetails(self, podcastName, stories):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w") as file:
-            json.dump(stories, file)
+            dump_json(stories, file)
 
 
 plugin = TesterDataSourcePlugin()

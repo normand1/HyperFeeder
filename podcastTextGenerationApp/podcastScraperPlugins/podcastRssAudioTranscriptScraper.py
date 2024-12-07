@@ -86,8 +86,8 @@ class PodcastRssAudioTranscriptScraper(BaseStoryScraperPlugin):
 
     print("Processing completed.")
 
-    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName) -> dict:
-        return {}
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName) -> str:
+        return ""
 
 
 plugin = PodcastRssAudioTranscriptScraper()

@@ -27,8 +27,8 @@ class NewsStoryScraperPlugin(BaseStoryScraperPlugin):
             print(f"Scraping failed, skipping story: {str(e)}")
             return f"{storyCouldNotBeScrapedText()}\n{url}"
 
-    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName) -> dict:
-        return {}
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName) -> str:
+        return ""
 
 
 plugin = NewsStoryScraperPlugin()
