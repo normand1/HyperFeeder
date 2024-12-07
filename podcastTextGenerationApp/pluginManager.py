@@ -64,6 +64,8 @@ class PluginManager:
     ):
         # Sort plugins by priority
         sorted_plugins = sorted(plugins.items(), key=lambda x: x[1].plugin.priority)
+        if len(sorted_plugins) == 0:
+            raise Exception("No plugins to run Researcher Plugins")
         for name, plugin in sorted_plugins:
             if isinstance(plugin.plugin, BaseResearcherPlugin):
                 print(f"Running Researcher Plugin: {plugin.plugin.identify()} (priority: {plugin.plugin.priority})")

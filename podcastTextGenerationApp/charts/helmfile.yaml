@@ -5,10 +5,15 @@ releases:
     chart: ./
     values:
       - values/base.yaml
-      # - values/reddit.yaml
+      - values/researchers.yaml
+      - values/podcast.yaml
+      - values/llm.yaml
+      - values/tts.yaml
       - values/sqliteToken.yaml
+      # - values/reddit.yaml
       # - values/podcastFeed.yaml
       # - values/articlesRSS.yaml
       # - values/newsletterRSS.yaml
       # - values/hackerNewsAPI.yaml
       # - values/arxivApi.yaml
+

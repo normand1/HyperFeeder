@@ -12,3 +12,4 @@ colorama
 anthropic
 requests-cache
 pyyaml
+langchain-anthropic

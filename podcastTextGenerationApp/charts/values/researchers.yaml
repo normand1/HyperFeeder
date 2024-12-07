@@ -1,0 +1,3 @@
+PODCAST_RESEARCHER_PLUGINS:
+  - warpcastCastsResearcherPlugin
+  - warpcastUserResearcherPlugin 
