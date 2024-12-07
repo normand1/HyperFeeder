@@ -1,0 +1,3 @@
+REDDIT_DATA_SOURCE_PLUGINS:
+  - redditAPIPlugin
+SUBREDDIT: "tech"

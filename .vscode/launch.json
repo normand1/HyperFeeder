@@ -25,7 +25,7 @@
         },
         {
             "name": "Python: Debug App",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/app.py",
             "console": "integratedTerminal",
@@ -34,7 +34,7 @@
         },
         {
             "name": "Run Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
@@ -43,16 +43,16 @@
         },
         {
             "name": "Generate Podcast Text Files",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
             "console": "integratedTerminal",
-            // "args": ["Podcast-Jul24-2024-05PM"],
+            "args": ["-f", "Fomo-Cast-Dec03-2024-10PM"],
             "justMyCode": true
         },
         {
             "name": "Generate Chapter Files",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcastChapterFile.py",
             // "args": ["output/Podcast-Jul23-2024-09AM"],
@@ -61,7 +61,7 @@
         },
         {
             "name": "run generatePodcast.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
             "console": "integratedTerminal",

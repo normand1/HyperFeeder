@@ -1,5 +1,6 @@
 from abc import abstractmethod
 import os, json
+from podcastDataSourcePlugins.baseDataSourcePlugin import Story
 from podcastSegmentWriterPlugins.abstractPluginDefinitions.abstractSegmentWriterPlugin import (
     AbstractSegmentWriterPlugin,
 )
@@ -21,9 +22,9 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
     def identify(self) -> str:
         pass
 
-    def writeToDisk(self, story, scrapedText, directory, fileNameLambda):
-        url = story["link"]
-        uniqueId = story["uniqueId"]
+    def writeToDisk(self, story: Story, scrapedText, directory, fileNameLambda):
+        url = story.link
+        uniqueId = story.uniqueId
         filename = fileNameLambda(uniqueId, url)
         filePath = os.path.join(directory, filename)
         os.makedirs(directory, exist_ok=True)
@@ -32,8 +33,8 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
             file.flush()
 
     def doesOutputFileExist(self, story, directory, fileNameLambda) -> bool:
-        url = story["link"]
-        uniqueId = story["uniqueId"]
+        url = story.link
+        uniqueId = story.uniqueId
         filename = fileNameLambda(uniqueId, url)
 
         if not os.path.exists(directory):
@@ -41,9 +42,7 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
 
         for existing_file in os.listdir(directory):
             if filename in existing_file:
-                print(
-                    f"Segment text file already exists: {existing_file}, skipping writing segment for story"
-                )
+                print(f"Segment text file already exists: {existing_file}, skipping writing segment for story")
                 return True
 
         return False

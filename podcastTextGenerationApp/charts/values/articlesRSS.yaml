@@ -1,0 +1,4 @@
+ARTICLES_DATA_SOURCE_PLUGINS:
+  - articlesRSSFeedPlugin
+ARTICLES_RSS_FEEDS: "https://blog.bytebytego.com/feed"
+NUMBER_OF_ITEMS_TO_FETCH: 5

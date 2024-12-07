@@ -1,8 +1,6 @@
-import json
-import os
-
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastScraperPlugins.utilities.newsScraper import NewsScraper
+from podcastSegmentWriterPlugins.utilities.utils import storyCouldNotBeScrapedText
 
 
 class NewsStoryScraperPlugin(BaseStoryScraperPlugin):
@@ -10,15 +8,12 @@ class NewsStoryScraperPlugin(BaseStoryScraperPlugin):
         return "📰 NewsStoryScraperPlugin"
 
     def doesHandleStory(self, story) -> bool:
-        return (
-            story.get("storyType") == "Article"
-            or story.get("storyType") == "Newsletter"
-        )
+        return getattr(story, "storyType", False) in ["Article", "Newsletter"]
 
     def scrapeSiteForText(self, story, storiesDirName) -> str:
         if "link" not in story:
             return ""
-        url = story["link"]
+        url = story.link
         print("Scraping: " + url)
         texts = self.scrapeStoryText(url)
         return texts
@@ -28,13 +23,12 @@ class NewsStoryScraperPlugin(BaseStoryScraperPlugin):
         try:
             article = scraper.scrape(url)
             return article
-        except:
-            print("Scraping failed, skipping story")
-            return (
-                "This story could not be scraped. Please replace this text with any text you can find at this url: \n"
-                + url
-                + " \n and re-run the script."
-            )
+        except Exception as e:
+            print(f"Scraping failed, skipping story: {str(e)}")
+            return f"{storyCouldNotBeScrapedText()}\n{url}"
+
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName) -> str:
+        return ""
 
 
 plugin = NewsStoryScraperPlugin()

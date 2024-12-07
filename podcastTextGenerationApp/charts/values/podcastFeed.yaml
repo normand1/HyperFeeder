@@ -1,0 +1,4 @@
+PODCAST_DATA_SOURCE_PLUGINS:
+  - podcastFeedPlugin
+PODCAST_FEEDS: "https://feeds.podcastindex.org/pc20.xml"
+NUMBER_OF_ITEMS_TO_FETCH: 5

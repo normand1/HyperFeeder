@@ -1,4 +1,3 @@
-import xml.etree.ElementTree as ET
 import requests
 import whisper
 from whisper.utils import get_writer
@@ -18,7 +17,7 @@ class PodcastRssAudioTranscriptScraper(BaseStoryScraperPlugin):
         return "🎧🎙️ PodcastRssAudioTranscriptScraper"
 
     def doesHandleStory(self, story) -> bool:
-        return story.get("storyType") == "Podcast"
+        return getattr(story, "storyType", False) == "Podcast"
 
     def scrapeSiteForText(self, story, storiesDirName) -> str:
         enclosureLink = story.get("podcastEpisodeLink")
@@ -38,11 +37,7 @@ class PodcastRssAudioTranscriptScraper(BaseStoryScraperPlugin):
 
             # Remove timecodes and line numbers from SRT content
             lines = srt_content.split("\n")
-            transcript_lines = [
-                line
-                for line in lines
-                if not line.strip().isdigit() and not "-->" in line
-            ]
+            transcript_lines = [line for line in lines if not line.strip().isdigit() and not "-->" in line]
             transcript_text = " ".join(transcript_lines).strip()
 
             return transcript_text
@@ -90,6 +85,9 @@ class PodcastRssAudioTranscriptScraper(BaseStoryScraperPlugin):
         print("Audio downloaded")
 
     print("Processing completed.")
+
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName) -> str:
+        return ""
 
 
 plugin = PodcastRssAudioTranscriptScraper()

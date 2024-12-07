@@ -11,6 +11,7 @@ class EndToEndTests(unittest.TestCase):
         os.environ["PODCAST_DATA_SOURCE_PLUGINS"] = "testerDataSourcePlugin"
         os.environ["PODCAST_INTRO_PLUGINS"] = "testerIntroPlugin"
         os.environ["PODCAST_SCRAPER_PLUGINS"] = "testerScraperPlugin"
+        os.environ["PODCAST_RESEARCHER_PLUGINS"] = "testResearcherPlugin"
         os.environ["PODCAST_SUMMARY_PLUGINS"] = "testerSummaryPlugin"
         os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] = "testerSegmentWriter"
         os.environ["PODCAST_OUTRO_PLUGINS"] = "testerOutroPlugin"

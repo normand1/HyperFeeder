@@ -5,7 +5,7 @@ These plugins are used to scrape the data sources provided by the `PodcastStory`
 
 ## Protocol Requirements
 Any new Scraper Plugin must implement the methods of the `abstractStoryScraperPlugin.py`.
-The `Story` models are passed to this plugin via the `stories` parameter in the `scrapeSiteForText` function. The scraped raw text should be written out to the directory identified by the `rawTextDirName` parameter and the expected filename format for the raw text can be created by calling the rawTextFileNameLambda for each story with the story's `story["link"]` and `story["newsRank"]`. This ensures the name follows a standard that other plugins will use to identify the correct scraped text for a particular story.
+The `Story` models are passed to this plugin via the `stories` parameter in the `scrapeSiteForText` function. The scraped raw text should be written out to the directory identified by the `rawTextDirName` parameter and the expected filename format for the raw text can be created by calling the rawTextFileNameLambda for each story with the story's `story.link` and `story.newsRank`. This ensures the name follows a standard that other plugins will use to identify the correct scraped text for a particular story.
 
 ## Pipeline Location
 

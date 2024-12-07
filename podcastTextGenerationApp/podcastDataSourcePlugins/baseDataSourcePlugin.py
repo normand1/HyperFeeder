@@ -1,4 +1,3 @@
-import json
 import os
 import random
 import string
@@ -12,6 +11,8 @@ from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin
 )
 from podcastDataSourcePlugins.models.story import Story
 from SQLiteManager import SQLiteManager
+
+from json_utils import dump_json
 
 
 class BaseDataSourcePlugin(AbstractDataSourcePlugin):
@@ -31,14 +32,14 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
     def writePodcastDetails(self, podcastName, stories):
         raise NotImplementedError("writePodcastDetails() not implemented, make sure to override it in your plugin")
 
-    def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
-        url = story["link"]
-        uniqueId = story["uniqueId"]
+    def writeToDisk(self, story: Story, storiesDirName, storyFileNameLambda):
+        url = story.link
+        uniqueId = story.uniqueId
         rawTextFileName = storyFileNameLambda(uniqueId, url)
         filePath = os.path.join(storiesDirName, rawTextFileName)
         os.makedirs(storiesDirName, exist_ok=True)
         with open(filePath, "w", encoding="utf-8") as file:
-            json.dump(story, file)
+            dump_json(story, file)
             file.flush()
 
     def makeUniqueStoryIdentifier(self) -> str:
@@ -46,9 +47,9 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         randomId = "".join(random.choice(characters) for _ in range(6))
         return randomId
 
-    def doesOutputFileExist(self, story, storiesDirName, storyFileNameLambda) -> bool:
-        url = story["link"]
-        uniqueId = story["uniqueId"]
+    def doesOutputFileExist(self, story: Story, storiesDirName, storyFileNameLambda) -> bool:
+        url = story.link
+        uniqueId = story.uniqueId
         rawTextFileName = storyFileNameLambda(uniqueId, url)
         filePath = os.path.join(storiesDirName, rawTextFileName)
         if os.path.exists(filePath):

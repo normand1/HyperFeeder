@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mypodcast-config
+data:
+  config.env: |
+    {{ include "mypodcast.envVars" . | nindent 4 }}

@@ -29,8 +29,8 @@ class BaseProducerPlugin(AbstractProducerPlugin):
 
     def orderStories(self, stories):
         for index, story in enumerate(stories):
-            story["itemOrder"] = index
-            story["newsRank"] = index
+            story.itemOrder = index
+            story.newsRank = index
         return stories
 
     def renameFile(self, directory, oldName, newName):

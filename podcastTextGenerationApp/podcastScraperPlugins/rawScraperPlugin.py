@@ -10,7 +10,7 @@ class RawScraperPlugin(BaseStoryScraperPlugin):
         return "link" in story and "rssItem" not in story
 
     def scrapeSiteForText(self, story, storiesDirName) -> str:
-        url = story["link"]
+        url = story.link
         rawTextFromUrlResponse = requests.get(url, timeout=10)
         return rawTextFromUrlResponse.text
 
