@@ -18,5 +18,8 @@ class TesterScraperPlugin(BaseStoryScraperPlugin):
         assert url is not None
         return "test scraped story text"
 
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName, researchDirectoryName):
+        return {}
+
 
 plugin = TesterScraperPlugin()
