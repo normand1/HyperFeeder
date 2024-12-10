@@ -61,7 +61,7 @@ class EndToEndTests(unittest.TestCase):
         output_dir = "output/test-podcast"
         expected_files = {
             "intro_text": ["0_intro.txt"],
-            "segment_text": ["1_88cbbfe2a35f0cb957b6a46c802d6088.txt"],
+            "segment_text": ["1_be937e905acfe59971566b5bbec93262.txt"],
             "outro_text": ["3_outro.txt"],
         }
 

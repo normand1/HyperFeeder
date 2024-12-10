@@ -23,7 +23,7 @@ class OutroWriterPlugin(BaseOutroWriterPlugin):
             max_tokens=int(os.getenv("OPENAI_MAX_TOKENS_OUTRO")),
         )
 
-    def writeOutro(self, stories, introText):
+    def writeOutro(self, segments, introText):
         print("Writing funny Outro")
         return self.chain_manager.invoke_chain(introText=introText)
 

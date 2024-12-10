@@ -12,13 +12,13 @@ class Story:
         ]
 
     def _serialize_sub_stories(self, depth):
-        """Helper function to serialize sub-stories with depth control.
+        """Helper function to serialize sub-segments with depth control.
 
         Args:
-            depth (int): Maximum depth for serializing nested stories
+            depth (int): Maximum depth for serializing nested segments
 
         Returns:
-            dict: Serialized sub-stories dictionary
+            dict: Serialized sub-segments dictionary
         """
         serialized = {}
         for key, story_list in self.subStories.items():
@@ -37,7 +37,7 @@ class Story:
         """Make the class directly JSON serializable
 
         Args:
-            depth (int): Maximum depth for serializing nested stories. Defaults to 10.
+            depth (int): Maximum depth for serializing nested segments. Defaults to 10.
         """
         if depth <= 0:  # Base case to prevent infinite recursion
             return {
@@ -99,7 +99,7 @@ class Story:
                 source=story_dict.get("source", "Unknown"),
             )
 
-        # Handle sub-stories if present in the dictionary
+        # Handle sub-segments if present in the dictionary
         if "subStories" in story_dict:
             story.subStories = {k: [cls.from_dict(sub_story) for sub_story in v] for k, v in story_dict["subStories"].items()}
 
@@ -111,7 +111,7 @@ class Story:
         return story
 
     def getCombinedSubStoryContext(self):
-        # Flatten all sub-stories from all keys in the dictionary and join their contexts
+        # Flatten all sub-segments from all keys in the dictionary and join their contexts
         contexts = [self.title]
         for sub_stories_list in self.subStories.values():
             for sub_story in sub_stories_list:

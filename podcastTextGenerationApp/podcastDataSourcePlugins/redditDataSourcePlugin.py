@@ -26,7 +26,7 @@ class RedditDataSourcePlugin(BaseDataSourcePlugin):
     @tool(name_or_callable="RedditDataSourcePlugin-_-getTopPosts")
     def getTopPosts(subreddits: list[str] = None) -> list[RedditStory]:
         """Get the top posts from a list of subreddits"""
-        stories = []
+        segments = []
         baseUrl = "https://www.reddit.com/r/{}.json"
         numberOfPostsToFetch = int(os.getenv("NUMBER_OF_SUBREDDIT_POSTS_TO_FETCH"))
 
@@ -56,18 +56,18 @@ class RedditDataSourcePlugin(BaseDataSourcePlugin):
                         raw_content="",
                         uniqueId=RedditDataSourcePlugin.makeUniqueStoryIdentifier(),
                     )
-                    stories.append(story)
+                    segments.append(story)
                     rank += 1
-        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} stories from Reddit{Style.RESET_ALL}")
-        return stories
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} segments from Reddit{Style.RESET_ALL}")
+        return segments
 
     def fetchContentForStory(self, story: RedditStory):
         return self.scraperPlugin.scrapeStoryText(story.link)
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
     def filterForImportantContextOnly(self, subStoryContent: dict):
         keysToKeep = ["title", "content"]

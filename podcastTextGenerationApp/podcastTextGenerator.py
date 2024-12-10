@@ -4,6 +4,7 @@ import sys
 import datetime
 from colorama import init, Fore, Style
 from publicationPlanningManager import PublicationPlanningManager
+from podcastDataSourcePlugins.models.segment import Segment
 from utilities.env_utils import parse_initial_query
 import yaml  # Add this import at the top with other imports
 import hashlib
@@ -50,11 +51,11 @@ class PodcastTextGenerator:
     ):
 
         additionalAllowedPluginNamesForInitialResearch = additionalAllowedPluginNamesForInitialResearch or []
-        stories = []
+        segments = []
 
         podcastName = podcastName.strip()
         load_dotenv(".config.env")
-        storyDirName = f"output/{podcastName}/stories/"
+        storyDirName = f"output/{podcastName}/segments/"
         researchDirName = f"output/{podcastName}/research/"
         rawTextDirName = f"output/{podcastName}/raw_text/"
         segmentTextDirName = f"output/{podcastName}/segment_text/"
@@ -64,7 +65,7 @@ class PodcastTextGenerator:
         directoryOutro = f"output/{podcastName}/outro_text/"
 
         print(f"{Fore.CYAN}{Style.BRIGHT}Starting podcast generation for: {podcastName}{Style.RESET_ALL}")
-        stories = self.readStoriesFromFolder(storyDirName)
+        segments = self.readStoriesFromFolder(storyDirName)
         research = self.readResearchFromFolder(researchDirName)
 
         def fileNameLambda(uniqueId, url=None):
@@ -79,14 +80,14 @@ class PodcastTextGenerator:
             else:
                 return f"{researchType}-{str(uniqueId)}-{url}.txt"
 
-        if len(stories) == 0:
-            print(f"{Fore.YELLOW}No stories found. Fetching new stories...{Style.RESET_ALL}")
+        if len(segments) == 0:
+            print(f"{Fore.YELLOW}No segments found. Fetching new segments...{Style.RESET_ALL}")
 
             # Initial Research
             # Initial Publication Structure based on research
             # Replace the direct env access with the utility function
             queries = parse_initial_query()
-            stories = []
+            segments = []
 
             combinedAllowedPluginNamesForInitialResearch = [TavilyDataSourcePlugin.identify(simpleName=True)] + additionalAllowedPluginNamesForInitialResearch
             for query in queries:
@@ -97,35 +98,32 @@ class PodcastTextGenerator:
                 print(publicationStructure)
 
                 uniqueId = hashlib.md5(query.encode()).hexdigest()
-                subStories = self.pluginManager.runDataSourcePlugins(publicationStructure, self.dataSourcePlugins, uniqueId, storyDirName, fileNameLambda)
-                story = Story(newsRank=0, title=query, link="", storyType="Segment", uniqueId=uniqueId, source="")
-                story.subStories = subStories
-                # BaseDataSourcePlugin.writeToDisk(story, storyDirName, fileNameLambda)
-                # stories = self.readStoriesFromFolder(storyDirName)
+                sources = self.pluginManager.runDataSourcePlugins(publicationStructure, self.dataSourcePlugins, uniqueId, storyDirName, fileNameLambda)
+                segment = Segment(title=query, uniqueId=uniqueId, sources=sources)
                 if os.getenv("SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING", "false").lower() == "true":
-                    self.pauseAndValidateStories(stories)
-                researchQuery = f"based on what's been learned so far: ```{story.getCombinedSubStoryContext()}``` please use tools to look deeper into the initial question: ```{query}```"
+                    self.pauseAndValidateStories(segments)
+                researchQuery = f"based on what's been learned so far: ```{segment.getCombinedSubStoryContext()}``` please use tools to look deeper into the initial question: ```{query}```"
                 researchQueryUniqueId = hashlib.md5(researchQuery.encode()).hexdigest()
                 researchPublicationStructure = researchPlanningManager.generatePublicationStructure(researchQuery, list(self.dataSourcePlugins.values()))
                 research = self.pluginManager.runDataSourcePlugins(researchPublicationStructure, self.dataSourcePlugins, researchQueryUniqueId, researchDirName, researchFileNameLambda)
                 # Update story.substories with research data
-                mergedSubStories = {**story.subStories, **research}
-                story.subStories = mergedSubStories
-                stories.append(story)
-                BaseDataSourcePlugin.writeToDisk(story, storyDirName, fileNameLambda)
+                mergedSegments = {**segment.sources, **research}
+                segment.sources = mergedSegments
+                segments.append(segment)
+                BaseDataSourcePlugin.writeToDisk(segment, storyDirName, fileNameLambda)
 
         else:
             print(f"{Fore.GREEN}{Style.BRIGHT}Stories found:{Style.RESET_ALL}")
-            for story in stories:
-                print(f"{Fore.CYAN}{story.title}{Style.RESET_ALL}")
+            for segment in segments:
+                print(f"{Fore.CYAN}{segment.title}{Style.RESET_ALL}")
             print(f"{Fore.GREEN}{Style.BRIGHT}Not running data source plugins.{Style.RESET_ALL}")
-            stories = self.readStoriesFromFolder(storyDirName)
+            segments = self.readStoriesFromFolder(storyDirName)
 
         if os.getenv("SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING", "false").lower() == "true":
-            self.pauseAndValidateStories(stories)
+            self.pauseAndValidateStories(segments)
         self.pluginManager.runIntroPlugins(
             self.introPlugins,
-            stories,
+            segments,
             os.environ["PODCAST_NAME"],
             fileNameIntro,
             os.environ["PODCAST_TYPE"],
@@ -133,11 +131,11 @@ class PodcastTextGenerator:
 
         introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
 
-        for story in stories:
+        for segment in segments:
             # Create a filename for this story's filtered content
-            story_filename = os.path.join(rawTextDirName, f"{story.uniqueId}_filtered_substories.yaml")
+            story_filename = os.path.join(rawTextDirName, f"{segment.uniqueId}_filtered_substories.yaml")
 
-            for sourceKey, subStorySearchResults in story.subStories.items():
+            for sourceKey, subStorySearchResults in segment.sources.items():
                 for plugin in self.dataSourcePlugins.values():
                     aPlugin = plugin.plugin
                     if aPlugin.identify(simpleName=True) in sourceKey:
@@ -155,43 +153,43 @@ class PodcastTextGenerator:
                                 seen_substories.add(substory_str)
                                 filteredSubStories.append(filteredSubStory)
 
-                        story.subStories[sourceKey] = filteredSubStories  # replace with filtered sub stories
+                        segment.sources[sourceKey] = filteredSubStories  # replace with filtered sub segments
 
             # Ensure the directory exists
             os.makedirs(rawTextDirName, exist_ok=True)
 
             # Write the story data to a YAML file using the Story model's serialization
             with open(story_filename, "w", encoding="utf-8") as yaml_file:
-                story_data = story.__json__()
+                story_data = segment.__json__()
                 # Add raw text from filtered substories to rawSplitText
                 raw_text = []
-                for substories in story.subStories.values():
+                for substories in segment.sources.values():
                     for substory in substories:
                         if isinstance(substory, dict) and "content" in substory:
                             raw_text.append(substory["content"])
                 raw_split_text = "\n\n".join(raw_text)
 
                 # Update both the story object and the story_data
-                story.rawSplitText = raw_split_text
+                segment.rawSplitText = raw_split_text
                 story_data["rawSplitText"] = raw_split_text
 
                 yaml.safe_dump(story_data, yaml_file, allow_unicode=True, default_flow_style=False)
-                print(f"{Fore.GREEN}Wrote filtered sub-stories to {story_filename}{Style.RESET_ALL}")
+                print(f"{Fore.GREEN}Wrote filtered sub-segments to {story_filename}{Style.RESET_ALL}")
 
-        for story in stories:
-            if hasattr(story, "rawSplitText"):
-                if storyCouldNotBeScrapedText() in story.rawSplitText:  # This is default text added to a story if the story could not be scraped
+        for segment in segments:
+            if hasattr(segment, "rawSplitText"):
+                if storyCouldNotBeScrapedText() in segment.rawSplitText:  # This is default text added to a story if the story could not be scraped
                     print(f"{Fore.RED}{Style.BRIGHT}Error: A story could not be scraped.{Style.RESET_ALL}")
             else:
                 print(f"{Fore.RED}{Style.BRIGHT}Error: A story does not have rawSplitText.{Style.RESET_ALL}")
 
-        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, stories, segmentTextDirName, fileNameLambda)
+        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, segments, segmentTextDirName, fileNameLambda)
 
-        self.pluginManager.runOutroWriterPlugins(self.outroWriterPlugins, stories, introText, fileNameOutro)
+        self.pluginManager.runOutroWriterPlugins(self.outroWriterPlugins, segments, introText, fileNameOutro)
 
         self.pluginManager.runPodcastProducerPlugins(
             self.producerPlugins,
-            stories,
+            segments,
             directoryOutro,
             directoryIntro,
             segmentTextDirName,
@@ -204,7 +202,7 @@ class PodcastTextGenerator:
                 return file.read()
         return ""
 
-    def readFilesFromFolderIntoStories(self, folderPath, key, stories: list[Story]) -> list[Story]:
+    def readFilesFromFolderIntoStories(self, folderPath, key, segments: list[Story]) -> list[Story]:
         for filename in os.listdir(folderPath):
             if filename.endswith(".mp3") or filename.endswith(".srt"):
                 continue
@@ -213,15 +211,15 @@ class PodcastTextGenerator:
                 fileText = open(filePath, "r").read()
                 pathParts = filePath.split("/")
                 uniqueId = pathParts[-1:][0].split("-")[0]
-                for index, story in enumerate(stories):
+                for index, story in enumerate(segments):
                     if story.uniqueId == uniqueId:
-                        stories[index][key] = fileText
-        return stories
+                        segments[index][key] = fileText
+        return segments
 
     def readStoriesFromFolder(self, folderPath):
-        stories = []
+        segments = []
         if not os.path.exists(folderPath) or not os.path.isdir(folderPath):
-            return stories
+            return segments
 
         for filename in os.listdir(folderPath):
             filePath = os.path.join(folderPath, filename)
@@ -231,10 +229,10 @@ class PodcastTextGenerator:
                     try:
                         story_dict = json.loads(fileText)
                         story = Story.from_dict(story_dict)
-                        stories.append(story)
+                        segments.append(story)
                     except json.JSONDecodeError:
                         print(f"{Fore.RED}Error parsing JSON from {filename}{Style.RESET_ALL}")
-        return stories
+        return segments
 
     def readResearchFromFolder(self, folderPath):
         research = []
@@ -253,9 +251,9 @@ class PodcastTextGenerator:
                         print(f"{Fore.RED}Error parsing JSON from {filename}{Style.RESET_ALL}")
         return research
 
-    def pauseAndValidateStories(self, stories: list[Story]):
+    def pauseAndValidateStories(self, segments: list[Story]):
         print(f"{Fore.GREEN}{Style.BRIGHT}Stories found:{Style.RESET_ALL}")
-        for story in stories:
+        for story in segments:
             print(f"{Fore.CYAN}{story.title}{Style.RESET_ALL}")
         input(f"{Fore.YELLOW}Press Enter to continue...{Style.RESET_ALL}")
 

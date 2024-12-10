@@ -25,7 +25,7 @@ class HackerNewsDataSourcePlugin(BaseDataSourcePlugin):
     @tool(name_or_callable="HackerNewsDataSourcePlugin-_-searchTopStories")
     def searchTopStories(topStoriesCount: int = 5):
         """
-        Search for the top stories on Hacker News
+        Search for the top segments on Hacker News
         """
         baseUrl = "https://hacker-news.firebaseio.com/v0/"
 
@@ -33,7 +33,7 @@ class HackerNewsDataSourcePlugin(BaseDataSourcePlugin):
         response = requests.get(topStoriesUrl, timeout=10)
         topStoriesIds = response.json()
 
-        stories = []
+        segments = []
 
         for rank, storyId in enumerate(topStoriesIds[:topStoriesCount]):
             storyUrl = f"{baseUrl}item/{storyId}.json"
@@ -48,14 +48,14 @@ class HackerNewsDataSourcePlugin(BaseDataSourcePlugin):
                 raw_content="",  # fetchContentForStory will add raw_content
                 uniqueId=HackerNewsDataSourcePlugin.makeUniqueStoryIdentifier(),
             )
-            stories.append(story)
-        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} stories from Hacker News{Style.RESET_ALL}")
-        return stories
+            segments.append(story)
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} segments from Hacker News{Style.RESET_ALL}")
+        return segments
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
     def filterForImportantContextOnly(self, subStoryContent: dict):
         keysToKeep = ["title", "content"]

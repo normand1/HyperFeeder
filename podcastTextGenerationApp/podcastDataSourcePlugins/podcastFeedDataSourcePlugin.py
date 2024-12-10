@@ -25,7 +25,7 @@ class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
     @tool(name_or_callable="PodcastFeedDataSourcePlugin-_-fetchPodcastFeeds")
     def fetchPodcastFeeds(podcastFeeds: list[str] = None, numberOfItemsToFetch: int = None):
         """
-        Fetch the top stories from a list of podcast feeds
+        Fetch the top segments from a list of podcast feeds
         """
         sqlLiteManager = SQLiteManager()
         lastFetched = None
@@ -35,7 +35,7 @@ class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
 
         if not numberOfItemsToFetch:
             raise ValueError("NUMBER_OF_ITEMS_TO_FETCH environment variable is not set, please set it and try again.")
-        stories = []
+        segments = []
         # Iterate through each Podcast Feed
         for feedUrl in podcastFeeds:
             headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
@@ -52,15 +52,15 @@ class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
             PodcastFeedDataSourcePlugin.getStoriesFromFeed(
                 lastFetched,
                 numberOfItemsToFetch,
-                stories,
+                segments,
                 root,
                 podcastTitle,
                 cleanLink,
             )
-        if len(stories) > 0:
-            # Sort the stories by publication date in descending order
-            stories.sort(key=lambda x: x["pubDate"], reverse=True)
-            mostRecentStories = stories[0:numberOfItemsToFetch]
+        if len(segments) > 0:
+            # Sort the segments by publication date in descending order
+            segments.sort(key=lambda x: x["pubDate"], reverse=True)
+            mostRecentStories = segments[0:numberOfItemsToFetch]
             mostRecentTimestamp = max(story.pubDate for story in mostRecentStories)
             sqlLiteManager.set_last_fetched(cleanLink, mostRecentTimestamp)
             return mostRecentStories
@@ -70,7 +70,7 @@ class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
     def getStoriesFromFeed(
         lastFetched,
         numberOfItemsToFetch,
-        stories: list,
+        segments: list,
         root,
         podcastTitle,
         cleanLink,
@@ -99,7 +99,7 @@ class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
             episodeTitle = episodeTitle.text if episodeTitle is not None else f"Untitled Episode {index + 1}"
 
             if (lastFetched and pubDate > lastFetched) or not lastFetched:
-                stories.append(
+                segments.append(
                     PodcastStory(
                         itemOrder=index + 1,
                         title=episodeTitle,
@@ -112,10 +112,10 @@ class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
                     ).to_dict()
                 )
 
-        return stories
+        return segments
 
-    def writePodcastDetails(self, podcastName, stories):
-        copiedTopStories = copy.deepcopy(stories)
+    def writePodcastDetails(self, podcastName, segments):
+        copiedTopStories = copy.deepcopy(segments)
         for item in copiedTopStories:
             if "podcastEpisodeLink" in item:
                 item["link"] = item["podcastEpisodeLink"]

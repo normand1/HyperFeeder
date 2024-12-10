@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class AbstractIntroPlugin(ABC):
     @abstractmethod
-    def writeIntro(self, stories, podcastName, typeOfPodcast) -> str:
+    def writeIntro(self, segments, podcastName, typeOfPodcast) -> str:
         pass
 
     @abstractmethod

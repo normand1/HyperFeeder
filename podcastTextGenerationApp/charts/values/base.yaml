@@ -12,7 +12,7 @@ PODCAST_OUTRO_PLUGINS: outroWriterPlugin
 PODCAST_PRODUCER_PLUGINS: producerPlugin
 
 INITIAL_QUERY: 
-  - "please generate a podcast segment about the user who made the top posts in the founders channel on warpcast"
+  - "please generate a podcast segment about the top hacker news segments"
 
 SYSTEM_PROMPT_SUMMARY: >
   You are tasked with creating a podcast segment that discusses a news article in detail. 

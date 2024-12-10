@@ -33,7 +33,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         neynar_api_manager = NeynarAPIManager()
         search_results = neynar_api_manager.search_casts(searchQuery, limit=number_of_posts)
 
-        stories = []
+        segments = []
         for cast in search_results["casts"]:
             # Convert the cast dict to a WarpcastStory object
             story_dict = {
@@ -42,15 +42,15 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
                 "timestamp": cast.get("timestamp"),
                 "hash": cast.get("hash"),
             }
-            stories.append(WarpcastStory.from_dict(story_dict))
+            segments.append(WarpcastStory.from_dict(story_dict))
 
-        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} stories from Warpcast{Style.RESET_ALL}")
-        return stories
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} segments from Warpcast{Style.RESET_ALL}")
+        return segments
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
     def filterForImportantContextOnly(self, subStoryContent: dict):
         keysToKeep = ["author", "content", "timestamp", "reactions", "replies", "mentioned_profiles"]
@@ -81,7 +81,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         neynar_api_manager = NeynarAPIManager()
         trending_feed = neynar_api_manager.get_trending_feed(limit=limit, time_window=time_window, channel_id=channel_id)
 
-        stories = []
+        segments = []
         for cast in trending_feed:
             # Convert the cast dict to a WarpcastStory object
             story_dict = {
@@ -90,10 +90,10 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
                 "timestamp": cast.get("timestamp"),
                 "hash": cast.get("hash"),
             }
-            stories.append(WarpcastStory.from_dict(story_dict))
+            segments.append(WarpcastStory.from_dict(story_dict))
 
-        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} trending casts from Warpcast{Style.RESET_ALL}")
-        return stories
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} trending casts from Warpcast{Style.RESET_ALL}")
+        return segments
 
     def fetchContentForStory(self, story: WarpcastStory):
         return story.content

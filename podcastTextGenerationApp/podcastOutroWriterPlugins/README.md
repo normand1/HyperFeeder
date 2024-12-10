@@ -1,7 +1,7 @@
 # Podcast Outro Plugins
 
 ## Description
-These plugins are used to write an outro segment for your podcast based on the content discussed. The plugin receives a list of all `stories` covered in segments as well as the intro text for the podcast so it can be referenced when writing the outro.
+These plugins are used to write an outro segment for your podcast based on the content discussed. The plugin receives a list of all `segments` covered in segments as well as the intro text for the podcast so it can be referenced when writing the outro.
 
 ## Protocol Requirements
 Any new Intro Plugin must implement the methods of the `abstractOutroPlugin.py`.

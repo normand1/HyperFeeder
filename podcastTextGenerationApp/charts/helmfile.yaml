@@ -12,13 +12,12 @@ releases:
       - values/tts.yaml
       - values/dataSource-Tavily.yaml # required data source plugin
     # ------ Optional Plugins ------
-      # - values/sqliteToken.yaml
+      - values/sqliteToken.yaml
       - values/warpcastSearch.yaml
-      # - values/reddit.yaml
-      # - values/podcastFeed.yaml
-      # - values/articlesRSS.yaml
-      # - values/newsletterRSS.yaml
-      # - values/hackerNewsAPI.yaml
-      # - values/arxivApi.yaml
+      - values/reddit.yaml
+      - values/newsletterRSS.yaml
+      - values/hackerNewsAPI.yaml
+      - values/arxivApi.yaml
+      # - values/podcastFeed.yaml #TODO: Fix this plugin
       
 

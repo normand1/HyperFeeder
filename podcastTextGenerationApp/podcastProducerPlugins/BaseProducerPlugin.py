@@ -15,7 +15,7 @@ class BaseProducerPlugin(AbstractProducerPlugin):
     @abstractmethod
     def updateFileNames(
         self,
-        stories,
+        segments,
         outroTextDirName,
         introDirName,
         segmentTextDirNameLambda,
@@ -27,11 +27,11 @@ class BaseProducerPlugin(AbstractProducerPlugin):
     def identify(self) -> str:
         pass
 
-    def orderStories(self, stories):
-        for index, story in enumerate(stories):
+    def orderStories(self, segments):
+        for index, story in enumerate(segments):
             story.itemOrder = index
             story.newsRank = index
-        return stories
+        return segments
 
     def renameFile(self, directory, oldName, newName):
         # Construct the full old file name.

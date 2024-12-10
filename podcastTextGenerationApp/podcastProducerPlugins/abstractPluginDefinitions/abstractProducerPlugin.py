@@ -5,7 +5,7 @@ class AbstractProducerPlugin(ABC):
     @abstractmethod
     def updateFileNames(
         self,
-        stories,
+        segments,
         outroTextDirName,
         introDirName,
         segmentTextDirNameLambda,
@@ -22,5 +22,5 @@ class AbstractProducerPlugin(ABC):
         pass
 
     @abstractmethod
-    def orderStories(self, stories):
+    def orderStories(self, segments):
         pass

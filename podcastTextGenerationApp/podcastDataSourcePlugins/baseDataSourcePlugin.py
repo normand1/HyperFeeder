@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from podcastDataSourcePlugins.abstractPluginDefinitions.abstractDataSourcePlugin import (
     AbstractDataSourcePlugin,
 )
-from podcastDataSourcePlugins.models.story import Story
+from podcastDataSourcePlugins.models.segment import Segment
 from SQLiteManager import SQLiteManager
 
 from json_utils import dump_json
@@ -27,11 +27,11 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
     def identify(cls, simpleName=False) -> str:
         raise NotImplementedError("identify() not implemented, make sure to override it in your plugin")
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         raise NotImplementedError("writePodcastDetails() not implemented, make sure to override it in your plugin")
 
     @staticmethod
-    def writeToDisk(story: Story, storiesDirName, storyFileNameLambda):
+    def writeToDisk(story: Segment, storiesDirName, storyFileNameLambda):
         uniqueId = story.uniqueId
         rawTextFileName = storyFileNameLambda(uniqueId)
         filePath = os.path.join(storiesDirName, rawTextFileName)
@@ -46,7 +46,7 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
         randomId = "".join(random.choice(characters) for _ in range(6))
         return randomId
 
-    def doesOutputFileExist(self, story: Story, storiesDirName, storyFileNameLambda) -> bool:
+    def doesOutputFileExist(self, story: Segment, storiesDirName, storyFileNameLambda) -> bool:
         url = story.link
         uniqueId = story.uniqueId
         rawTextFileName = storyFileNameLambda(uniqueId, url)
@@ -92,5 +92,5 @@ class BaseDataSourcePlugin(AbstractDataSourcePlugin):
     def filterForImportantContextOnly(self, subStoryContent: dict):
         raise NotImplementedError("filterForImportantContextOnly() not implemented, make sure to override it in your plugin")
 
-    def fetchContentForStory(self, story: Story):
+    def fetchContentForStory(self, story: Segment):
         raise NotImplementedError("fetchContentForStory() not implemented, make sure to override it in your plugin")

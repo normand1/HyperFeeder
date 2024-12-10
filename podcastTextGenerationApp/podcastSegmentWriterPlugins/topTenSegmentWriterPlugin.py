@@ -1,7 +1,7 @@
 import yaml
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmentWriter
-from podcastDataSourcePlugins.baseDataSourcePlugin import Story
+from podcastDataSourcePlugins.models.segment import Segment
 from utilities.xml_utils import strip_xml_tags
 
 
@@ -9,7 +9,7 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
     def identify(self) -> str:
         return "🤙 TopTenSegmentWriterPlugin"
 
-    def writeStorySegment(self, story: Story, stories):
+    def writeStorySegment(self, story: Segment, segments):
         uuid = story.uniqueId
         print("Writing Segment: " + uuid)
         storyCopy = story.to_dict()

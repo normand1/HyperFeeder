@@ -45,13 +45,13 @@ class ArxivDataSourcePlugin(BaseDataSourcePlugin):
             for index, entry in enumerate(feed.entries)
             if datetime(*entry.published_parsed[:6]) > oneWeekAgo
         ]
-        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(recentPapers)} stories from ArXiv{Style.RESET_ALL}")
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(recentPapers)} segments from ArXiv{Style.RESET_ALL}")
         return recentPapers
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
     def fetchContentForStory(self, story: ArxivPaperStory):
         return self.scraperPlugin.scrapeStoryText(story.link)

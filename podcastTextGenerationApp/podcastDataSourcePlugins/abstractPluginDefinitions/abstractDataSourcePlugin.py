@@ -11,7 +11,7 @@ class AbstractDataSourcePlugin(ABC):
         pass
 
     @abstractmethod
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         pass
 
     @staticmethod

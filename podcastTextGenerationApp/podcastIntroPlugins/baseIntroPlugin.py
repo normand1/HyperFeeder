@@ -17,7 +17,7 @@ class BaseIntroPlugin(AbstractIntroPlugin):
         pass
 
     @abstractmethod
-    def writeIntro(self, stories, podcastName, typeOfPodcast) -> str:
+    def writeIntro(self, segments, podcastName, typeOfPodcast) -> str:
         pass
 
     def writeToDisk(self, introText, fileNameIntro):

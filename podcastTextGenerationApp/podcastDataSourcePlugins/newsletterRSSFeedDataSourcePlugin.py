@@ -31,7 +31,7 @@ class RSSFeedDataSourcePlugin(BaseDataSourcePlugin):
     @tool(name_or_callable="RSSFeedDataSourcePlugin-_-fetchNewsletterRSSFeedStories")
     def fetchNewsletterRSSFeedStories(newsletterRssFeeds: list[str]) -> list[RSSItemStory]:
         """
-        Fetch the top stories from a list of newsletter RSS feeds
+        Fetch the top segments from a list of newsletter RSS feeds
         """
         sqlLiteManager = SQLiteManager()
         numberOfItemsToFetch = int(os.getenv("NEWSLETTER_RSS_NUMBER_OF_ITEMS_TO_FETCH"))
@@ -40,7 +40,7 @@ class RSSFeedDataSourcePlugin(BaseDataSourcePlugin):
 
         if not newsletterRssFeeds:
             raise ValueError("No newsletter RSS feeds in prompt, please add one and try again.")
-        stories = []
+        segments = []
         # Iterate through each Newsletter Feed
         for feedUrl in newsletterRssFeeds:
             response = requests.get(feedUrl, timeout=10)
@@ -53,21 +53,21 @@ class RSSFeedDataSourcePlugin(BaseDataSourcePlugin):
             # lastFetched = sqlLiteManager.get_last_fetched(cleanLink)
 
             # Iterate through each newsletter item
-            RSSFeedDataSourcePlugin.getStoriesFromFeed(None, numberOfItemsToFetch, stories, root, feedUrl)
-        if len(stories) > 0:
-            # Sort the stories by publication date in descending order
-            stories.sort(key=lambda x: x.pubDate, reverse=True)
-            mostRecentStory = stories[0]
+            RSSFeedDataSourcePlugin.getStoriesFromFeed(None, numberOfItemsToFetch, segments, root, feedUrl)
+        if len(segments) > 0:
+            # Sort the segments by publication date in descending order
+            segments.sort(key=lambda x: x.pubDate, reverse=True)
+            mostRecentStory = segments[0]
             mostRecentTimestamp = mostRecentStory.pubDate
             # ref.set({"lastFetched": mostRecentTimestamp})
             sqlLiteManager.set_last_fetched(cleanLink, mostRecentTimestamp)
-            print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} stories from Newsletter RSS Feed{Style.RESET_ALL}")
-            return stories
-        print(f"{Fore.RED}{Style.BRIGHT}No stories found in Newsletter RSS Feed{Style.RESET_ALL}")
+            print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} segments from Newsletter RSS Feed{Style.RESET_ALL}")
+            return segments
+        print(f"{Fore.RED}{Style.BRIGHT}No segments found in Newsletter RSS Feed{Style.RESET_ALL}")
         return []
 
     @staticmethod
-    def getStoriesFromFeed(lastFetched: datetime, numberOfItemsToFetch: int, stories: list[RSSItemStory], root: ET.Element, cleanLink: str):
+    def getStoriesFromFeed(lastFetched: datetime, numberOfItemsToFetch: int, segments: list[RSSItemStory], root: ET.Element, cleanLink: str):
         for index, item in enumerate(root.findall(".//item")[:numberOfItemsToFetch]):
             # serialize the item to a string
             itemXml = ET.tostring(item, encoding="utf8").decode("utf8")
@@ -90,12 +90,12 @@ class RSSFeedDataSourcePlugin(BaseDataSourcePlugin):
             )
 
             if (lastFetched and pubDate > lastFetched) or not lastFetched:
-                stories.append(story)
+                segments.append(story)
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
     @staticmethod
     def writeToDisk(story, storiesDirName, storyFileNameLambda):

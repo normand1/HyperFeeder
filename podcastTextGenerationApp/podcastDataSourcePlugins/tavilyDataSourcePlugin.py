@@ -23,15 +23,15 @@ class TavilyDataSourcePlugin(BaseDataSourcePlugin):
         Tavily is a general purpose search engine like google that can be used to find articles, videos, images, and other content.
         """
         tavily_client = CachedTavilyClient()
-        stories = tavily_client.search(searchQuery)
-        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} stories from Tavily{Style.RESET_ALL}")
+        segments = tavily_client.search(searchQuery)
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} segments from Tavily{Style.RESET_ALL}")
         # Convert to TavilyStory objects
-        return [TavilyStory.from_dict(s) for s in stories]
+        return [TavilyStory.from_dict(s) for s in segments]
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            dump_json(stories, file)
+            dump_json(segments, file)
 
     def filterForImportantContextOnly(self, subStoryContent: dict):
         keysToKeep = ["title", "content", "raw_content", "uniqueId"]

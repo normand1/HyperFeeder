@@ -20,7 +20,7 @@ class TesterDataSourcePlugin(BaseDataSourcePlugin):
     )
     def fetchStories(searchQuery: str = None):
         """
-        return mock stories for a test
+        return mock segments for a test
         """
         story1 = Story(
             1,
@@ -49,14 +49,28 @@ class TesterDataSourcePlugin(BaseDataSourcePlugin):
 
         return [story1, story2, story3]
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            dump_json(stories, file)
+            dump_json(segments, file)
 
     def filterForImportantContextOnly(self, subStoryContent: dict):
         keysToKeep = ["title"]
         return {key: subStoryContent[key] for key in keysToKeep if key in subStoryContent}
+
+    def fetchContentForStory(self, story: Story):
+        if not isinstance(story, Story):
+            raise TypeError("Input must be a Story object")
+        if not story or not hasattr(story, "link"):
+            raise ValueError("Invalid Story object provided")
+        if story.link is None:
+            raise ValueError("Story link cannot be None")
+        if not isinstance(story.link, str):
+            raise TypeError("Story link must be a string")
+        if not story.link.strip():
+            raise ValueError("Story link cannot be empty")
+
+        return "This is a test content"
 
 
 plugin = TesterDataSourcePlugin()

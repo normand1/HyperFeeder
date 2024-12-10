@@ -1,6 +1,6 @@
 from abc import abstractmethod
 import os, json
-from podcastDataSourcePlugins.baseDataSourcePlugin import Story
+from podcastDataSourcePlugins.models.segment import Segment
 from podcastSegmentWriterPlugins.abstractPluginDefinitions.abstractSegmentWriterPlugin import (
     AbstractSegmentWriterPlugin,
 )
@@ -16,14 +16,14 @@ class BaseSegmentWriterPlugin(AbstractSegmentWriterPlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.writer"))
 
     @abstractmethod
-    def writeStorySegment(self, story, stories):
+    def writeStorySegment(self, story, segments):
         pass
 
     @abstractmethod
     def identify(self) -> str:
         pass
 
-    def writeToDisk(self, story: Story, scrapedText, directory, fileNameLambda):
+    def writeToDisk(self, story: Segment, scrapedText, directory, fileNameLambda):
         uuid = story.uniqueId
         filename = fileNameLambda(uuid)
         filePath = os.path.join(directory, filename)
