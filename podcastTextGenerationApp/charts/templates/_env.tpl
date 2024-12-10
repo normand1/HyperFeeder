@@ -21,12 +21,6 @@
   {{- end }}
 {{- end }}
 
-{{- if .Values.NEWSLETTER_RSS_DATA_SOURCE_PLUGINS }}
-  {{- range .Values.NEWSLETTER_RSS_DATA_SOURCE_PLUGINS }}
-    {{- $plugins = append $plugins . }}
-  {{- end }}
-{{- end }}
-
 {{- if .Values.PODCAST_DATA_SOURCE_PLUGINS }}
   {{- range .Values.PODCAST_DATA_SOURCE_PLUGINS }}
     {{- $plugins = append $plugins . }}
@@ -45,6 +39,24 @@
   {{- end }}
 {{- end }}
 
+{{- if .Values.NEWSLETTER_DATA_SOURCE_RSS_PLUGINS }}
+  {{- range .Values.NEWSLETTER_DATA_SOURCE_RSS_PLUGINS }}
+    {{- $plugins = append $plugins . }}
+  {{- end }}
+{{- end }}
+
+{{- if .Values.TAVILY_DATA_SOURCE_PLUGINS }}
+  {{- range .Values.TAVILY_DATA_SOURCE_PLUGINS }}
+    {{- $plugins = append $plugins . }}
+  {{- end }}
+{{- end }}
+
+{{- if .Values.WARPCAST_SEARCH_DATA_SOURCE_PLUGINS }}
+  {{- range .Values.WARPCAST_SEARCH_DATA_SOURCE_PLUGINS }}
+    {{- $plugins = append $plugins . }}
+  {{- end }}
+{{- end }}
+
 PODCAST_DATA_SOURCE_PLUGINS="{{ join "," $plugins }}"
 
 PODCAST_INTRO_PLUGINS={{ .Values.PODCAST_INTRO_PLUGINS }}
@@ -52,6 +64,12 @@ PODCAST_SCRAPER_PLUGINS={{ .Values.PODCAST_SCRAPER_PLUGINS }}
 PODCAST_SEGMENT_WRITER_PLUGINS={{ .Values.PODCAST_SEGMENT_WRITER_PLUGINS }}
 PODCAST_OUTRO_PLUGINS={{ .Values.PODCAST_OUTRO_PLUGINS }}
 PODCAST_PRODUCER_PLUGINS={{ .Values.PODCAST_PRODUCER_PLUGINS }}
+SYSTEM_PROMPT_SUMMARY={{- .Values.SYSTEM_PROMPT_SUMMARY | quote }}
+USER_PROMPT_SUMMARY="{{ .Values.USER_PROMPT_SUMMARY }}"
+
+{{- if .Values.INITIAL_QUERY }}
+  INITIAL_QUERY={{ join "," .Values.INITIAL_QUERY | quote }}
+{{- end }}
 
 {{- if .Values.PODCAST_RESEARCHER_PLUGINS }}
 PODCAST_RESEARCHER_PLUGINS={{ join "," .Values.PODCAST_RESEARCHER_PLUGINS }}
@@ -59,36 +77,35 @@ PODCAST_RESEARCHER_PLUGINS={{ join "," .Values.PODCAST_RESEARCHER_PLUGINS }}
 
 {{- $pluginsStr := join "," $plugins }}
 
-{{- if (contains "redditAPIPlugin" $pluginsStr) }}
+{{- if (contains "redditDataSourcePlugin" $pluginsStr) }}
 SUBREDDIT={{ .Values.SUBREDDIT }}
 {{- end }}
 
-{{- if (contains "articlesRSSFeedPlugin" $pluginsStr) }}
-ARTICLES_RSS_FEEDS={{ .Values.ARTICLES_RSS_FEEDS }}
-NUMBER_OF_ITEMS_TO_FETCH={{ .Values.NUMBER_OF_ITEMS_TO_FETCH }}
-{{- end }}
-
-{{- if (contains "podcastFeedPlugin" $pluginsStr) }}
+{{- if (contains "podcastFeedDataSourcePlugin" $pluginsStr) }}
 PODCAST_FEEDS={{ .Values.PODCAST_FEEDS }}
 NUMBER_OF_ITEMS_TO_FETCH={{ .Values.NUMBER_OF_ITEMS_TO_FETCH }}
 {{- end }}
 
-{{- if (contains "sqliteTokenPlugin" $pluginsStr) }}
+{{- if (contains "sqliteTokenDataSourcePlugin" $pluginsStr) }}
 TOKEN_STORIES_DB_PATH={{ .Values.TOKEN_STORIES_DB_PATH }}
 TOKEN_STORIES_COUNT_LIMIT={{ .Values.TOKEN_STORIES_COUNT_LIMIT }}
 {{- end }}
 
-{{- if (contains "newsletterRSSFeedPlugin" $pluginsStr) }}
-ARTICLES_RSS_FEEDS={{ .Values.ARTICLES_RSS_FEEDS }}
-NUMBER_OF_ITEMS_TO_FETCH={{ .Values.NUMBER_OF_ITEMS_TO_FETCH }}
+{{- if (contains "newsletterRSSFeedDataSourcePlugin" $pluginsStr) }}
+NEWSLETTER_RSS_FEEDS={{ .Values.NEWSLETTER_RSS_FEEDS }}
+NEWSLETTER_RSS_NUMBER_OF_ITEMS_TO_FETCH={{ .Values.NEWSLETTER_RSS_NUMBER_OF_ITEMS_TO_FETCH }}
 {{- end }}
 
-{{- if (contains "hackerNewsAPIPlugin" $pluginsStr) }}
+{{- if (contains "hackerNewsDataSourcePlugin" $pluginsStr) }}
 NUMBER_OF_POSTS_TO_FETCH={{ .Values.NUMBER_OF_POSTS_TO_FETCH }}
 {{- end }}
 
-{{- if (contains "arxivApiPlugin" $pluginsStr) }}
-ARXIV_SEARCH_QUERY={{ .Values.ARXIV_SEARCH_QUERY }}
+{{- if (contains "warpcastSearchPlugin" $pluginsStr) }}
+WARPCAST_SEARCH_NUMBER_OF_POSTS_TO_FETCH={{ .Values.WARPCAST_SEARCH_NUMBER_OF_POSTS_TO_FETCH }}
+{{- end }}
+
+{{- if (contains "redditDataSourcePlugin" $pluginsStr) }}
+NUMBER_OF_SUBREDDIT_POSTS_TO_FETCH={{ .Values.NUMBER_OF_SUBREDDIT_POSTS_TO_FETCH }}
 {{- end }}
 
 SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING={{ .Values.SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING }}
@@ -105,8 +122,8 @@ PODCAST_DESCRIPTION={{ .Values.PODCAST_DESCRIPTION | quote }}
 
 LLM_MODEL_PROVIDER={{ .Values.LLM_MODEL_PROVIDER }}
 LLM_MODEL_VERSION_NAME={{ .Values.LLM_MODEL_VERSION_NAME }}
-OPENAI_MAX_TOKENS_SUMMARY={{ .Values.OPENAI_MAX_TOKENS_SUMMARY }}
-OPENAI_TEMPERATURE_SUMMARY={{ .Values.OPENAI_TEMPERATURE_SUMMARY }}
+MAX_TOKENS_SUMMARY={{ .Values.MAX_TOKENS_SUMMARY }}
+TEMPERATURE_SUMMARY={{ .Values.TEMPERATURE_SUMMARY }}
 
 TTS_SCRIPT={{ .Values.TTS_SCRIPT }}
 {{- end }}

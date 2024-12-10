@@ -1,6 +1,9 @@
-import unittest
 import os
+import unittest
+from unittest.mock import MagicMock
+
 from podcastTextGenerator import PodcastTextGenerator
+from publicationPlanningManager import PublicationPlanningManager
 
 
 class EndToEndTests(unittest.TestCase):
@@ -22,15 +25,44 @@ class EndToEndTests(unittest.TestCase):
         if os.path.exists("output/test-podcast"):
             os.system("rm -rf output/test-podcast")
 
-        # Run App
-        PodcastTextGenerator().run("test-podcast")
+        # Create mock planning managers
+        mock_initial_planning_manager = MagicMock(spec=PublicationPlanningManager)
+        mock_research_planning_manager = MagicMock(spec=PublicationPlanningManager)
+
+        # Configure mock initial planning manager
+        def mock_generate_structure(query, plugins, allowed_plugin_names: list[str] = ["testerDataSourcePlugin"]):
+            mock_structure = MagicMock()
+            mock_structure.tool_calls = [{"name": "TesterDataSourcePlugin-_-fetchStories", "args": {"searchQuery": query}}]
+            return mock_structure
+
+        mock_initial_planning_manager.generatePublicationStructure.side_effect = mock_generate_structure
+
+        # Configure mock research planning manager
+        def mock_research_structure(query, plugins):
+            mock_structure = MagicMock()
+            mock_structure.tool_calls = [{"name": "TesterDataSourcePlugin-_-fetchStories", "args": {"searchQuery": "research " + query}}]
+            return mock_structure
+
+        mock_research_planning_manager.generatePublicationStructure.side_effect = mock_research_structure
+
+        # Run App with mock planning managers
+        PodcastTextGenerator().run(
+            "test-podcast",
+            initialPlanningManager=mock_initial_planning_manager,
+            researchPlanningManager=mock_research_planning_manager,
+            additionalAllowedPluginNamesForInitialResearch=["testerDataSourcePlugin"],
+        )
+
+        # Verify planning managers were called
+        mock_initial_planning_manager.generatePublicationStructure.assert_called()
+        mock_research_planning_manager.generatePublicationStructure.assert_called()
 
         # Check if the correct files were added to the output directory
         output_dir = "output/test-podcast"
         expected_files = {
             "intro_text": ["0_intro.txt"],
-            "segment_text": ["1_123-.txt", "2_125-.txt", "3_124-.txt"],
-            "outro_text": ["5_outro.txt"],
+            "segment_text": ["1_88cbbfe2a35f0cb957b6a46c802d6088.txt"],
+            "outro_text": ["3_outro.txt"],
         }
 
         for subdir, files in expected_files.items():

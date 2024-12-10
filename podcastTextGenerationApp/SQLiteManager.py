@@ -1,6 +1,7 @@
-
 import sqlite3
-import os
+from datetime import datetime
+from typing import Union
+
 
 class SQLiteManager:
     def __init__(self, db_path="podcast_plugin.db"):
@@ -18,11 +19,13 @@ class SQLiteManager:
         with self.connection:
             self.connection.execute(query)
 
-    def get_last_fetched(self, cleanLink):
+    def get_last_fetched(self, cleanLink) -> Union[datetime, None]:
         query = "SELECT lastFetched FROM last_fetched WHERE cleanLink = ?"
-        cursor = self.connection.execute(query, (cleanLink,))
+        cursor = self.connection.execute(query, (cleanLink))
         result = cursor.fetchone()
-        return result[0] if result else None
+        if result:
+            return datetime.fromisoformat(result[0])
+        return None
 
     def set_last_fetched(self, cleanLink, lastFetched):
         query = """

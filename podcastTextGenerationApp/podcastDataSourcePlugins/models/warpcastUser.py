@@ -16,7 +16,7 @@ class WarpcastUser:
         self.power_badge = user.get("power_badge", False)
         self.neynar_user_score = user.get("experimental", {}).get("neynar_user_score")
 
-    def __json__(self):
+    def __json__(self, depth=10):
         return {
             "fid": self.fid,
             "username": self.username,

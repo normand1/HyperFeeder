@@ -56,7 +56,8 @@ class BaseResearcherPlugin(AbstractResearcherPlugin):
                 dump_json(researchForStory, file)
                 file.flush()
 
-    def makeUniqueStoryIdentifier(self) -> str:
+    @classmethod
+    def makeUniqueStoryIdentifier(cls) -> str:
         characters = string.ascii_uppercase + string.ascii_lowercase + string.digits
         randomId = "".join(random.choice(characters) for _ in range(6))
         return randomId

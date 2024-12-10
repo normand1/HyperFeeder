@@ -4,16 +4,21 @@ releases:
     namespace: default
     chart: ./
     values:
+    # ------ Required Plugins ------
       - values/base.yaml
       - values/researchers.yaml
       - values/podcast.yaml
       - values/llm.yaml
       - values/tts.yaml
-      - values/sqliteToken.yaml
+      - values/dataSource-Tavily.yaml # required data source plugin
+    # ------ Optional Plugins ------
+      # - values/sqliteToken.yaml
+      - values/warpcastSearch.yaml
       # - values/reddit.yaml
       # - values/podcastFeed.yaml
       # - values/articlesRSS.yaml
       # - values/newsletterRSS.yaml
       # - values/hackerNewsAPI.yaml
       # - values/arxivApi.yaml
+      
 

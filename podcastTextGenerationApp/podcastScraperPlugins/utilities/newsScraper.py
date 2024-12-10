@@ -1,6 +1,6 @@
 import requests
 from dotenv import load_dotenv
-import time
+from podcastSegmentWriterPlugins.utilities.utils import storyCouldNotBeScrapedText
 
 
 class NewsScraper:
@@ -14,16 +14,13 @@ class NewsScraper:
             jina_url = f"https://r.jina.ai/{url}"
             # headers = {"Authorization": f"Bearer {os.getenv('JINA_API_KEY')}"}
             response = requests.get(jina_url)
-            print(response)
-            time.sleep(10)
-            response.raise_for_status()
             text = response.text
             if not text:
-                raise Exception("No text found with Jina API")
+                return f"{storyCouldNotBeScrapedText()}\n{url}"
             return text
         except Exception as e5:
             print(f"Jina API failed: {e5}")
-            raise Exception("No text could be scraped")
+            return f"{storyCouldNotBeScrapedText()}\n{url}"
 
 
 if __name__ == "__main__":

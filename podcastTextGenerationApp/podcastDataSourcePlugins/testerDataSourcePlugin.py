@@ -1,18 +1,27 @@
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from json_utils import dump_json
 import os
-
+from langchain_core.tools import tool
 from podcastDataSourcePlugins.models.story import Story
 
 
 class TesterDataSourcePlugin(BaseDataSourcePlugin):
-    def __init__(self):
-        super().__init__()
 
-    def identify(self) -> str:
-        return "🧪 Tester Data Source Plugin"
+    @classmethod
+    def identify(cls, simpleName=False) -> str:
+        if simpleName:
+            return "tester"
+        else:
+            return "🧪 Tester Data Source Plugin"
 
-    def fetchStories(self):
+    @staticmethod
+    @tool(
+        name_or_callable="TesterDataSourcePlugin-_-fetchStories",
+    )
+    def fetchStories(searchQuery: str = None):
+        """
+        return mock stories for a test
+        """
         story1 = Story(
             1,
             "Test Story 1",
@@ -42,8 +51,12 @@ class TesterDataSourcePlugin(BaseDataSourcePlugin):
 
     def writePodcastDetails(self, podcastName, stories):
         os.makedirs(podcastName, exist_ok=True)
-        with open(podcastName + "/podcastDetails.json", "w") as file:
+        with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
             dump_json(stories, file)
+
+    def filterForImportantContextOnly(self, subStoryContent: dict):
+        keysToKeep = ["title"]
+        return {key: subStoryContent[key] for key in keysToKeep if key in subStoryContent}
 
 
 plugin = TesterDataSourcePlugin()

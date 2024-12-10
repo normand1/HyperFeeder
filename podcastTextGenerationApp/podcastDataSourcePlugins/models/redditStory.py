@@ -12,30 +12,37 @@ class RedditStory(Story):
             newsRank=story_dict.get("newsRank", 0),
             title=story_dict.get("title", ""),
             link=story_dict.get("link", ""),
-            storyType=story_dict.get("storyType", "Reddit"),
+            content=story_dict.get("content", ""),
+            raw_content=story_dict.get("raw_content"),
             uniqueId=story_dict.get("uniqueId", ""),
-            source=story_dict.get("source", "Reddit"),
         )
+
+    def getStoryContext(self):
+        return self.content
 
     def __init__(
         self,
         newsRank: int,
         title: str,
         link: str,
-        storyType: str,
+        content: str,
+        raw_content: str,
         uniqueId: str,
-        source="Reddit",
     ):
-        super().__init__(newsRank, title, link, storyType, uniqueId, source)
-        self.keysToIgnoreForWritingSegment.append("rawContent")
+        super().__init__(newsRank, title, link, "Reddit", uniqueId, "Reddit")
+        self.content = content
+        self.raw_content = raw_content
+        self.keysToIgnoreForWritingSegment.extend(["raw_content", "uniqueId"])
 
-    def to_dict(self):
+    def __json__(self, depth=10):
+        """Make the class directly JSON serializable"""
         return {
             "newsRank": self.newsRank,
-            "title": self.title,
-            "link": self.link,
-            "storyType": self.storyType,
-            "uniqueId": self.uniqueId,
-            "source": self.source,
-            "keysToIgnoreForWritingSegment": self.keysToIgnoreForWritingSegment,
+            "title": str(self.title),
+            "link": str(self.link),
+            "content": str(self.content),
+            "raw_content": self.raw_content,
+            "storyType": "Reddit",
+            "uniqueId": str(self.uniqueId),
+            "source": "Reddit",
         }

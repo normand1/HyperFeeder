@@ -4,13 +4,13 @@ from sharedPluginServices.llmChainManager import LLMChainManager
 
 class PodcastIntroWriter:
     def __init__(self):
-        system_prompt = "You're a {typeOfPodcast} podcaster with a subtle wry sense of humor. Write a very short intro for a podcast covering these stories. Don't spend more than a sentence on each story. The podcast's name is {podcastName}:"
+        system_prompt = "You're a {typeOfPodcast} podcaster with a subtle wry sense of humor. Write a very short intro for a podcast covering these stories. Don't spend more than a sentence on each story. The podcast's name is {podcastName}. Do not include any introduction to the outro or any sound effects, simply provide the outro text directly without any additional chatter."
         user_prompt = "{allStoryTitles}"
 
         self.chain_manager = LLMChainManager(
             system_prompt=system_prompt,
             user_prompt=user_prompt,
-            max_tokens=int(os.getenv("OPENAI_MAX_TOKENS_SUMMARY")),
+            max_tokens=int(os.getenv("MAX_TOKENS_SUMMARY")),
         )
 
     def writeIntro(self, allStoryTitles, podcastName, typeOfPodcast):

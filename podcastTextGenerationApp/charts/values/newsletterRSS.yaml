@@ -1,4 +1,3 @@
 NEWSLETTER_DATA_SOURCE_RSS_PLUGINS:
-  - newsletterRSSFeedPlugin
-NEWSLETTER_RSS_FEEDS: "https://blog.bytebytego.com/feed"
-NUMBER_OF_ITEMS_TO_FETCH: 5
+  - newsletterRSSFeedDataSourcePlugin
+NEWSLETTER_RSS_NUMBER_OF_ITEMS_TO_FETCH: 1

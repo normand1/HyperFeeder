@@ -5,25 +5,34 @@ from typing import List
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.tokenStory import TokenStory
 from json_utils import dump_json
+from langchain_core.tools import tool
+from colorama import Fore, Style
 
 
 # This plugin is used to fetch token stories from a sqlite database
 # It is currently made to be integrated with the clanker-fomo-bot and the tokens.db
 # NOTE: You will need to have this project running locally in order use this plugin (for now, api coming soon hopefully)
 # https://github.com/normand1/clanker-fomo-bot
-class SQLiteTokenPlugin(BaseDataSourcePlugin):
-    def __init__(self):
-        super().__init__()
-        self.db_path = os.getenv("TOKEN_STORIES_DB_PATH")
-        self.stories_limit = os.getenv("TOKEN_STORIES_COUNT_LIMIT", "5")  # Add default value of "5"
+class SQLiteTokenDataSourcePlugin(BaseDataSourcePlugin):
 
-    def identify(self) -> str:
-        return "💰 Token Database Plugin"
+    @classmethod
+    def identify(cls, simpleName=False) -> str:
+        if simpleName:
+            return "tokenDatabase"
+        else:
+            return "💰 Token Database Plugin"
 
-    def fetchStories(self) -> List[TokenStory]:
+    @staticmethod
+    @tool(name_or_callable="SQLiteTokenDataSourcePlugin-_-getRecentTokens")
+    def getRecentTokens(searchQuery: str = None) -> List[TokenStory]:
+        """
+        Get the most recent clanker meme tokens from the database
+        """
         stories: List[TokenStory] = []
+        dbPath = os.getenv("TOKEN_STORIES_DB_PATH")
+        storiesLimit = os.getenv("TOKEN_STORIES_COUNT_LIMIT", "5")
 
-        conn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(dbPath)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 
@@ -39,7 +48,7 @@ class SQLiteTokenPlugin(BaseDataSourcePlugin):
             ORDER BY t.created_at DESC
             LIMIT ?
         """,
-            (self.stories_limit,),
+            (storiesLimit),
         )
 
         rows = cursor.fetchall()
@@ -62,6 +71,7 @@ class SQLiteTokenPlugin(BaseDataSourcePlugin):
             stories.append(story)
 
         conn.close()
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(stories)} stories from Token Database{Style.RESET_ALL}")
         return stories
 
     def writePodcastDetails(self, podcastName, stories):
@@ -70,4 +80,4 @@ class SQLiteTokenPlugin(BaseDataSourcePlugin):
             dump_json(stories, file)
 
 
-plugin = SQLiteTokenPlugin()
+plugin = SQLiteTokenDataSourcePlugin()

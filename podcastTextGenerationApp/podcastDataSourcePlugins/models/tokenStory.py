@@ -50,7 +50,7 @@ class TokenStory(Story):
         """Set the WarpcastUser for this token story"""
         self.warpcast_user = WarpcastUser(user_data) if user_data else None
 
-    def __json__(self):
+    def __json__(self, depth=10):
         """Make the class directly JSON serializable"""
         return {
             "contract_address": str(self.contract_address),

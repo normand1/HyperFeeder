@@ -127,3 +127,34 @@ class NeynarAPIManager:
         response.raise_for_status()
 
         return response.json()
+
+    def get_trending_feed(self, limit: int = 10, time_window: str = "24h", channel_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Fetch trending casts from Farcaster.
+
+        Args:
+            limit: Maximum number of results to return (default: 10)
+            time_window: Time window for trending casts (default: "24h")
+            channel_id: Optional channel ID to filter results (e.g. "founders")
+
+        Returns:
+            Dict containing the trending feed results
+
+        Raises:
+            requests.exceptions.RequestException: If the API request fails
+        """
+        url = f"{self.base_url}/feed/trending"
+        params = {"limit": limit, "time_window": time_window, "provider": "neynar"}
+        if channel_id:
+            params["channel_id"] = channel_id
+
+        response = requests.get(url, headers=self.headers, params=params, timeout=10)
+        response.raise_for_status()
+
+        # Log whether the response was from cache or not
+        if response.from_cache:
+            print(f"Cache used for trending feed")
+        else:
+            print(f"Data refetched for trending feed")
+
+        return response.json()["casts"]

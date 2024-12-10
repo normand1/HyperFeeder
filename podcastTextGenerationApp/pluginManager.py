@@ -1,6 +1,7 @@
 import importlib.util
 import os
 
+from colorama import Fore, Style
 from pluginTypes import PluginType
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastIntroPlugins.baseIntroPlugin import BaseIntroPlugin
@@ -37,21 +38,35 @@ class PluginManager:
                     plugins[name] = module
         return plugins
 
-    def runDataSourcePlugins(self, plugins, storiesDirName, storyFileNameLambda):
-        stories = []
-        for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, BaseDataSourcePlugin):
-                print(f"Running Data Source Plugins: {plugin.plugin.identify()}")
-                fetchedStories = plugin.plugin.fetchStories()
+    def runDataSourcePlugins(self, publicationStructure, plugins, uniqueId, storiesDirName, storyFileNameLambda):
+        subStories = {}
+        # Parse and execute tool calls
+        if hasattr(publicationStructure, "tool_calls"):
+            for tool_call in publicationStructure.tool_calls:
+                # Parse plugin name and function
+                plugin_name, function_name = tool_call["name"].split("-_-")
 
-                if fetchedStories is not None:
-                    for story in fetchedStories:
-                        if not plugin.plugin.doesOutputFileExist(story, storiesDirName, storyFileNameLambda):
-                            plugin.plugin.writeToDisk(story, storiesDirName, storyFileNameLambda)
-            else:
-                print(f"Plugin {name} does not implement the necessary interface.")
+                # Find matching plugin in dataSourcePlugins
+                matching_plugin = next((plugin for plugin in plugins.values() if plugin.plugin.__class__.__name__ == plugin_name), None)
 
-        return stories
+                if matching_plugin:
+                    # Get the function and call it with arguments
+                    plugin_function = getattr(matching_plugin.plugin, function_name)
+                    if plugin_function:
+                        # Unpack the arguments to match the function signature
+                        kwargs = {k: v for k, v in tool_call["args"].items()}
+                        subStoryContent = plugin_function.invoke(kwargs)
+                        # Update each substory's content before saving to subStories
+                        for subStory in subStoryContent:
+                            contentDict = matching_plugin.plugin.fetchContentForStory(subStory)
+                            subStory.content = contentDict
+                        # Now save the updated subStoryContent
+                        subStories[matching_plugin.plugin.identify(simpleName=True) + uniqueId] = subStoryContent
+
+        else:
+            print(f"{Fore.YELLOW}Warning: Plugin does not have attribute tool_calls {Style.RESET_ALL}")
+
+        return subStories
 
     def runResearcherPlugins(
         self,

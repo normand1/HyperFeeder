@@ -9,7 +9,6 @@
         "PODCAST_FEEDS": { "type": "string" },
         "NUMBER_OF_POSTS_TO_FETCH": { "type": "integer" },
         "TOKEN_STORIES_DB_PATH": { "type": "string" },
-        "ARXIV_SEARCH_QUERY": { "type": "string" },
 
         "PODCAST_INTRO_PLUGINS": { "type": "string" },
         "PODCAST_SCRAPER_PLUGINS": { "type": "string" },
@@ -25,8 +24,8 @@
 
         "LLM_MODEL_PROVIDER": { "type": "string" },
         "LLM_MODEL_VERSION_NAME": { "type": "string" },
-        "OPENAI_MAX_TOKENS_SUMMARY": { "type": "integer" },
-        "OPENAI_TEMPERATURE_SUMMARY": { "type": "number" },
+        "MAX_TOKENS_SUMMARY": { "type": "integer" },
+        "TEMPERATURE_SUMMARY": { "type": "number" },
 
         "TTS_SCRIPT": { "type": "string" }
       },
@@ -36,7 +35,7 @@
             "properties": {
               "PODCAST_DATA_SOURCE_PLUGINS": {
                 "type": "string",
-                "pattern": "(^|,)redditAPIPlugin($|,)"
+                "pattern": "(^|,)redditDataSourcePlugin($|,)"
               }
             }
           },
@@ -52,19 +51,7 @@
             "properties": {
               "PODCAST_DATA_SOURCE_PLUGINS": {
                 "type": "string",
-                "pattern": "articlesRSSFeedPlugin"
-              }
-            },
-            "required": ["PODCAST_DATA_SOURCE_PLUGINS"]
-          },
-          "then": { "required": ["ARTICLES_RSS_FEEDS", "NUMBER_OF_ITEMS_TO_FETCH"] }
-        },
-        {
-          "if": {
-            "properties": {
-              "PODCAST_DATA_SOURCE_PLUGINS": {
-                "type": "string",
-                "pattern": "podcastFeedPlugin"
+                "pattern": "podcastFeedDataSourcePlugin"
               }
             },
             "required": ["PODCAST_DATA_SOURCE_PLUGINS"]
@@ -76,7 +63,7 @@
             "properties": {
               "PODCAST_DATA_SOURCE_PLUGINS": {
                 "type": "string",
-                "pattern": "sqliteTokenPlugin"
+                "pattern": "sqliteTokenDataSourcePlugin"
               }
             },
             "required": ["PODCAST_DATA_SOURCE_PLUGINS"]
@@ -88,7 +75,7 @@
             "properties": {
               "PODCAST_DATA_SOURCE_PLUGINS": {
                 "type": "string",
-                "pattern": "newsletterRSSFeedPlugin"
+                "pattern": "newsletterRSSFeedDataSourcePlugin"
               }
             },
             "required": ["PODCAST_DATA_SOURCE_PLUGINS"]
@@ -100,24 +87,12 @@
             "properties": {
               "PODCAST_DATA_SOURCE_PLUGINS": {
                 "type": "string",
-                "pattern": "hackerNewsAPIPlugin"
+                "pattern": "hackerNewsDataSourcePlugin"
               }
             },
             "required": ["PODCAST_DATA_SOURCE_PLUGINS"]
           },
           "then": { "required": ["NUMBER_OF_POSTS_TO_FETCH"] }
-        },
-        {
-          "if": {
-            "properties": {
-              "PODCAST_DATA_SOURCE_PLUGINS": {
-                "type": "string",
-                "pattern": "arxivApiPlugin"
-              }
-            },
-            "required": ["PODCAST_DATA_SOURCE_PLUGINS"]
-          },
-          "then": { "required": ["ARXIV_SEARCH_QUERY"] }
         }
       ],
       "required": [
@@ -132,8 +107,8 @@
         "PODCAST_DESCRIPTION",
         "LLM_MODEL_PROVIDER",
         "LLM_MODEL_VERSION_NAME",
-        "OPENAI_MAX_TOKENS_SUMMARY",
-        "OPENAI_TEMPERATURE_SUMMARY",
+        "MAX_TOKENS_SUMMARY",
+        "TEMPERATURE_SUMMARY",
         "TTS_SCRIPT"
       ]
     }

@@ -1,8 +1,8 @@
 import yaml
-import os
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmentWriter
 from podcastDataSourcePlugins.baseDataSourcePlugin import Story
+from utilities.xml_utils import strip_xml_tags
 
 
 class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
@@ -10,16 +10,16 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
         return "🤙 TopTenSegmentWriterPlugin"
 
     def writeStorySegment(self, story: Story, stories):
-        url = story.link
-        print("Writing Segment: " + url)
+        uuid = story.uniqueId
+        print("Writing Segment: " + uuid)
         storyCopy = story.to_dict()
         if hasattr(story, "keysToIgnoreForWritingSegment"):
             for key in story.keysToIgnoreForWritingSegment:
                 if key in storyCopy:
                     del storyCopy[key]
         storySummary = self.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
-        model_provider = os.environ["LLM_MODEL_PROVIDER"]
-        storyText = StorySegmentWriter(model_provider).writeSegmentFromSummary(storySummary, story.title)
+        storyText = StorySegmentWriter().writeSegmentFromSummary(storySummary, story.title)
+        storyText = strip_xml_tags(storyText)
         return storyText
 
 

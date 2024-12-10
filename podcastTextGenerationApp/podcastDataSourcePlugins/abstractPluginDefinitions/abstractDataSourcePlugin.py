@@ -4,22 +4,34 @@ from typing import List
 
 
 class AbstractDataSourcePlugin(ABC):
-    @abstractmethod
-    def fetchStories(self) -> List[Story]:
-        pass
 
+    @classmethod
     @abstractmethod
-    def identify(self) -> str:
+    def identify(cls, simpleName=False) -> str:
         pass
 
     @abstractmethod
     def writePodcastDetails(self, podcastName, stories):
         pass
 
+    @staticmethod
     @abstractmethod
-    def writeToDisk(self, story, storiesDirName, storyFileNameLambda):
+    def writeToDisk(story, storiesDirName, storyFileNameLambda):
+        pass
+
+    @classmethod
+    @abstractmethod
+    def makeUniqueStoryIdentifier(cls) -> str:
         pass
 
     @abstractmethod
-    def makeUniqueStoryIdentifier(self) -> str:
+    def getTools(self):
+        pass
+
+    @abstractmethod
+    def filterForImportantContextOnly(self, subStoryContent: dict):
+        pass
+
+    @abstractmethod
+    def fetchContentForStory(self, story: Story):
         pass

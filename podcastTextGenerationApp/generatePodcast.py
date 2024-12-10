@@ -13,7 +13,7 @@ def load_env():
     env_files = [".config.env", "./secrets/.auth.env"]
     for env_file in env_files:
         if os.path.isfile(env_file):
-            with open(env_file, "r") as f:
+            with open(env_file, "r", encoding="utf-8") as f:
                 for line in f:
                     if line.strip() and not line.startswith("#"):
                         key, value = line.strip().split("=", 1)
@@ -93,7 +93,7 @@ def main():
 
 def upload(folder):
     print("Upload only mode")
-    with open(f"{folder}/uploadJsonBody.json", "r") as f:
+    with open(f"{folder}/uploadJsonBody.json", "r", encoding="utf-8") as f:
         config = json.load(f)
         print(f"config: {config}")
 
