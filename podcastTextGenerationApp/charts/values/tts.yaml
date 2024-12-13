@@ -1,2 +1,1 @@
-TTS_SCRIPT: "ttsLocalScript.sh"
-SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING: "false" 
+TTS_SCRIPT: "ttsScript.sh"

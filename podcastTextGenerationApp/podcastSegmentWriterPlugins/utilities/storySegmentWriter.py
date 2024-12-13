@@ -1,9 +1,16 @@
 from sharedPluginServices.llmChainManager import LLMChainManager
+import os
 
 
 class StorySegmentWriter:
     def __init__(self):
-        self.chain_manager = LLMChainManager(system_prompt_env_var="SYSTEM_PROMPT_SUMMARY", user_prompt_file_env_var="USER_PROMPT_SUMMARY")
+        systemPrompt = os.getenv("STORY_WRITER_SYSTEM_PROMPT_SUMMARY")
+        userPrompt = os.getenv("STORY_WRITER_USER_PROMPT_SUMMARY")
+
+        if not systemPrompt or not userPrompt:
+            raise ValueError("STORY_WRITER_SYSTEM_PROMPT_SUMMARY and STORY_WRITER_USER_PROMPT_SUMMARY must be set in the environment variables, please check the .env.config file")
+
+        self.chainManager = LLMChainManager(systemPrompt, userPrompt)
 
     def writeSegmentFromSummary(self, storySummary, source_name):
-        return self.chain_manager.invoke_chain(SOURCE_NAME=source_name, NEWS_ARTICLE=storySummary)
+        return self.chainManager.invoke_chain(SOURCE_NAME=source_name, NEWS_ARTICLE=storySummary)

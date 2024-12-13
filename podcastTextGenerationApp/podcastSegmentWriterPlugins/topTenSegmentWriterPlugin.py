@@ -3,6 +3,7 @@ from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWrite
 from podcastSegmentWriterPlugins.utilities.storySegmentWriter import StorySegmentWriter
 from podcastDataSourcePlugins.models.segment import Segment
 from utilities.xml_utils import strip_xml_tags
+from utilities.textFilteringUtils import TextFilteringUtils
 
 
 class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
@@ -17,8 +18,9 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
             for key in story.keysToIgnoreForWritingSegment:
                 if key in storyCopy:
                     del storyCopy[key]
-        storySummary = self.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
+        storySummary = TextFilteringUtils.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
         storyText = StorySegmentWriter().writeSegmentFromSummary(storySummary, story.title)
+        storyText = TextFilteringUtils.cleanText(storyText)
         storyText = strip_xml_tags(storyText)
         return storyText
 

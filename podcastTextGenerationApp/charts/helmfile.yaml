@@ -4,6 +4,7 @@ releases:
     namespace: default
     chart: ./
     values:
+      - values/prompts.yaml
     # ------ Required Plugins ------
       - values/base.yaml
       - values/researchers.yaml

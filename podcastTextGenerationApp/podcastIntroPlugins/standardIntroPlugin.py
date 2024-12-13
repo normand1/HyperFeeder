@@ -18,8 +18,8 @@ class StandardIntroPlugin(BaseIntroPlugin):
         if not isinstance(typeOfPodcast, str) or not typeOfPodcast.strip():
             raise ValueError("Type of podcast must be a non-empty string.")
 
-        storyTitles = list(map(lambda story: story.title, segments))
-        introText = PodcastIntroWriter().writeIntro(storyTitles, podcastName, typeOfPodcast)
+        combinedStorySegments = list(map(lambda story: story.rawSplitText, segments))
+        introText = PodcastIntroWriter().writeIntro(combinedStorySegments, podcastName, typeOfPodcast)
         return introText
 
 

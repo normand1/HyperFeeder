@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import MagicMock
 
 from podcastTextGenerator import PodcastTextGenerator
-from publicationPlanningManager import PublicationPlanningManager
+from toolUseManager import ToolUseManager
 
 
 class EndToEndTests(unittest.TestCase):
@@ -19,15 +19,15 @@ class EndToEndTests(unittest.TestCase):
         os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] = "testerSegmentWriter"
         os.environ["PODCAST_OUTRO_PLUGINS"] = "testerOutroPlugin"
         os.environ["PODCAST_PRODUCER_PLUGINS"] = "producerPlugin"
-        os.environ["SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING"] = "false"
+        os.environ["SHOULD_PAUSE_AND_VALIDATE_QUERIES_BEFORE_STARTING"] = "false"
 
         # Clear Previous Test Artifacts
         if os.path.exists("output/test-podcast"):
             os.system("rm -rf output/test-podcast")
 
         # Create mock planning managers
-        mock_initial_planning_manager = MagicMock(spec=PublicationPlanningManager)
-        mock_research_planning_manager = MagicMock(spec=PublicationPlanningManager)
+        mock_initial_planning_manager = MagicMock(spec=ToolUseManager)
+        mock_research_planning_manager = MagicMock(spec=ToolUseManager)
 
         # Configure mock initial planning manager
         def mock_generate_structure(query, plugins, allowed_plugin_names: list[str] = ["testerDataSourcePlugin"]):
@@ -48,8 +48,8 @@ class EndToEndTests(unittest.TestCase):
         # Run App with mock planning managers
         PodcastTextGenerator().run(
             "test-podcast",
-            initialPlanningManager=mock_initial_planning_manager,
-            researchPlanningManager=mock_research_planning_manager,
+            initialQueryToolUseManager=mock_initial_planning_manager,
+            segmentGenerationToolUseManager=mock_research_planning_manager,
             additionalAllowedPluginNamesForInitialResearch=["testerDataSourcePlugin"],
         )
 

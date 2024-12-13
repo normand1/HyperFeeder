@@ -11,7 +11,7 @@ from podcastDataSourcePlugins.models.warpcastStory import WarpcastStory
 class WarpcastSearchPlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
-        self._neynar_api_manager = NeynarAPIManager()
+        self._neynarApiManager = NeynarAPIManager()
 
     @classmethod
     def identify(cls, simpleName=False) -> str:
@@ -27,22 +27,23 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         Search for casts (tweets) on the crypto social media platform Warpcast
         """
         # Get the number of posts to fetch from config
-        number_of_posts = 2  # TODO: Default value, should be configured in values yaml
+        numberOfPosts = os.getenv("WARPCAST_SEARCH_NUMBER_OF_POSTS_TO_FETCH")
 
         # Use the Neynar API to search for casts
-        neynar_api_manager = NeynarAPIManager()
-        search_results = neynar_api_manager.search_casts(searchQuery, limit=number_of_posts)
+        neynarApiManager = NeynarAPIManager()
+        search_results = neynarApiManager.search_casts(searchQuery, limit=numberOfPosts)
 
         segments = []
         for cast in search_results["casts"]:
+            cast = WarpcastSearchPlugin.filterCast(cast)
             # Convert the cast dict to a WarpcastStory object
-            story_dict = {
+            storyDict = {
                 "content": json.dumps(cast),
                 "url": f"https://warpcast.com/{cast.get('author', {}).get('username')}/{cast.get('hash')}",
                 "timestamp": cast.get("timestamp"),
                 "hash": cast.get("hash"),
             }
-            segments.append(WarpcastStory.from_dict(story_dict))
+            segments.append(WarpcastStory.from_dict(storyDict))
 
         print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} segments from Warpcast{Style.RESET_ALL}")
         return segments
@@ -62,11 +63,18 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         """
         Get user information from Warpcast by their username
         """
-        neynar_api_manager = NeynarAPIManager()
-        user_info = neynar_api_manager.get_user_by_username(username)
+        neynarApiManager = NeynarAPIManager()
+        userInfo = neynarApiManager.get_user_by_username(username)
 
         print(f"{Fore.GREEN}{Style.BRIGHT}Fetched user info for {username} from Warpcast{Style.RESET_ALL}")
-        return user_info
+        userInfo = WarpcastSearchPlugin.filterUserResponse(userInfo)
+        storyDict = {
+            "content": json.dumps(userInfo),
+            "url": f"https://warpcast.com/{userInfo.get('username')}",
+            "timestamp": userInfo.get("timestamp"),
+            "hash": userInfo.get("hash"),
+        }
+        return WarpcastStory.from_dict(storyDict)
 
     @staticmethod
     @tool(name_or_callable="WarpcastSearchPlugin-_-getTrendingFeed")
@@ -78,25 +86,150 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
             time_window: Time window for trending casts (default: "24h")
             channel_id: Optional channel to filter results (e.g. "founders")
         """
-        neynar_api_manager = NeynarAPIManager()
-        trending_feed = neynar_api_manager.get_trending_feed(limit=limit, time_window=time_window, channel_id=channel_id)
-
+        neynarApiManager = NeynarAPIManager()
+        trending_feed = neynarApiManager.get_trending_feed(limit=limit, time_window=time_window, channel_id=channel_id)
+        trending_feed = WarpcastSearchPlugin.filterTrendingFeedResponse(trending_feed)
         segments = []
         for cast in trending_feed:
-            # Convert the cast dict to a WarpcastStory object
-            story_dict = {
+            storyDict = {
                 "content": json.dumps(cast),
                 "url": f"https://warpcast.com/{cast.get('author', {}).get('username')}/{cast.get('hash')}",
                 "timestamp": cast.get("timestamp"),
                 "hash": cast.get("hash"),
             }
-            segments.append(WarpcastStory.from_dict(story_dict))
+            segments.append(WarpcastStory.from_dict(storyDict))
 
         print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} trending casts from Warpcast{Style.RESET_ALL}")
         return segments
 
     def fetchContentForStory(self, story: WarpcastStory):
         return story.content
+
+    @staticmethod
+    @tool(name_or_callable="WarpcastSearchPlugin-_-getChannelFeed")
+    def getChannelFeed(channel_ids: str, limit: int = 5, with_recasts: bool = True, with_replies: bool = True, members_only: bool = True) -> list[WarpcastStory]:
+        """
+        Get feed from specific Warpcast channels
+        Args:
+            channel_ids: Channel ID or comma-separated list of channel IDs (e.g. "orange-dao" or "orange-dao,founders")
+            limit: Maximum number of results to return (default: 5)
+            with_recasts: Include recasts in results (default: True)
+            with_replies: Include replies in results (default: True)
+            members_only: Only show casts from channel members (default: True)
+        """
+        neynarApiManager = NeynarAPIManager()
+        channel_feed = neynarApiManager.get_channel_feed(channel_ids=channel_ids, limit=limit, with_recasts=with_recasts, with_replies=with_replies, members_only=members_only)
+        channel_feed = WarpcastSearchPlugin.filterChannelFeedResponse(channel_feed)
+        segments = []
+        for cast in channel_feed:
+            # Convert the cast dict to a WarpcastStory object
+            storyDict = {
+                "content": json.dumps(cast),
+                "url": f"https://warpcast.com/{cast.get('author', {}).get('username')}/{cast.get('hash')}",
+                "timestamp": cast.get("timestamp"),
+                "hash": cast.get("hash"),
+            }
+            segments.append(WarpcastStory.from_dict(storyDict))
+
+        print(f"{Fore.GREEN}{Style.BRIGHT}Fetched {len(segments)} casts from Warpcast channels: {channel_ids}{Style.RESET_ALL}")
+        return segments
+
+    @staticmethod
+    def filterCast(cast):
+        # Extract fields that matter to telling the story
+        # Avoid hash, parent_hash, urls, fids, etc.
+        filtered = {}
+        filtered["text"] = cast.get("text")
+        filtered["timestamp"] = cast.get("timestamp")
+
+        author = cast.get("author", {})
+        filtered["author"] = {"username": author.get("username"), "display_name": author.get("display_name"), "bio": author.get("profile", {}).get("bio", {}).get("text")}
+
+        # Keep mentions only as basic references
+        filtered["mentioned_profiles"] = []
+        for m in cast.get("mentioned_profiles", []):
+            filtered["mentioned_profiles"].append({"username": m.get("username"), "display_name": m.get("display_name")})
+
+        # Keep simple counts of reactions and replies for story context
+        reactions = cast.get("reactions", {})
+        filtered["likes_count"] = reactions.get("likes_count")
+        filtered["recasts_count"] = reactions.get("recasts_count")
+
+        replies = cast.get("replies", {})
+        filtered["replies_count"] = replies.get("count")
+
+        return filtered
+
+    @staticmethod
+    def filterUserResponse(user_data):
+        user = user_data.get("user", {})
+        filtered = {}
+        filtered["username"] = user.get("username")
+        filtered["display_name"] = user.get("display_name")
+        filtered["bio"] = user.get("profile", {}).get("bio", {}).get("text")
+        filtered["follower_count"] = user.get("follower_count")
+        filtered["following_count"] = user.get("following_count")
+        return filtered
+
+    @staticmethod
+    def filterTrendingFeedResponse(trending_feed_data):
+        filtered_casts = []
+        for cast in trending_feed_data.get("casts", []):
+            filtered = {}
+            filtered["text"] = cast.get("text")
+            filtered["timestamp"] = cast.get("timestamp")
+            author = cast.get("author", {})
+            filtered["author"] = {"username": author.get("username"), "display_name": author.get("display_name"), "bio": author.get("profile", {}).get("bio", {}).get("text")}
+
+            filtered["mentioned_profiles"] = []
+            for m in cast.get("mentioned_profiles", []):
+                filtered["mentioned_profiles"].append({"username": m.get("username"), "display_name": m.get("display_name")})
+
+            reactions = cast.get("reactions", {})
+            filtered["likes_count"] = reactions.get("likes_count")
+            filtered["recasts_count"] = reactions.get("recasts_count")
+
+            replies = cast.get("replies", {})
+            filtered["replies_count"] = replies.get("count")
+
+            filtered_casts.append(filtered)
+
+        return {"casts": filtered_casts, "next": trending_feed_data.get("next")}
+
+    @staticmethod
+    def filterChannelFeedResponse(channel_feed_data):
+        # If channel_feed_data is a list of casts rather than a dict with a "casts" key,
+        # adjust accordingly. If it's a dict, use channel_feed_data.get("casts", []).
+        if isinstance(channel_feed_data, dict):
+            casts = channel_feed_data.get("casts", [])
+            next_val = channel_feed_data.get("next")
+        else:
+            # If channel_feed_data is a list, assume it's directly a list of casts
+            casts = channel_feed_data
+            next_val = None
+
+        filtered_casts = []
+        for cast in casts:
+            filtered = {}
+            filtered["text"] = cast.get("text")
+            filtered["timestamp"] = cast.get("timestamp")
+            author = cast.get("author", {})
+            filtered["author"] = {"username": author.get("username"), "display_name": author.get("display_name"), "bio": author.get("profile", {}).get("bio", {}).get("text")}
+
+            filtered["mentioned_profiles"] = []
+            for m in cast.get("mentioned_profiles", []):
+                filtered["mentioned_profiles"].append({"username": m.get("username"), "display_name": m.get("display_name")})
+
+            reactions = cast.get("reactions", {})
+            filtered["likes_count"] = reactions.get("likes_count")
+            filtered["recasts_count"] = reactions.get("recasts_count")
+
+            replies = cast.get("replies", {})
+            filtered["replies_count"] = replies.get("count")
+
+            filtered_casts.append(filtered)
+
+        return filtered_casts
 
 
 plugin = WarpcastSearchPlugin()

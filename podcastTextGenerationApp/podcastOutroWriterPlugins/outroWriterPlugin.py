@@ -14,8 +14,8 @@ class OutroWriterPlugin(BaseOutroWriterPlugin):
         currentDirectory = os.path.dirname(currentFile)
         load_dotenv(os.path.join(currentDirectory, ".env.outro"))
 
-        system_prompt = "The following text is the *intro* to my podcast. Write a funny joke I can make at the *outro* of the podcast based on this intro:\n\n```\n{introText}\n```\nAfter saying the joke make sure to end with an outro and invite the listener to tune in again soon. Do not include any introduction to the outro or any sound effects, simply provide the outro text directly without any additional chatter."
-        user_prompt = "{introText}"
+        system_prompt = os.getenv("OUTRO_WRITER_SYSTEM_PROMPT")
+        user_prompt = os.getenv("OUTRO_WRITER_USER_PROMPT")
 
         self.chain_manager = LLMChainManager(
             system_prompt=system_prompt,

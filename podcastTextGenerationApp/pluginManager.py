@@ -1,6 +1,6 @@
 import importlib.util
 import os
-
+import yaml
 from colorama import Fore, Style
 from pluginTypes import PluginType
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
@@ -12,7 +12,13 @@ from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from json_utils import dump_json
 
+import json
+
 from podcastDataSourcePlugins.models.story import Story
+from utilities.textFilteringUtils import TextFilteringUtils
+from podcastDataSourcePlugins.models.segment import Segment
+from toolUseManager import ToolUseManager
+from podcastSegmentWriterPlugins.utilities.utils import storyCouldNotBeScrapedText
 
 
 class PluginManager:
@@ -38,35 +44,39 @@ class PluginManager:
                     plugins[name] = module
         return plugins
 
-    def runDataSourcePlugins(self, publicationStructure, plugins, uniqueId, storiesDirName, storyFileNameLambda):
+    def runDataSourcePlugins(self, toolUseManager: ToolUseManager, plugins):
         subStories = {}
-        # Parse and execute tool calls
-        if hasattr(publicationStructure, "tool_calls"):
-            for tool_call in publicationStructure.tool_calls:
-                # Parse plugin name and function
-                plugin_name, function_name = tool_call["name"].split("-_-")
+        toolCallResponse = toolUseManager.invokeWithBoundToolsAndQuery()
+        message = self._extract_text_message(toolCallResponse)
+        print(f"{Fore.GREEN}Tool call response: {message}{Style.RESET_ALL}")
 
-                # Find matching plugin in dataSourcePlugins
-                matching_plugin = next((plugin for plugin in plugins.values() if plugin.plugin.__class__.__name__ == plugin_name), None)
+        toolsUsed = []
+        if hasattr(toolCallResponse, "tool_calls"):
+            for toolCall in toolCallResponse.tool_calls:
+                pluginName, function_name = toolCall["name"].split("-_-")
+                # Find matching plugin
+                matchingPlugin = next((plugin for plugin in plugins.values() if plugin.plugin.__class__.__name__ == pluginName), None)
 
-                if matching_plugin:
-                    # Get the function and call it with arguments
-                    plugin_function = getattr(matching_plugin.plugin, function_name)
+                if matchingPlugin:
+                    # Record the simple name of the plugin for excluding next time
+                    simplePluginName = matchingPlugin.plugin.identify(simpleName=True)
+                    if simplePluginName not in toolsUsed:
+                        toolsUsed.append(simplePluginName)
+
+                    plugin_function = getattr(matchingPlugin.plugin, function_name, None)
                     if plugin_function:
-                        # Unpack the arguments to match the function signature
-                        kwargs = {k: v for k, v in tool_call["args"].items()}
+                        kwargs = {k: v for k, v in toolCall["args"].items()}
                         subStoryContent = plugin_function.invoke(kwargs)
-                        # Update each substory's content before saving to subStories
                         for subStory in subStoryContent:
-                            contentDict = matching_plugin.plugin.fetchContentForStory(subStory)
+                            contentDict = matchingPlugin.plugin.fetchContentForStory(subStory)
                             subStory.content = contentDict
-                        # Now save the updated subStoryContent
-                        subStories[matching_plugin.plugin.identify(simpleName=True) + uniqueId] = subStoryContent
-
+                        subStories[simplePluginName + toolUseManager.queryUniqueId] = subStoryContent
         else:
             print(f"{Fore.YELLOW}Warning: Plugin does not have attribute tool_calls {Style.RESET_ALL}")
 
-        return subStories
+        segment = Segment(title=toolUseManager.query, uniqueId=toolUseManager.queryUniqueId, sources=subStories)
+        segment.toolsUsed = toolsUsed
+        return segment
 
     def runResearcherPlugins(
         self,
@@ -152,7 +162,9 @@ class PluginManager:
                 for story in segments:
                     if not plugin.plugin.doesOutputFileExist(story, segmentTextDirNameLambda, segmentTextFileNameLambda):
                         segmentText = plugin.plugin.writeStorySegment(story, segments)
-                        cleanSegmentText = plugin.plugin.cleanText(segmentText)
+                        cleanSegmentText = TextFilteringUtils.cleanText(segmentText)
+                        cleanSegmentText = TextFilteringUtils.remove_links(cleanSegmentText)
+                        cleanSegmentText = TextFilteringUtils.cleanupStorySummary(cleanSegmentText)
                         plugin.plugin.writeToDisk(
                             story,
                             cleanSegmentText,
@@ -213,3 +225,71 @@ class PluginManager:
                 file.flush()
 
         print(f"Updated segments written to {stories_dir}")
+
+    def filterSubstories(self, segment, dataSourcePlugins):
+        """Filter and deduplicate substories for each source in a segment."""
+        for sourceKey, subStorySearchResults in segment.sources.items():
+            for plugin in dataSourcePlugins.values():
+                aPlugin = plugin.plugin
+                if aPlugin.identify(simpleName=True) in sourceKey:
+                    print(f"Found plugin {aPlugin.identify(simpleName=True)} for sub story source {sourceKey}")
+                    seen_substories = set()
+                    filteredSubStories = []
+
+                    for searchResult in subStorySearchResults:
+                        # Convert Story object to dict if necessary
+                        resultToFilter = searchResult.to_dict() if isinstance(searchResult, Story) else searchResult
+                        filteredSubStory = aPlugin.filterForImportantContextOnly(resultToFilter)
+
+                        # Convert dict to a string representation for hashability
+                        substory_str = json.dumps(filteredSubStory, sort_keys=True)
+                        if substory_str not in seen_substories:
+                            seen_substories.add(substory_str)
+                            filteredSubStories.append(filteredSubStory)
+
+                    segment.sources[sourceKey] = filteredSubStories  # replace with filtered sub segments
+
+        return segment
+
+    def processSegments(self, segments, dataSourcePlugins, rawTextDirName):
+        os.makedirs(rawTextDirName, exist_ok=True)
+
+        for segment in segments:
+            story_filename = os.path.join(rawTextDirName, f"{segment.uniqueId}_filtered_substories.yaml")
+
+            # Filter and deduplicate substories
+            segment = self.filterSubstories(segment, dataSourcePlugins)
+
+            # Extract raw text
+            raw_text = [substory["content"] for substories in segment.sources.values() for substory in substories if isinstance(substory, dict) and "content" in substory]
+
+            # Combine raw text and assign to segment
+            raw_split_text = "\n\n".join(raw_text)
+            segment.rawSplitText = raw_split_text
+
+            # Serialize and add rawSplitText
+            story_data = segment.__json__()
+            story_data["rawSplitText"] = raw_split_text
+
+            # Write YAML file
+            with open(story_filename, "w", encoding="utf-8") as yaml_file:
+                yaml.safe_dump(story_data, yaml_file, allow_unicode=True, default_flow_style=False)
+
+            print(f"{Fore.GREEN}Wrote filtered sub-segments to {story_filename}{Style.RESET_ALL}")
+
+            self._validateSegmentScraping(segment)
+
+    def _validateSegmentScraping(self, segment):
+        """Validates that all segments were properly scraped and have raw text content."""
+        if hasattr(segment, "rawSplitText"):
+            if storyCouldNotBeScrapedText() in segment.rawSplitText:  # This is default text added to a story if the story could not be scraped
+                print(f"{Fore.RED}{Style.BRIGHT}Error: A story could not be scraped.{Style.RESET_ALL}")
+        else:
+            print(f"{Fore.RED}{Style.BRIGHT}Error: A story does not have rawSplitText.{Style.RESET_ALL}")
+
+    def _extract_text_message(self, response):
+        if hasattr(response, "content") and isinstance(response.content, list):
+            for item in response.content:
+                if isinstance(item, dict) and item.get("type") == "text":
+                    return item.get("text", "")
+        return ""

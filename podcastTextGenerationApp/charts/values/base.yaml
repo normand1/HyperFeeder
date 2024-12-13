@@ -11,12 +11,4 @@ PODCAST_SEGMENT_WRITER_PLUGINS: topTenSegmentWriterPlugin
 PODCAST_OUTRO_PLUGINS: outroWriterPlugin
 PODCAST_PRODUCER_PLUGINS: producerPlugin
 
-INITIAL_QUERY: 
-  - "please generate a podcast segment about the top hacker news segments"
-
-SYSTEM_PROMPT_SUMMARY: >
-  You are tasked with creating a podcast segment that discusses a news article in detail. 
-  Your goal is to present the information in an engaging and insightful manner, suitable 
-  for a podcast audience.
-
-USER_PROMPT_SUMMARY: ./podcastTextGenerationApp/user_prompt_summary.txt
+SHOULD_PAUSE_AND_VALIDATE_QUERIES_BEFORE_STARTING: "true"

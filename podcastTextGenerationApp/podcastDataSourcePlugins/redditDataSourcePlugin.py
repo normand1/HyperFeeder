@@ -6,6 +6,7 @@ from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.redditStory import RedditStory
 from langchain_core.tools import tool
 from podcastScraperPlugins.newsStoryScraperPlugin import NewsStoryScraperPlugin
+from utilities.textFilteringUtils import TextFilteringUtils
 from colorama import Fore, Style
 
 
@@ -62,7 +63,8 @@ class RedditDataSourcePlugin(BaseDataSourcePlugin):
         return segments
 
     def fetchContentForStory(self, story: RedditStory):
-        return self.scraperPlugin.scrapeStoryText(story.link)
+        content = self.scraperPlugin.scrapeStoryText(story.link)
+        return TextFilteringUtils.cleanText(content)
 
     def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)

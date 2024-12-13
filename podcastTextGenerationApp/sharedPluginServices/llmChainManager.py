@@ -12,8 +12,6 @@ class LLMChainManager:
         self,
         system_prompt=None,
         user_prompt=None,
-        system_prompt_env_var=None,
-        user_prompt_file_env_var=None,
         max_tokens=8096,
     ):
         # Setup cache directory and file
@@ -21,25 +19,16 @@ class LLMChainManager:
         os.makedirs(self.cache_dir, exist_ok=True)
 
         # Create a unique cache file based on the prompts to avoid conflicts
-        cache_key = hashlib.md5((str(system_prompt) + str(user_prompt) + str(system_prompt_env_var) + str(user_prompt_file_env_var)).encode()).hexdigest()
+        cache_key = hashlib.md5((str(system_prompt) + str(user_prompt)).encode()).hexdigest()
         self.cache_file = os.path.join(self.cache_dir, f"llm_cache_{cache_key}.json")
 
         # Load existing cache or create new one
         self._load_cache()
-
-        # Handle prompts
-        self.system_prompt = system_prompt or get_env_var(system_prompt_env_var)
-        if user_prompt_file_env_var:
-            with open(get_env_var(user_prompt_file_env_var), "r", encoding="utf-8") as file:
-                self.user_prompt = file.read()
-        else:
-            self.user_prompt = user_prompt
-
         # Create prompt template
         self.prompt_template = ChatPromptTemplate.from_messages(
             [
-                ("system", self.system_prompt),
-                ("user", self.user_prompt),
+                ("system", system_prompt),
+                ("user", user_prompt),
             ]
         )
         self.parser = StrOutputParser()

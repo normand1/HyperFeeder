@@ -16,7 +16,7 @@
         "PODCAST_OUTRO_PLUGINS": { "type": "string" },
         "PODCAST_PRODUCER_PLUGINS": { "type": "string" },
 
-        "SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING": { "type": "string" },
+        "SHOULD_PAUSE_AND_VALIDATE_QUERIES_BEFORE_STARTING": { "type": "string" },
 
         "PODCAST_NAME": { "type": "string" },
         "PODCAST_TYPE": { "type": "string" },

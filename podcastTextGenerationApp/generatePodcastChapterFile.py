@@ -57,10 +57,8 @@ class GeneratePodcastChapterFile:
                 print(f"Found matching story file: {story_file}")
 
                 if story_file:
-                    with open(os.path.join(stories_folder_path, story_file), "r") as f:
+                    with open(os.path.join(stories_folder_path, story_file), "r", encoding="utf-8") as f:
                         story_data = json.load(f)
-
-                    print(f"Story data: {story_data}")
 
                     # add a chapter with correct title and link
                     chapters.append(
