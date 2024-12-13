@@ -13,5 +13,13 @@
         "./podcastTextGenerationApp",
         "-p",
         "*test*.py"
-    ]
+    ],
+    "emeraldwalk.runonsave": {
+    "commands": [
+        {
+            "match": "\\.yaml$",
+            "cmd": "echo 'saved ${file}.' && ./configurePlugins.sh"
+        },
+        ]
+    }
 }

@@ -10,7 +10,7 @@ class GeneratePodcastChapterFile:
     def main(self, folder_path):
         # the path to the folder containing your mp3 files
         audio_folder_path = os.path.join(folder_path, "audio")
-        stories_folder_path = os.path.join(folder_path, "stories")
+        stories_folder_path = os.path.join(folder_path, "segments")
 
         # list to store the chapters
         chapters = []
@@ -50,27 +50,21 @@ class GeneratePodcastChapterFile:
                 )
             else:
                 # get the corresponding story file
-                story_files = [
-                    f for f in os.listdir(stories_folder_path) if f.endswith(".txt")
-                ]
+                story_files = [f for f in os.listdir(stories_folder_path) if f.endswith(".txt")]
                 story_file = self.find_matching_story_file(mp3_file, story_files)
 
                 print(f"Looking for story file for MP3: {mp3_file}")
                 print(f"Found matching story file: {story_file}")
 
                 if story_file:
-                    with open(os.path.join(stories_folder_path, story_file), "r") as f:
+                    with open(os.path.join(stories_folder_path, story_file), "r", encoding="utf-8") as f:
                         story_data = json.load(f)
-
-                    print(f"Story data: {story_data}")
 
                     # add a chapter with correct title and link
                     chapters.append(
                         {
                             "startTime": round(total_duration),
-                            "title": story_data.get(
-                                "title", f"Chapter {self.extract_number(mp3_file)}"
-                            ),
+                            "title": story_data.get("title", f"Chapter {self.extract_number(mp3_file)}"),
                             "url": story_data.get("link", None),
                         }
                     )

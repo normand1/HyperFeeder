@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class AbstractOutroPlugin(ABC):
     @abstractmethod
-    def writeOutro(self, stories, introText):
+    def writeOutro(self, segments, introText):
         pass
 
     @abstractmethod

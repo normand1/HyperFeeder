@@ -17,19 +17,19 @@ class WarpcastCastsResearcherPlugin(BaseResearcherPlugin):
         else:
             return "🎣 Warpcast Casts Researcher Plugin"
 
-    def updateStories(self, stories: list[TokenStory]):
-        return stories
+    def updateStories(self, segments: list[TokenStory]):
+        return segments
 
-    def researchStories(self, stories: list[TokenStory], researchDirName: str):
+    def researchStories(self, segments: list[TokenStory], researchDirName: str):
         searchResults = {}
-        for story in stories:
+        for story in segments:
             searchResults[story.uniqueId] = self.neynarApiManager.search_casts(story.title, author_fid=story.warpcast_user.fid)
         return searchResults
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
 
 plugin = WarpcastCastsResearcherPlugin()

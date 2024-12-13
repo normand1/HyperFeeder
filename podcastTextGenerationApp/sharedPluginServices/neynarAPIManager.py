@@ -1,5 +1,5 @@
 import requests
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Union, List
 import os
 from dotenv import load_dotenv
 import click
@@ -125,5 +125,72 @@ class NeynarAPIManager:
 
         response = requests.post(url, json=payload, headers=headers, timeout=10)
         response.raise_for_status()
+
+        return response.json()
+
+    def get_trending_feed(self, limit: int = 10, time_window: str = "24h", channel_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Fetch trending casts from Farcaster.
+
+        Args:
+            limit: Maximum number of results to return (default: 10)
+            time_window: Time window for trending casts (default: "24h")
+            channel_id: Optional channel ID to filter results (e.g. "founders")
+
+        Returns:
+            Dict containing the trending feed results
+
+        Raises:
+            requests.exceptions.RequestException: If the API request fails
+        """
+        url = f"{self.base_url}/feed/trending"
+        params = {"limit": limit, "time_window": time_window, "provider": "neynar"}
+        if channel_id:
+            params["channel_id"] = channel_id
+
+        response = requests.get(url, headers=self.headers, params=params, timeout=10)
+        response.raise_for_status()
+
+        # Log whether the response was from cache or not
+        if response.from_cache:
+            print(f"Cache used for trending feed")
+        else:
+            print(f"Data refetched for trending feed")
+
+        return response.json()["casts"]
+
+    def get_channel_feed(self, channel_ids: Union[str, List[str]], limit: int = 5, with_recasts: bool = True, with_replies: bool = True, members_only: bool = True) -> Dict[str, Any]:
+        """
+        Fetch feed based on channel IDs from Farcaster.
+
+        Args:
+            channel_ids: Single channel ID or list of channel IDs (e.g. "orange-dao")
+            limit: Maximum number of results to return (default: 5)
+            with_recasts: Include recasts in results (default: True)
+            with_replies: Include replies in results (default: True)
+            members_only: Only show casts from channel members (default: True)
+
+        Returns:
+            Dict containing the channel feed results
+
+        Raises:
+            requests.exceptions.RequestException: If the API request fails
+        """
+        url = f"{self.base_url}/feed/channels"
+
+        # Convert list of channel IDs to comma-separated string if needed
+        if isinstance(channel_ids, list):
+            channel_ids = ",".join(channel_ids)
+
+        params = {"channel_ids": channel_ids, "with_recasts": str(with_recasts).lower(), "with_replies": str(with_replies).lower(), "members_only": str(members_only).lower(), "limit": limit}
+
+        response = requests.get(url, headers=self.headers, params=params, timeout=10)
+        response.raise_for_status()
+
+        # Log whether the response was from cache or not
+        if response.from_cache:
+            print(f"Cache used for channel feed: {channel_ids}")
+        else:
+            print(f"Data refetched for channel feed: {channel_ids}")
 
         return response.json()

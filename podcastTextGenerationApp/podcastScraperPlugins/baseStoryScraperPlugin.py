@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from podcastScraperPlugins.abstractPluginDefinitions.abstractStoryScraperPlugin import (
     AbstractStoryScraperPlugin,
 )
@@ -16,15 +15,12 @@ class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
         currentDirectory = os.path.dirname(currentFile)
         load_dotenv(os.path.join(currentDirectory, ".env.scraper"))
 
-    @abstractmethod
     def scrapeSiteForText(self, story, storiesDirName) -> str:
         pass
 
-    @abstractmethod
     def identify(self) -> str:
         pass
 
-    @abstractmethod
     def doesHandleStory(self, story) -> bool:
         pass
 
@@ -79,3 +75,6 @@ class BaseStoryScraperPlugin(AbstractStoryScraperPlugin):
                 allResearch[researchType] = json.load(file)
 
         return allResearch
+
+    def scrapeResearchAndOrganizeForSegmentWriter(self, story, storiesDirName, researchDirectoryName):
+        pass

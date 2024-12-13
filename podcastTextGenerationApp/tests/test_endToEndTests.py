@@ -1,6 +1,9 @@
-import unittest
 import os
+import unittest
+from unittest.mock import MagicMock
+
 from podcastTextGenerator import PodcastTextGenerator
+from toolUseManager import ToolUseManager
 
 
 class EndToEndTests(unittest.TestCase):
@@ -16,21 +19,50 @@ class EndToEndTests(unittest.TestCase):
         os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] = "testerSegmentWriter"
         os.environ["PODCAST_OUTRO_PLUGINS"] = "testerOutroPlugin"
         os.environ["PODCAST_PRODUCER_PLUGINS"] = "producerPlugin"
-        os.environ["SHOULD_PAUSE_AND_VALIDATE_STORIES_BEFORE_SCRAPING"] = "false"
+        os.environ["SHOULD_PAUSE_AND_VALIDATE_QUERIES_BEFORE_STARTING"] = "false"
 
         # Clear Previous Test Artifacts
         if os.path.exists("output/test-podcast"):
             os.system("rm -rf output/test-podcast")
 
-        # Run App
-        PodcastTextGenerator().run("test-podcast")
+        # Create mock planning managers
+        mock_initial_planning_manager = MagicMock(spec=ToolUseManager)
+        mock_research_planning_manager = MagicMock(spec=ToolUseManager)
+
+        # Configure mock initial planning manager
+        def mock_generate_structure(query, plugins, allowed_plugin_names: list[str] = ["testerDataSourcePlugin"]):
+            mock_structure = MagicMock()
+            mock_structure.tool_calls = [{"name": "TesterDataSourcePlugin-_-fetchStories", "args": {"searchQuery": query}}]
+            return mock_structure
+
+        mock_initial_planning_manager.generatePublicationStructure.side_effect = mock_generate_structure
+
+        # Configure mock research planning manager
+        def mock_research_structure(query, plugins):
+            mock_structure = MagicMock()
+            mock_structure.tool_calls = [{"name": "TesterDataSourcePlugin-_-fetchStories", "args": {"searchQuery": "research " + query}}]
+            return mock_structure
+
+        mock_research_planning_manager.generatePublicationStructure.side_effect = mock_research_structure
+
+        # Run App with mock planning managers
+        PodcastTextGenerator().run(
+            "test-podcast",
+            initialQueryToolUseManager=mock_initial_planning_manager,
+            segmentGenerationToolUseManager=mock_research_planning_manager,
+            additionalAllowedPluginNamesForInitialResearch=["testerDataSourcePlugin"],
+        )
+
+        # Verify planning managers were called
+        mock_initial_planning_manager.generatePublicationStructure.assert_called()
+        mock_research_planning_manager.generatePublicationStructure.assert_called()
 
         # Check if the correct files were added to the output directory
         output_dir = "output/test-podcast"
         expected_files = {
             "intro_text": ["0_intro.txt"],
-            "segment_text": ["1_123-.txt", "2_125-.txt", "3_124-.txt"],
-            "outro_text": ["5_outro.txt"],
+            "segment_text": ["1_be937e905acfe59971566b5bbec93262.txt"],
+            "outro_text": ["3_outro.txt"],
         }
 
         for subdir, files in expected_files.items():

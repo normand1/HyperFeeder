@@ -7,37 +7,37 @@ from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 import pytz
 import requests
-from dateutil.parser import parse
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastDataSourcePlugins.models.podcastStory import PodcastStory
+from langchain_core.tools import tool
+from SQLiteManager import SQLiteManager
 
 
-class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
-    def __init__(self):
-        super().__init__()
-        self.feeds = []
+class PodcastFeedDataSourcePlugin(BaseDataSourcePlugin):
+    @classmethod
+    def identify(cls, simpleName=False) -> str:
+        if simpleName:
+            return "podcastFeed"
+        else:
+            return "🎙️ Podcast Transcript API Plugin"
 
-    def identify(self) -> str:
-        return "🎙️ Podcast Transcript API Plugin"
-
-    def fetchStories(self):
+    @staticmethod
+    @tool(name_or_callable="PodcastFeedDataSourcePlugin-_-fetchPodcastFeeds")
+    def fetchPodcastFeeds(podcastFeeds: list[str] = None, numberOfItemsToFetch: int = None):
+        """
+        Fetch the top segments from a list of podcast feeds
+        """
+        sqlLiteManager = SQLiteManager()
         lastFetched = None
-        ref = None
-        podcastFeeds = os.getenv("PODCAST_FEEDS")
+
         if not podcastFeeds:
-            raise ValueError("PODCAST_FEEDS environment variable is not set")
+            raise ValueError("No podcast feeds passed as argument, please add one and try again.")
 
-        self.feeds = podcastFeeds.split(",")
-
-        if not self.feeds:
-            raise ValueError("No podcast feeds in .config.env file, please add one and try again.")
-
-        numberOfItemsToFetch = int(os.getenv("NUMBER_OF_ITEMS_TO_FETCH"))
         if not numberOfItemsToFetch:
             raise ValueError("NUMBER_OF_ITEMS_TO_FETCH environment variable is not set, please set it and try again.")
-        stories = []
+        segments = []
         # Iterate through each Podcast Feed
-        for feedUrl in self.feeds:
+        for feedUrl in podcastFeeds:
             headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
             response = requests.get(feedUrl, headers=headers, timeout=10)
             root = ET.fromstring(response.content)
@@ -45,34 +45,32 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
             parsedUrl = urlparse(rootLink)
             cleanLink = parsedUrl.netloc + parsedUrl.path
             cleanLink = re.sub(r"\W+", "", cleanLink)
-            lastFetched = self.sqlite_manager.get_last_fetched(cleanLink)
+            lastFetched = sqlLiteManager.get_last_fetched(cleanLink)
 
             podcastTitle = root.find(".//channel/title")
             # Iterate through each podcast episode
-            self.getStoriesFromFeed(
+            PodcastFeedDataSourcePlugin.getStoriesFromFeed(
                 lastFetched,
                 numberOfItemsToFetch,
-                stories,
+                segments,
                 root,
                 podcastTitle,
                 cleanLink,
             )
-        if len(stories) > 0:
-            # Sort the stories by publication date in descending order
-            stories.sort(key=lambda x: x["pubDate"], reverse=True)
-            mostRecentStories = stories[0:5]
+        if len(segments) > 0:
+            # Sort the segments by publication date in descending order
+            segments.sort(key=lambda x: x["pubDate"], reverse=True)
+            mostRecentStories = segments[0:numberOfItemsToFetch]
             mostRecentTimestamp = max(story.pubDate for story in mostRecentStories)
-            self.sqlite_manager.set_last_fetched(cleanLink, mostRecentTimestamp)
-            # if ref:
-            #     ref.set({"lastFetched": mostRecentTimestamp})
+            sqlLiteManager.set_last_fetched(cleanLink, mostRecentTimestamp)
             return mostRecentStories
         return []
 
+    @staticmethod
     def getStoriesFromFeed(
-        self,
         lastFetched,
         numberOfItemsToFetch,
-        stories: list,
+        segments: list,
         root,
         podcastTitle,
         cleanLink,
@@ -95,29 +93,29 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
 
             pubDateElement = find_element(item, ["pubDate"])
             pubDateString = pubDateElement.text if pubDateElement is not None else datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
-            pubDate = self.parseDate(pubDateString).replace(tzinfo=pytz.UTC)
+            pubDate = BaseDataSourcePlugin.parseDate(pubDateString).replace(tzinfo=pytz.UTC)
 
             episodeTitle = find_element(item, ["title"])
             episodeTitle = episodeTitle.text if episodeTitle is not None else f"Untitled Episode {index + 1}"
 
             if (lastFetched and pubDate > lastFetched) or not lastFetched:
-                stories.append(
+                segments.append(
                     PodcastStory(
                         itemOrder=index + 1,
                         title=episodeTitle,
                         link=episodeLink,
                         source=(podcastTitle.text if hasattr(podcastTitle, "text") else str(podcastTitle)),
                         podcastEpisodeLink=episodeLink,
-                        uniqueId=self.url_to_filename(itemGuid),
+                        uniqueId=BaseDataSourcePlugin.url_to_filename(itemGuid),
                         rootLink=cleanLink,
                         pubDate=pubDate.isoformat(),
                     ).to_dict()
                 )
 
-        return stories
+        return segments
 
-    def writePodcastDetails(self, podcastName, stories):
-        copiedTopStories = copy.deepcopy(stories)
+    def writePodcastDetails(self, podcastName, segments):
+        copiedTopStories = copy.deepcopy(segments)
         for item in copiedTopStories:
             if "podcastEpisodeLink" in item:
                 item["link"] = item["podcastEpisodeLink"]
@@ -128,4 +126,4 @@ class PodcastTranscriptAPIPlugin(BaseDataSourcePlugin):
             json.dump(copiedTopStories, file)
 
 
-plugin = PodcastTranscriptAPIPlugin()
+plugin = PodcastFeedDataSourcePlugin()

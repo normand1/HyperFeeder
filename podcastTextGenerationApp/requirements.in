@@ -1,4 +1,7 @@
-langchain
+langchain>=0.3,<0.4
+langchain-core>=0.3,<0.4
+langchain-openai>=0.2,<0.3
+langchain-anthropic>=0.2,<0.3
 tinytag
 feedparser
 python-dotenv
@@ -7,9 +10,7 @@ python-dateutil
 urllib3
 tenacity
 pylint
-langchain-openai
 colorama
-anthropic
 requests-cache
 pyyaml
-langchain-anthropic
+tavily-python

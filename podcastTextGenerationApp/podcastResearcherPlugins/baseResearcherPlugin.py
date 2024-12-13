@@ -22,16 +22,16 @@ class BaseResearcherPlugin(AbstractResearcherPlugin):
 
         self.sqlite_manager = SQLiteManager()
 
-    def researchStories(self, stories: list[Story], researchDirName: str):
+    def researchStories(self, segments: list[Story], researchDirName: str):
         raise NotImplementedError("researchStories() not implemented, make sure to override it in your plugin")
 
-    def updateStories(self, stories: list[Story]):
+    def updateStories(self, segments: list[Story]):
         raise NotImplementedError("updateStories() not implemented, make sure to override it in your plugin")
 
     def identify(self, simpleName=False) -> str:
         raise NotImplementedError("identify() not implemented, make sure to override it in your plugin")
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         raise NotImplementedError("writePodcastDetails() not implemented, make sure to override it in your plugin")
 
     def writeToDisk(self, story: Story, storiesDirName, storyFileNameLambda):
@@ -44,8 +44,8 @@ class BaseResearcherPlugin(AbstractResearcherPlugin):
             dump_json(story, file)
             file.flush()
 
-    def writeResearchToDisk(self, stories: list[Story], research: dict[str, dict], researchDirName, researchFileNameLambda):
-        for story in stories:
+    def writeResearchToDisk(self, segments: list[Story], research: dict[str, dict], researchDirName, researchFileNameLambda):
+        for story in segments:
             researchForStory = research[story.uniqueId]
             # Create story-specific subdirectory
             storyDir = os.path.join(researchDirName, story.uniqueId)
@@ -56,7 +56,8 @@ class BaseResearcherPlugin(AbstractResearcherPlugin):
                 dump_json(researchForStory, file)
                 file.flush()
 
-    def makeUniqueStoryIdentifier(self) -> str:
+    @classmethod
+    def makeUniqueStoryIdentifier(cls) -> str:
         characters = string.ascii_uppercase + string.ascii_lowercase + string.digits
         randomId = "".join(random.choice(characters) for _ in range(6))
         return randomId

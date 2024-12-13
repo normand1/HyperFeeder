@@ -20,22 +20,22 @@ class WarpcastUserResearcherPlugin(BaseResearcherPlugin):
         else:
             return "👩🏻‍🎤 Warpcast User Researcher Plugin"
 
-    def updateStories(self, stories: list[TokenStory]):
+    def updateStories(self, segments: list[TokenStory]):
 
-        for story in stories:
+        for story in segments:
             # Fetch user info
             user = self.neynarApiManager.get_user_by_username(story.creator_username)
             print(user)
             story.set_warpcast_user(user)
-        return stories
+        return segments
 
-    def researchStories(self, stories: list[TokenStory], researchDirName: str):
+    def researchStories(self, segments: list[TokenStory], researchDirName: str):
         return None
 
-    def writePodcastDetails(self, podcastName, stories):
+    def writePodcastDetails(self, podcastName, segments):
         os.makedirs(podcastName, exist_ok=True)
         with open(podcastName + "/podcastDetails.json", "w", encoding="utf-8") as file:
-            json.dump(stories, file)
+            json.dump(segments, file)
 
 
 plugin = WarpcastUserResearcherPlugin()

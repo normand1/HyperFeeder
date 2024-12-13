@@ -14,8 +14,8 @@ class OutroWriterPlugin(BaseOutroWriterPlugin):
         currentDirectory = os.path.dirname(currentFile)
         load_dotenv(os.path.join(currentDirectory, ".env.outro"))
 
-        system_prompt = "The following text is the *intro* to my podcast. Write a funny joke I can make at the *outro* of the podcast based on this intro:\n\n```\n{introText}\n```\nAfter saying the joke make sure to end with an outro and invite the listener to tune in again soon."
-        user_prompt = "{introText}"
+        system_prompt = os.getenv("OUTRO_WRITER_SYSTEM_PROMPT")
+        user_prompt = os.getenv("OUTRO_WRITER_USER_PROMPT")
 
         self.chain_manager = LLMChainManager(
             system_prompt=system_prompt,
@@ -23,7 +23,7 @@ class OutroWriterPlugin(BaseOutroWriterPlugin):
             max_tokens=int(os.getenv("OPENAI_MAX_TOKENS_OUTRO")),
         )
 
-    def writeOutro(self, stories, introText):
+    def writeOutro(self, segments, introText):
         print("Writing funny Outro")
         return self.chain_manager.invoke_chain(introText=introText)
 

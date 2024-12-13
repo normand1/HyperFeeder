@@ -7,7 +7,7 @@ class ProducerPlugin(BaseProducerPlugin):
 
     def updateFileNames(
         self,
-        stories,
+        segments,
         outroTextDirName,
         introDirName,
         segmentTextDirNameLambda,
@@ -18,14 +18,13 @@ class ProducerPlugin(BaseProducerPlugin):
         self.renameFile(introDirName, "intro.txt", "0_intro.txt")
 
         # The segments should be next and ordered based on their rank
-        for story in stories:
-            url = story.link
+        for story in segments:
             uniqueId = story.uniqueId
             rank = story.newsRank
-            filename = fileNameLambda(uniqueId, url)
+            filename = fileNameLambda(uniqueId)
             self.renameFile(segmentTextDirNameLambda, filename, f"{rank+1}_{filename}")
 
-        self.renameFile(outroTextDirName, "outro.txt", f"{len(stories)+2}_outro.txt")
+        self.renameFile(outroTextDirName, "outro.txt", f"{len(segments)+2}_outro.txt")
 
 
 plugin = ProducerPlugin()

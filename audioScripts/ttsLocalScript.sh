@@ -5,11 +5,21 @@ set -x  # Print commands and their arguments as they are executed
 
 # Function for logging
 log() {
-    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1" >> "${DIR}/tts_debug.log"
+    local message="[$(date +'%Y-%m-%d %H:%M:%S')] $1"
+    # Always write to log file
+    echo "$message" >> "${DIR}/tts_debug.log"
+    # Only print to terminal if verbose mode is enabled
+    if $VERBOSE; then
+        echo "$message"
+    fi
 }
 
 # First command line argument is the directory
 DIR=$1
+VERBOSE=false
+if [ "$2" = "-v" ]; then
+    VERBOSE=true
+fi
 
 # Directory with your text files
 TEXT_DIR="${DIR}/segment_text/"

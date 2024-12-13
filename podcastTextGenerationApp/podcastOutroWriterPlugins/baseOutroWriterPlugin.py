@@ -15,7 +15,7 @@ class BaseOutroWriterPlugin(AbstractOutroPlugin):
         load_dotenv(os.path.join(currentDirectory, ".env.outro"))
 
     @abstractmethod
-    def writeOutro(self, stories, introText):
+    def writeOutro(self, segments, introText):
         pass
 
     @abstractmethod

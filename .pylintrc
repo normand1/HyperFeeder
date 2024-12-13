@@ -1,6 +1,6 @@
 [MAIN]
 # https://pylint.pycqa.org/en/latest/user_guide/checkers/features.html
-disable=C0114,C0116,E0401,C0115,R0902,E1131,W0719
+disable=C0114,C0116,E0401,C0115,R0902,E1131,W0719,W0718
 
 # Analyse import fallback blocks. This can be used to support both Python 2 and
 # 3 compatible code, which means that the block might have code that exists

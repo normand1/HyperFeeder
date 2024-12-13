@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class AbstractSegmentWriterPlugin(ABC):
     @abstractmethod
-    def writeStorySegment(self, story, stories):
+    def writeStorySegment(self, story, segments):
         pass
 
     @abstractmethod
