@@ -78,43 +78,6 @@ class PluginManager:
         segment.toolsUsed = toolsUsed
         return segment
 
-    def runResearcherPlugins(
-        self,
-        plugins,
-        storiesDirName,
-        storyFileNameLambda,
-        segments: list[Story],
-        researchDirName: str,
-        researchFileNameLambda: str,
-    ):
-        # Sort plugins by priority
-        sorted_plugins = sorted(plugins.items(), key=lambda x: x[1].plugin.priority)
-        if len(sorted_plugins) == 0:
-            raise Exception("No plugins to run Researcher Plugins")
-        for name, plugin in sorted_plugins:
-            if isinstance(plugin.plugin, BaseResearcherPlugin):
-                print(f"Running Researcher Plugin: {plugin.plugin.identify()} (priority: {plugin.plugin.priority})")
-                updatedStories = plugin.plugin.updateStories(segments)
-                if updatedStories is not None:
-                    for story in updatedStories:
-                        # Overwrite the existing story with the updated story
-                        plugin.plugin.writeToDisk(story, storiesDirName, storyFileNameLambda)
-                research = plugin.plugin.researchStories(segments, researchDirName)
-                if research is not None:
-                    plugin.plugin.writeResearchToDisk(segments, research, researchDirName, researchFileNameLambda)
-            else:
-                print(f"Plugin {name} does not implement the necessary interface.")
-        return segments
-
-    def runPodcastDataSourcePluginsWritePodcastDetails(self, plugins, podcastName, segments):
-        print("Running Data Source Plugins to write podcast details")
-        if len(plugins.items()) == 0:
-            raise Exception("No plugins to run Data Source Plugins to write podcast details")
-        for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, BaseDataSourcePlugin):
-                print(f"Running Data Source Plugins again to write podcast details: {plugin.plugin.identify()}")
-                plugin.plugin.writePodcastDetails(f"output/{podcastName}", segments)
-
     def runIntroPlugins(self, plugins, segments, podcastName, introDirName, typeOfPodcast):
         print("Running Intro Plugins")
         if len(plugins.items()) == 0:
@@ -125,30 +88,6 @@ class PluginManager:
                 if not plugin.plugin.doesOutputFileExist(introDirName):
                     introText = plugin.plugin.writeIntro(segments, podcastName, typeOfPodcast)
                     plugin.plugin.writeToDisk(introText, introDirName)
-            else:
-                print(f"Plugin {name} does not implement the necessary interface.")
-
-    def runStoryScraperPlugins(self, plugins, segments, rawTextDirName, rawTextFileNameLambda, researchDirName):
-        print("Running Scraper Plugins")
-        if len(plugins.items()) == 0:
-            raise Exception("No plugins to run Scraper Plugins")
-        for name, plugin in plugins.items():
-            if isinstance(plugin.plugin, BaseStoryScraperPlugin):
-                print(f"Running Scraper Plugins: {plugin.plugin.identify()}")
-                for story in segments:
-                    if not plugin.plugin.doesHandleStory(story):
-                        print(f"Plugin {name} does not handle story {story.uniqueId}")
-                        continue
-                    if not plugin.plugin.doesOutputFileExist(story, rawTextDirName, rawTextFileNameLambda):
-                        scrapedText = plugin.plugin.scrapeSiteForText(story, rawTextDirName)
-                        if scrapedText is None:
-                            print(f"Scraped text is None for scrapeSiteForText: {story.uniqueId}")
-
-                        scrapedText = plugin.plugin.scrapeResearchAndOrganizeForSegmentWriter(story, rawTextDirName, researchDirName)
-
-                        scrapedText = plugin.plugin.cleanupText(scrapedText)
-
-                        plugin.plugin.writeToDisk(story, scrapedText, rawTextDirName, rawTextFileNameLambda)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
 

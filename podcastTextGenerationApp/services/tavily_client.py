@@ -1,7 +1,7 @@
 import os
 
 from tavily import TavilyClient
-from utils.cache_manager import SimpleCacheManager
+from utilities.cache_manager import SimpleCacheManager
 
 
 class CachedTavilyClient:

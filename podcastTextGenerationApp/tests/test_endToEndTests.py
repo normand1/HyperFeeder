@@ -1,13 +1,16 @@
 import os
 import unittest
-from unittest.mock import MagicMock
 
 from podcastTextGenerator import PodcastTextGenerator
-from toolUseManager import ToolUseManager
+from podcastTextGenerationApp.tests.mockToolManager import MockToolUseManager
 
 
 class EndToEndTests(unittest.TestCase):
     def test_appRun(self):
+        # Reset the spy counters before the test
+        MockToolUseManager.initializeLLMWithTools_calls = []
+        MockToolUseManager.invokeWithBoundToolsAndQuery_calls = []
+
         # Override Environment Variables For Testing
         os.environ["PODCAST_NAME"] = "Test Podcast"
         os.environ["PODCAST_TYPE"] = "Test Podcast Type"
@@ -26,42 +29,24 @@ class EndToEndTests(unittest.TestCase):
             os.system("rm -rf output/test-podcast")
 
         # Create mock planning managers
-        mock_initial_planning_manager = MagicMock(spec=ToolUseManager)
-        mock_research_planning_manager = MagicMock(spec=ToolUseManager)
-
-        # Configure mock initial planning manager
-        def mock_generate_structure(query, plugins, allowed_plugin_names: list[str] = ["testerDataSourcePlugin"]):
-            mock_structure = MagicMock()
-            mock_structure.tool_calls = [{"name": "TesterDataSourcePlugin-_-fetchStories", "args": {"searchQuery": query}}]
-            return mock_structure
-
-        mock_initial_planning_manager.generatePublicationStructure.side_effect = mock_generate_structure
-
-        # Configure mock research planning manager
-        def mock_research_structure(query, plugins):
-            mock_structure = MagicMock()
-            mock_structure.tool_calls = [{"name": "TesterDataSourcePlugin-_-fetchStories", "args": {"searchQuery": "research " + query}}]
-            return mock_structure
-
-        mock_research_planning_manager.generatePublicationStructure.side_effect = mock_research_structure
+        mock_research_planning_manager = MockToolUseManager
 
         # Run App with mock planning managers
         PodcastTextGenerator().run(
             "test-podcast",
-            initialQueryToolUseManager=mock_initial_planning_manager,
-            segmentGenerationToolUseManager=mock_research_planning_manager,
+            initialQueryToolUseManager=mock_research_planning_manager,
             additionalAllowedPluginNamesForInitialResearch=["testerDataSourcePlugin"],
         )
 
-        # Verify planning managers were called
-        mock_initial_planning_manager.generatePublicationStructure.assert_called()
-        mock_research_planning_manager.generatePublicationStructure.assert_called()
+        # Verify the methods were called
+        self.assertTrue(len(mock_research_planning_manager.initializeLLMWithTools_calls) > 0, "initializeLLMWithTools was not called")
+        self.assertTrue(len(mock_research_planning_manager.invokeWithBoundToolsAndQuery_calls) > 0, "invokeWithBoundToolsAndQuery was not called")
 
         # Check if the correct files were added to the output directory
         output_dir = "output/test-podcast"
         expected_files = {
             "intro_text": ["0_intro.txt"],
-            "segment_text": ["1_be937e905acfe59971566b5bbec93262.txt"],
+            "segment_text": ["1_9d251ff597800f80eddf6f897e28dcb3.txt"],
             "outro_text": ["3_outro.txt"],
         }
 

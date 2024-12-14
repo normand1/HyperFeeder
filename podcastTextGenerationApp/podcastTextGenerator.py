@@ -37,7 +37,7 @@ class PodcastTextGenerator:
         self.outroWriterPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastOutroWriterPlugins", PluginType.OUTRO)
         self.producerPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastProducerPlugins", PluginType.PRODUCER)
 
-    def run(self, podcastName):
+    def run(self, podcastName, initialQueryToolUseManager=None, additionalAllowedPluginNamesForInitialResearch=[]):
 
         segments = []
 
@@ -74,7 +74,7 @@ class PodcastTextGenerator:
                 mainSegment = Segment(title="", uniqueId="", sources={})
 
                 for _ in range(2):
-                    segmentResearchToolUseManager = ToolUseManager.toolUseManagerForSegmentResearch(query, self.dataSourcePlugins, previousSegmentText, previousToolsUsed)
+                    segmentResearchToolUseManager = ToolUseManager.toolUseManagerForSegmentResearch(query, self.dataSourcePlugins, previousSegmentText, previousToolsUsed, initialQueryToolUseManager)
                     partialSegment = self.pluginManager.runDataSourcePlugins(segmentResearchToolUseManager, self.dataSourcePlugins)
 
                     if not mainSegment.title:
