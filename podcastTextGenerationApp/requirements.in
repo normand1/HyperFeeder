@@ -14,3 +14,4 @@ colorama
 requests-cache
 pyyaml
 tavily-python
+beautifulsoup4
