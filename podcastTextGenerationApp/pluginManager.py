@@ -73,7 +73,7 @@ class PluginManager:
         return segment
 
     def runIntroPlugins(self, plugins, segments, podcastName, introDirName, typeOfPodcast):
-        if "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+        if "testerSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] and "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
             print(f"{Fore.RED}Skipping Intro Plugins{Style.RESET_ALL}")
             return
         print("Running Intro Plugins")
@@ -109,7 +109,7 @@ class PluginManager:
                 print(f"Plugin {name} does not implement the necessary interface.")
 
     def runOutroWriterPlugins(self, plugins, segments, fileNameIntro, outroTextDirName):
-        if "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+        if "testerSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] and "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
             print(f"{Fore.RED}Skipping Outro Plugins{Style.RESET_ALL}")
             return
         introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
@@ -137,7 +137,7 @@ class PluginManager:
         segmentTextDirNameLambda,
         fileNameLambda,
     ):
-        if "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+        if "testerSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] and "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
             print(f"{Fore.RED}Skipping Producer Plugins{Style.RESET_ALL}")
             return
         for name, plugin in plugins.items():

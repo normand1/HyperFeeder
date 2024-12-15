@@ -22,11 +22,11 @@ class ToolUseResearchAgent:
         return self
 
     @staticmethod
-    def toolUseAgentForSegmentResearch(initialQuery: str, plugins: dict, previousToolsUsed: list[str], toolUseManagerCls=None):
+    def toolUseAgentForSegmentResearch(initialQuery: str, plugins: dict, toolUseManagerCls=None):
         if not toolUseManagerCls:
             toolUseManagerCls = ToolUseResearchAgent
         researchQuery = f"please use tools to look deep into this question: ```{initialQuery}```"
-        toolUseResearchAgent = toolUseManagerCls().initializeLLMWithTools(list(plugins.values()), excludedPlugins=previousToolsUsed)
+        toolUseResearchAgent = toolUseManagerCls().initializeLLMWithTools(list(plugins.values()))
         toolUseResearchAgent.query = researchQuery
         toolUseResearchAgent.queryUniqueId = hashlib.md5(researchQuery.encode()).hexdigest()
         return toolUseResearchAgent

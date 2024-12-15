@@ -33,7 +33,7 @@ class PodcastTextGenerator:
         self.producerPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastProducerPlugins", PluginType.PRODUCER)
 
     # This is the main entry point for the podcast text generator
-    def run(self, podcastName, initialQueryToolUseManager=None):
+    def run(self, podcastName, initialQueryToolUseManager=None, questionListManagerCls=None):
         segments = []
         podcastName = podcastName.strip()
         load_dotenv(".config.env")
@@ -72,7 +72,7 @@ class PodcastTextGenerator:
                 segment = self.pluginManager.runDataSourcePlugins(toolUseResearchAgent, toolCallResponse, self.dataSourcePlugins)
 
                 # Run questions agent
-                questionsAgent = QuestionsAgent.makeQuestionsAgent(segment.getCombinedSubStoryContext())
+                questionsAgent = QuestionsAgent.makeQuestionsAgent(segment.getCombinedSubStoryContext(), questionListManagerCls)
                 followUpQuestions = questionsAgent.invoke()
 
                 maxFollowUpQuestions = int(os.getenv("MAX_FOLLOW_UP_QUESTIONS"))
