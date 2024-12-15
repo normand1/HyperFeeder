@@ -6,9 +6,9 @@ from utilities.xml_utils import strip_xml_tags
 from utilities.textFilteringUtils import TextFilteringUtils
 
 
-class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
+class GenericNewsPodcastSegmentWriter(BaseSegmentWriterPlugin):
     def identify(self) -> str:
-        return "🤙 TopTenSegmentWriterPlugin"
+        return "🎤 GenericNewsPodcastSegmentWriter"
 
     def writeStorySegment(self, story: Segment, segments):
         uuid = story.uniqueId
@@ -21,8 +21,10 @@ class TopTenSegmentWriterPlugin(BaseSegmentWriterPlugin):
         storySummary = TextFilteringUtils.cleanupStorySummary(yaml.dump(storyCopy, default_flow_style=False))
         storyText = StorySegmentWriter().writeSegmentFromSummary(storySummary, story.title)
         storyText = TextFilteringUtils.cleanText(storyText)
+        storyText = TextFilteringUtils.remove_links(storyText)
+        storyText = TextFilteringUtils.cleanupStorySummary(storyText)
         storyText = strip_xml_tags(storyText)
         return storyText
 
 
-plugin = TopTenSegmentWriterPlugin()
+plugin = GenericNewsPodcastSegmentWriter()

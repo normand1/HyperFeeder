@@ -20,5 +20,8 @@ releases:
       - values/hackerNewsAPI.yaml
       - values/arxivApi.yaml
       # - values/podcastFeed.yaml #TODO: Fix this plugin
+      # ------ Writer Plugins ------
+      # - values/writer-threadWriter.yaml
+      - values/writer-podcastSegmentWriter.yaml
       
 

@@ -47,7 +47,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
             "console": "integratedTerminal",
-            // "args": ["-f", "Fomo-Cast-Dec03-2024-10PM"],
+            "args": ["--initial-query", "generate a segment about the latest posts on r/news"],
             "justMyCode": true
         },
         {

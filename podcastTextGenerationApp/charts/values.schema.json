@@ -11,8 +11,6 @@
         "TOKEN_STORIES_DB_PATH": { "type": "string" },
 
         "PODCAST_INTRO_PLUGINS": { "type": "string" },
-        "PODCAST_SCRAPER_PLUGINS": { "type": "string" },
-        "PODCAST_SEGMENT_WRITER_PLUGINS": { "type": "string" },
         "PODCAST_OUTRO_PLUGINS": { "type": "string" },
         "PODCAST_PRODUCER_PLUGINS": { "type": "string" },
 
@@ -98,8 +96,6 @@
       "required": [
         "PODCAST_DATA_SOURCE_PLUGINS",
         "PODCAST_INTRO_PLUGINS",
-        "PODCAST_SCRAPER_PLUGINS",
-        "PODCAST_SEGMENT_WRITER_PLUGINS",
         "PODCAST_OUTRO_PLUGINS",
         "PODCAST_PRODUCER_PLUGINS",
         "PODCAST_NAME",

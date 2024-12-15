@@ -4,16 +4,16 @@ import os
 import sys
 
 from colorama import Fore, Style, init
-from podcastDataSourcePlugins.models.segment import Segment
-from toolUseManager import ToolUseManager
-from utilities.env_utils import parse_initial_query
-
-init(autoreset=True)  # Initialize colorama
-
 from dotenv import load_dotenv
 from pluginManager import PluginManager
 from pluginTypes import PluginType
 from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
+from podcastDataSourcePlugins.models.segment import FollowUp, Segment
+from questionListManager import QuestionsAgent
+from toolUseResearchAgent import ToolUseResearchAgent
+from utilities.env_utils import parse_initial_query
+
+init(autoreset=True)  # Initialize colorama
 
 
 class PodcastTextGenerator:
@@ -24,12 +24,7 @@ class PodcastTextGenerator:
             "./podcastTextGenerationApp/podcastDataSourcePlugins",
             PluginType.DATA_SOURCE,
         )
-        self.researcherPlugins = self.pluginManager.load_plugins(
-            "./podcastTextGenerationApp/podcastResearcherPlugins",
-            PluginType.RESEARCHER,
-        )
         self.introPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastIntroPlugins", PluginType.INTRO)
-        self.scraperPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastScraperPlugins", PluginType.SCRAPER)
         self.segmentWriterPlugins = self.pluginManager.load_plugins(
             "./podcastTextGenerationApp/podcastSegmentWriterPlugins",
             PluginType.SEGMENT_WRITER,
@@ -37,10 +32,9 @@ class PodcastTextGenerator:
         self.outroWriterPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastOutroWriterPlugins", PluginType.OUTRO)
         self.producerPlugins = self.pluginManager.load_plugins("./podcastTextGenerationApp/podcastProducerPlugins", PluginType.PRODUCER)
 
-    def run(self, podcastName, initialQueryToolUseManager=None, additionalAllowedPluginNamesForInitialResearch=[]):
-
+    # This is the main entry point for the podcast text generator
+    def run(self, podcastName, initialQueryToolUseManager=None):
         segments = []
-
         podcastName = podcastName.strip()
         load_dotenv(".config.env")
         storyDirName = f"output/{podcastName}/segments/"
@@ -50,6 +44,9 @@ class PodcastTextGenerator:
         directoryIntro = f"output/{podcastName}/intro_text/"
         fileNameOutro = f"output/{podcastName}/outro_text/outro.txt"
         directoryOutro = f"output/{podcastName}/outro_text/"
+
+        # Create the directory for storing the raw text files for building each segment
+        os.makedirs(rawTextDirName, exist_ok=True)
 
         print(f"{Fore.CYAN}{Style.BRIGHT}Starting podcast generation for: {podcastName}{Style.RESET_ALL}")
         segments = self.readSegmentsFromFolder(storyDirName)
@@ -63,43 +60,40 @@ class PodcastTextGenerator:
         if len(segments) == 0:
             print(f"{Fore.YELLOW}No segments found. Fetching new segments...{Style.RESET_ALL}")
             queries = parse_initial_query()
-            segments = []
 
             if os.getenv("SHOULD_PAUSE_AND_VALIDATE_QUERIES_BEFORE_STARTING", "false").lower() == "true":
                 self.pauseAndValidateStories(queries)
 
             for query in queries:
-                previousSegmentText = ""
-                previousToolsUsed = []
-                mainSegment = Segment(title="", uniqueId="", sources={})
 
-                for _ in range(2):
-                    segmentResearchToolUseManager = ToolUseManager.toolUseManagerForSegmentResearch(query, self.dataSourcePlugins, previousSegmentText, previousToolsUsed, initialQueryToolUseManager)
-                    partialSegment = self.pluginManager.runDataSourcePlugins(segmentResearchToolUseManager, self.dataSourcePlugins)
+                # Run the tool use research agent to get the segment
+                toolUseResearchAgent = ToolUseResearchAgent.toolUseAgentForSegmentResearch(query, self.dataSourcePlugins, initialQueryToolUseManager)
+                toolCallResponse = toolUseResearchAgent.invokeWithBoundToolsAndQuery()
+                segment = self.pluginManager.runDataSourcePlugins(toolUseResearchAgent, toolCallResponse, self.dataSourcePlugins)
 
-                    if not mainSegment.title:
-                        mainSegment.title = partialSegment.title
-                        mainSegment.uniqueId = partialSegment.uniqueId
+                # Run questions agent
+                questionsAgent = QuestionsAgent.makeQuestionsAgent(segment.getCombinedSubStoryContext())
+                followUpQuestions = questionsAgent.invoke()
 
-                    # Merge partialSegment sources into mainSegment
-                    for key, subs in partialSegment.sources.items():
-                        if key not in mainSegment.sources:
-                            mainSegment.sources[key] = subs
-                        else:
-                            mainSegment.sources[key].extend(subs)
+                maxFollowUpQuestions = int(os.getenv("MAX_FOLLOW_UP_QUESTIONS"))
+                for followUpQuery in followUpQuestions[:maxFollowUpQuestions]:
+                    print(f"{Fore.YELLOW}Running follow-up question: {followUpQuery}{Style.RESET_ALL}")
 
-                    # Update previousSegmentText from mainSegment after merging
-                    segmentTextParts = [mainSegment.title]
-                    for key, subs in mainSegment.sources.items():
-                        for sub in subs:
-                            if hasattr(sub, "content") and sub.content:
-                                segmentTextParts.append(str(sub.content))
-                    previousSegmentText = "\n".join(segmentTextParts)
-                    previousToolsUsed = partialSegment.toolsUsed if hasattr(partialSegment, "toolsUsed") else []
+                    # Run the tool use research agent to get the follow-up question research
+                    toolUseResearchAgent = ToolUseResearchAgent.toolUseAgentForSecondaryResearch(followUpQuery, self.dataSourcePlugins, [], initialQueryToolUseManager)
+                    toolCallResponse = toolUseResearchAgent.invokeWithBoundToolsAndQuery()
+                    followUpQuestionSegment = self.pluginManager.runDataSourcePlugins(toolUseResearchAgent, toolCallResponse, self.dataSourcePlugins)
 
-                # After collecting all research into mainSegment, write once and add to segments
-                BaseDataSourcePlugin.writeToDisk(mainSegment, storyDirName, fileNameLambda)
-                segments.append(mainSegment)  # combine the segments together into a single segment
+                    # Merge followUpQuestionSegment
+                    for key, subs in followUpQuestionSegment.sources.items():
+                        segment.sources.setdefault(key, []).extend(subs)
+
+                    # Run the tool use research agent to get the follow-up question answer
+                    followUpQueryAnswer = toolUseResearchAgent.handleFollowUpQuestionWithResearch(followUpQuery, followUpQuestionSegment)
+                    segment.followUps.append(FollowUp(source=followUpQuestionSegment, question=followUpQuery, answer=followUpQueryAnswer))
+
+                BaseDataSourcePlugin.writeToDisk(segment, storyDirName, fileNameLambda)
+                segments.append(segment)
 
         else:
             print(f"{Fore.GREEN}{Style.BRIGHT}Stories found:{Style.RESET_ALL}")
@@ -108,12 +102,13 @@ class PodcastTextGenerator:
             print(f"{Fore.GREEN}{Style.BRIGHT}Not running data source plugins.{Style.RESET_ALL}")
             segments = self.readSegmentsFromFolder(storyDirName)
 
-        # Ensure the directory exists once before processing
-        os.makedirs(rawTextDirName, exist_ok=True)
-
+        # Cleanup and organize the segment text sources before sending to writing the segments, intro and outro
         self.pluginManager.processSegments(segments, self.dataSourcePlugins, rawTextDirName)
-        self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, segments, segmentTextDirName, fileNameLambda)
 
+        # Write the Segment Text to disk
+        segmentText = self.pluginManager.runStorySegmentWriterPlugins(self.segmentWriterPlugins, segments, segmentTextDirName, fileNameLambda)
+
+        # Write the Intro Text to disk
         self.pluginManager.runIntroPlugins(
             self.introPlugins,
             segments,
@@ -122,15 +117,15 @@ class PodcastTextGenerator:
             os.environ["PODCAST_TYPE"],
         )
 
-        introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
-
+        # Write the Outro Text to disk
         self.pluginManager.runOutroWriterPlugins(
             self.outroWriterPlugins,
             segments,
-            introText,
+            fileNameIntro,
             fileNameOutro,
         )
 
+        # Write the Podcast Meta Data to disk
         self.pluginManager.runPodcastProducerPlugins(
             self.producerPlugins,
             segments,
@@ -140,11 +135,8 @@ class PodcastTextGenerator:
             fileNameLambda,
         )
 
-    def getPreviouslyWrittenIntroText(self, fileNameIntro):
-        if os.path.exists(fileNameIntro):
-            with open(fileNameIntro, "r", encoding="utf-8") as file:
-                return file.read()
-        return ""
+        if "genericTweetThreadWriter" in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+            return segmentText
 
     def readSegmentsFromFolder(self, folderPath):
         segments = []
@@ -163,23 +155,6 @@ class PodcastTextGenerator:
                     except json.JSONDecodeError:
                         print(f"{Fore.RED}Error parsing JSON from {filename}{Style.RESET_ALL}")
         return segments
-
-    def readResearchFromFolder(self, folderPath):
-        research = []
-        if not os.path.exists(folderPath) or not os.path.isdir(folderPath):
-            return research
-
-        for filename in os.listdir(folderPath):
-            filePath = os.path.join(folderPath, filename)
-            if os.path.isfile(filePath):
-                with open(filePath, "r", encoding="utf-8") as f:
-                    fileText = f.read()
-                    try:
-                        research_dict = json.loads(fileText)
-                        research.append(research_dict)
-                    except json.JSONDecodeError:
-                        print(f"{Fore.RED}Error parsing JSON from {filename}{Style.RESET_ALL}")
-        return research
 
     def pauseAndValidateStories(self, queries: list[str]):
         print(f"{Fore.GREEN}{Style.BRIGHT}Queries that will be used to generate the podcast:{Style.RESET_ALL}")
