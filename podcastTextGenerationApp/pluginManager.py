@@ -3,12 +3,9 @@ import os
 import yaml
 from colorama import Fore, Style
 from pluginTypes import PluginType
-from podcastDataSourcePlugins.baseDataSourcePlugin import BaseDataSourcePlugin
 from podcastIntroPlugins.baseIntroPlugin import BaseIntroPlugin
 from podcastOutroWriterPlugins.baseOutroWriterPlugin import BaseOutroWriterPlugin
 from podcastProducerPlugins.BaseProducerPlugin import BaseProducerPlugin
-from podcastResearcherPlugins.baseResearcherPlugin import BaseResearcherPlugin
-from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from json_utils import dump_json
 from langchain_core.messages import BaseMessage
@@ -16,7 +13,6 @@ from langchain_core.messages import BaseMessage
 import json
 
 from podcastDataSourcePlugins.models.story import Story
-from utilities.textFilteringUtils import TextFilteringUtils
 from podcastDataSourcePlugins.models.segment import Segment
 from toolUseResearchAgent import ToolUseResearchAgent
 from podcastSegmentWriterPlugins.utilities.utils import storyCouldNotBeScrapedText

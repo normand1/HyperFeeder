@@ -7,6 +7,11 @@
 
 HyperFeeder generates a personally tailored podcast or tweet threads -- just for you (or your audience)! 
 
+Example Podcasts:
+- https://player.hypercatcher.com/?rss=https://gist.githubusercontent.com/normand1/37b22b7723fc35b74a790a0c1f33484c/raw/e79b5b4e06c86480ef4d9bbe7de19b9c94621414/aiSlopPod.rss
+
+- https://open.spotify.com/show/5GvLXkI4YYFc769hvsg5bQ?si=fd8cac7d6c844036
+
 HyperFeeder is a fully configurable and extensible Multi Agent Workflow for researching and producting podcasts and tweet threads.
 HyperFeeder uses a plugin system that generates research step by step from Intro and music to individual podcast segments and news stories to how the podcast will be arranged and presented.
 At each step you can either choose from an existing list of plugins that will generate different kinds of content or simply write your own plugin for any step of the podcast generation process.
