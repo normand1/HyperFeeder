@@ -121,7 +121,7 @@ NEWSLETTER_RSS_NUMBER_OF_ITEMS_TO_FETCH={{ .Values.NEWSLETTER_RSS_NUMBER_OF_ITEM
 NUMBER_OF_POSTS_TO_FETCH={{ .Values.NUMBER_OF_POSTS_TO_FETCH }}
 {{- end }}
 
-{{- if (contains "warpcastSearchPlugin" $pluginsStr) }}
+{{- if (contains "warpcasDataSourcePlugin" $pluginsStr) }}
 WARPCAST_SEARCH_NUMBER_OF_POSTS_TO_FETCH={{ .Values.WARPCAST_SEARCH_NUMBER_OF_POSTS_TO_FETCH }}
 {{- end }}
 

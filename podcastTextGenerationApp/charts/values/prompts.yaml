@@ -50,13 +50,13 @@ TWEET_THREAD_WRITER_USER_PROMPT_SUMMARY: >
   Here is the original question that was asked:
 
   <question>
-  {{SOURCE_NAME}}
+  {SOURCE_NAME}
   </question>
 
   Here is the returned information that you need to summarize:
 
   <information>
-  {{NEWS_ARTICLE}}
+  {NEWS_ARTICLE}
   </information>
 
 

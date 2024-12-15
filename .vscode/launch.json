@@ -47,7 +47,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/podcastTextGenerationApp/generatePodcast.py",
             "console": "integratedTerminal",
-            "args": ["--initial-query", "generate a segment about the latest posts on r/news"],
+            "args": ["--initial-query", "generate a segment about the latest posts in the farcaster channel #warpcast"],
             "justMyCode": true
         },
         {
