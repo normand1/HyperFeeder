@@ -2,14 +2,18 @@ import os
 import unittest
 
 from podcastTextGenerator import PodcastTextGenerator
-from podcastTextGenerationApp.tests.mockToolManager import MockToolUseManager
+from podcastTextGenerationApp.tests.mockToolManager import ToolUseResearchAgent
+from podcastTextGenerationApp.tests.mockQuestionsAgent import MockQuestionsAgent
 
 
 class EndToEndTests(unittest.TestCase):
     def test_appRun(self):
         # Reset the spy counters before the test
-        MockToolUseManager.initializeLLMWithTools_calls = []
-        MockToolUseManager.invokeWithBoundToolsAndQuery_calls = []
+        ToolUseResearchAgent.initializeLLMWithTools_calls = []
+        ToolUseResearchAgent.invokeWithBoundToolsAndQuery_calls = []
+        ToolUseResearchAgent.handleFollowUpQuestionWithResearch_calls = []
+        MockQuestionsAgent.initializeLLM_calls = []
+        MockQuestionsAgent.invoke_calls = []
 
         # Override Environment Variables For Testing
         os.environ["PODCAST_NAME"] = "Test Podcast"
@@ -29,24 +33,22 @@ class EndToEndTests(unittest.TestCase):
             os.system("rm -rf output/test-podcast")
 
         # Create mock planning managers
-        mock_research_planning_manager = MockToolUseManager
-
+        mock_research_planning_manager = ToolUseResearchAgent
+        mock_questions_manager = MockQuestionsAgent
         # Run App with mock planning managers
-        PodcastTextGenerator().run(
-            "test-podcast",
-            initialQueryToolUseManager=mock_research_planning_manager,
-            additionalAllowedPluginNamesForInitialResearch=["testerDataSourcePlugin"],
-        )
+        PodcastTextGenerator().run("test-podcast", initialQueryToolUseManager=mock_research_planning_manager, questionListManagerCls=mock_questions_manager)
 
         # Verify the methods were called
         self.assertTrue(len(mock_research_planning_manager.initializeLLMWithTools_calls) > 0, "initializeLLMWithTools was not called")
         self.assertTrue(len(mock_research_planning_manager.invokeWithBoundToolsAndQuery_calls) > 0, "invokeWithBoundToolsAndQuery was not called")
+        self.assertTrue(len(mock_questions_manager.initializeLLM_calls) > 0, "initializeLLM was not called")
+        self.assertTrue(len(mock_questions_manager.invoke_calls) > 0, "invoke was not called")
 
         # Check if the correct files were added to the output directory
         output_dir = "output/test-podcast"
         expected_files = {
             "intro_text": ["0_intro.txt"],
-            "segment_text": ["1_9d251ff597800f80eddf6f897e28dcb3.txt"],
+            "segment_text": ["1_959d05071634ff8fd7d8f7606c608343.txt"],
             "outro_text": ["3_outro.txt"],
         }
 

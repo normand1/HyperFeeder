@@ -11,13 +11,14 @@ from podcastResearcherPlugins.baseResearcherPlugin import BaseResearcherPlugin
 from podcastScraperPlugins.baseStoryScraperPlugin import BaseStoryScraperPlugin
 from podcastSegmentWriterPlugins.baseSegmentWriterPlugin import BaseSegmentWriterPlugin
 from json_utils import dump_json
+from langchain_core.messages import BaseMessage
 
 import json
 
 from podcastDataSourcePlugins.models.story import Story
 from utilities.textFilteringUtils import TextFilteringUtils
 from podcastDataSourcePlugins.models.segment import Segment
-from toolUseManager import ToolUseManager
+from toolUseResearchAgent import ToolUseResearchAgent
 from podcastSegmentWriterPlugins.utilities.utils import storyCouldNotBeScrapedText
 
 
@@ -44,10 +45,9 @@ class PluginManager:
                     plugins[name] = module
         return plugins
 
-    def runDataSourcePlugins(self, toolUseManager: ToolUseManager, plugins):
-        subStories = {}
-        toolCallResponse = toolUseManager.invokeWithBoundToolsAndQuery()
-        message = self._extract_text_message(toolCallResponse)
+    def runDataSourcePlugins(self, toolUseResearchAgent: ToolUseResearchAgent, toolCallResponse: BaseMessage, plugins):
+        sources = {}
+        message = self.extract_text_message(toolCallResponse)
         print(f"{Fore.GREEN}Tool call response: {message}{Style.RESET_ALL}")
 
         toolsUsed = []
@@ -56,29 +56,26 @@ class PluginManager:
                 pluginName, function_name = toolCall["name"].split("-_-")
                 # Find matching plugin
                 matchingPlugin = next((plugin for plugin in plugins.values() if plugin.plugin.__class__.__name__ == pluginName), None)
-
-                if matchingPlugin:
-                    # Record the simple name of the plugin for excluding next time
-                    simplePluginName = matchingPlugin.plugin.identify(simpleName=True)
-                    if simplePluginName not in toolsUsed:
-                        toolsUsed.append(simplePluginName)
-
-                    plugin_function = getattr(matchingPlugin.plugin, function_name, None)
-                    if plugin_function:
-                        kwargs = {k: v for k, v in toolCall["args"].items()}
-                        subStoryContent = plugin_function.invoke(kwargs)
-                        for subStory in subStoryContent:
-                            contentDict = matchingPlugin.plugin.fetchContentForStory(subStory)
-                            subStory.content = contentDict
-                        subStories[simplePluginName + toolUseManager.queryUniqueId] = subStoryContent
+                simplePluginName = matchingPlugin.plugin.identify(simpleName=True)
+                plugin_function = getattr(matchingPlugin.plugin, function_name, None)
+                if plugin_function:
+                    kwargs = {k: v for k, v in toolCall["args"].items()}
+                    subStoryContent = plugin_function.invoke(kwargs)
+                    for subStory in subStoryContent:
+                        contentDict = matchingPlugin.plugin.fetchContentForStory(subStory)
+                        subStory.content = contentDict
+                    sources[simplePluginName + toolUseResearchAgent.queryUniqueId] = subStoryContent
         else:
             print(f"{Fore.YELLOW}Warning: Plugin does not have attribute tool_calls {Style.RESET_ALL}")
 
-        segment = Segment(title=toolUseManager.query, uniqueId=toolUseManager.queryUniqueId, sources=subStories)
+        segment = Segment(title=toolUseResearchAgent.query, uniqueId=toolUseResearchAgent.queryUniqueId, sources=sources)
         segment.toolsUsed = toolsUsed
         return segment
 
     def runIntroPlugins(self, plugins, segments, podcastName, introDirName, typeOfPodcast):
+        if "testerSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] and "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+            print(f"{Fore.RED}Skipping Intro Plugins{Style.RESET_ALL}")
+            return
         print("Running Intro Plugins")
         if len(plugins.items()) == 0:
             raise Exception("No plugins to run Intro Plugins")
@@ -98,22 +95,24 @@ class PluginManager:
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseSegmentWriterPlugin):
                 print(f"Running Segment Plugins: {plugin.plugin.identify()}")
-                for story in segments:
-                    if not plugin.plugin.doesOutputFileExist(story, segmentTextDirNameLambda, segmentTextFileNameLambda):
-                        segmentText = plugin.plugin.writeStorySegment(story, segments)
-                        cleanSegmentText = TextFilteringUtils.cleanText(segmentText)
-                        cleanSegmentText = TextFilteringUtils.remove_links(cleanSegmentText)
-                        cleanSegmentText = TextFilteringUtils.cleanupStorySummary(cleanSegmentText)
+                for segment in segments:
+                    if not plugin.plugin.doesOutputFileExist(segment, segmentTextDirNameLambda, segmentTextFileNameLambda):
+                        segmentText = plugin.plugin.writeStorySegment(segment, segments)
                         plugin.plugin.writeToDisk(
-                            story,
-                            cleanSegmentText,
+                            segment,
+                            segmentText,
                             segmentTextDirNameLambda,
                             segmentTextFileNameLambda,
                         )
+                        return segmentText
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
 
-    def runOutroWriterPlugins(self, plugins, segments, introText, outroTextDirName):
+    def runOutroWriterPlugins(self, plugins, segments, fileNameIntro, outroTextDirName):
+        if "testerSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] and "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+            print(f"{Fore.RED}Skipping Outro Plugins{Style.RESET_ALL}")
+            return
+        introText = self.getPreviouslyWrittenIntroText(fileNameIntro)
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseOutroWriterPlugin):
                 if not plugin.plugin.doesOutputFileExist(outroTextDirName):
@@ -122,6 +121,12 @@ class PluginManager:
                     plugin.plugin.writeToDisk(outroText, outroTextDirName)
             else:
                 print(f"Plugin {name} does not implement the necessary interface.")
+
+    def getPreviouslyWrittenIntroText(self, fileNameIntro):
+        if os.path.exists(fileNameIntro):
+            with open(fileNameIntro, "r", encoding="utf-8") as file:
+                return file.read()
+        return ""
 
     def runPodcastProducerPlugins(
         self,
@@ -132,6 +137,9 @@ class PluginManager:
         segmentTextDirNameLambda,
         fileNameLambda,
     ):
+        if "testerSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"] and "genericNewsPodcastSegmentWriter" not in os.environ["PODCAST_SEGMENT_WRITER_PLUGINS"]:
+            print(f"{Fore.RED}Skipping Producer Plugins{Style.RESET_ALL}")
+            return
         for name, plugin in plugins.items():
             if isinstance(plugin.plugin, BaseProducerPlugin):
                 print(f"Running Producer Plugins: {plugin.plugin.identify()}")
@@ -154,13 +162,13 @@ class PluginManager:
         stories_dir = "output/segments"  # Adjust this path as needed
         os.makedirs(stories_dir, exist_ok=True)
 
-        for story in segments:
-            uniqueId = story.uniqueId
-            url = hasattr(story, "link") and story.link or ""
+        for segment in segments:
+            uniqueId = segment.uniqueId
+            url = hasattr(segment, "link") and segment.link or ""
             filename = fileNameLambda(uniqueId, url)
             filepath = os.path.join(stories_dir, filename)
-            with open(filepath, "w") as file:
-                dump_json(story, file, indent=2)
+            with open(filepath, "w", encoding="utf-8") as file:
+                dump_json(segment, file, indent=2)
                 file.flush()
 
         print(f"Updated segments written to {stories_dir}")
@@ -171,7 +179,7 @@ class PluginManager:
             for plugin in dataSourcePlugins.values():
                 aPlugin = plugin.plugin
                 if aPlugin.identify(simpleName=True) in sourceKey:
-                    print(f"Found plugin {aPlugin.identify(simpleName=True)} for sub story source {sourceKey}")
+                    print(f"Found plugin {aPlugin.identify(simpleName=True)} for sub segment source {sourceKey}")
                     seen_substories = set()
                     filteredSubStories = []
 
@@ -199,20 +207,16 @@ class PluginManager:
             # Filter and deduplicate substories
             segment = self.filterSubstories(segment, dataSourcePlugins)
 
-            # Extract raw text
-            raw_text = [substory["content"] for substories in segment.sources.values() for substory in substories if isinstance(substory, dict) and "content" in substory]
-
+            # Extract raw text from substories
+            raw_story_text = [substory["content"] for substories in segment.sources.values() for substory in substories if isinstance(substory, dict) and "content" in substory]
+            raw_follow_up_text = [followUp.answer for followUp in segment.followUps]
             # Combine raw text and assign to segment
-            raw_split_text = "\n\n".join(raw_text)
+            raw_split_text = "Story Text: \n".join(raw_story_text) + "\nAdditional Research: \n".join(raw_follow_up_text)
             segment.rawSplitText = raw_split_text
-
-            # Serialize and add rawSplitText
-            story_data = segment.__json__()
-            story_data["rawSplitText"] = raw_split_text
 
             # Write YAML file
             with open(story_filename, "w", encoding="utf-8") as yaml_file:
-                yaml.safe_dump(story_data, yaml_file, allow_unicode=True, default_flow_style=False)
+                yaml.safe_dump(segment, yaml_file, allow_unicode=True, default_flow_style=False)
 
             print(f"{Fore.GREEN}Wrote filtered sub-segments to {story_filename}{Style.RESET_ALL}")
 
@@ -221,12 +225,12 @@ class PluginManager:
     def _validateSegmentScraping(self, segment):
         """Validates that all segments were properly scraped and have raw text content."""
         if hasattr(segment, "rawSplitText"):
-            if storyCouldNotBeScrapedText() in segment.rawSplitText:  # This is default text added to a story if the story could not be scraped
-                print(f"{Fore.RED}{Style.BRIGHT}Error: A story could not be scraped.{Style.RESET_ALL}")
+            if storyCouldNotBeScrapedText() in segment.rawSplitText:  # This is default text added to a segment if the segment could not be scraped
+                print(f"{Fore.RED}{Style.BRIGHT}Error: A segment could not be scraped.{Style.RESET_ALL}")
         else:
-            print(f"{Fore.RED}{Style.BRIGHT}Error: A story does not have rawSplitText.{Style.RESET_ALL}")
+            print(f"{Fore.RED}{Style.BRIGHT}Error: A segment does not have rawSplitText.{Style.RESET_ALL}")
 
-    def _extract_text_message(self, response):
+    def extract_text_message(self, response):
         if hasattr(response, "content") and isinstance(response.content, list):
             for item in response.content:
                 if isinstance(item, dict) and item.get("type") == "text":

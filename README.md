@@ -5,20 +5,20 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Python unit tests](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml/badge.svg)](https://github.com/normand1/HyperFeeder/actions/workflows/main.yml)
 
-HyperFeeder generates a personally tailored podcast -- just for you (or your audience)! 
+HyperFeeder generates a personally tailored podcast or tweet threads -- just for you (or your audience)! 
 
-HyperFeeder is a fully configurable and extensible framework for building automated podcasts however you want.
-HyperFeeder uses a plugin system that generates a podcast step by step from Intro and music to individual podcast segments and news stories to how the podcast will be arranged and presented.
+HyperFeeder is a fully configurable and extensible Multi Agent Workflow for researching and producting podcasts and tweet threads.
+HyperFeeder uses a plugin system that generates research step by step from Intro and music to individual podcast segments and news stories to how the podcast will be arranged and presented.
 At each step you can either choose from an existing list of plugins that will generate different kinds of content or simply write your own plugin for any step of the podcast generation process.
 
 With existing tools and plugins you can currently build a podcast with data from Hacker News, Reddit, any podcast with transcripts in the RSS Feed, RSS Newsletters like those on Substack. The plan is to expand this tool to ingest many different configurable sources for building podcast content from as well as new sources for augmenting the source content. See the [Issues Tab](https://github.com/normand1/HyperFeeder/issues) for the planned and in-progress roadmap. Also, feel free to open new issues for feature requests or pull requests for new features you'd like to contribute back.
 
-![Demo GIF](./run_demo.gif)
+![Agent Workflow Example](hyperfeederDiagram.jpg)
 
 ## Project Goals
-- The podcasts produced by this framework should be fully autonomous and need no human intervention to search for content, generate audio, compose audio segments, produce instrospective metadata about podcast content and publish to a podcast feed. (In progress)
-- Anyone should be able to submit easily composable new features that can help make all autonomous podcasts better. (In Progress)
-- Any source of data can be a source of podcast content. (In Progress)
+- The podcasts produced by this framework are fully autonomous and need no human intervention to search for content, generate audio, compose audio segments, produce instrospective metadata about podcast content and publish to a podcast feed.
+- Anyone should be able to submit easily composable new features that can help make all autonomous podcasts better.
+- Any source of data can be a source of podcast content. (In Progress, plugin PRs welcomed!)
 
 ## Autonomous Podcast Feeds (Submit yours to have it featured here!)
 - https://www.podfriend.com/podcast/autonomous-tech-podcast-hyperfeed/
@@ -61,12 +61,6 @@ git clone <repo_url>
 cd <repo_directory>
 ```
 
-Run the setup script:
-
-```bash
-./setup_script.sh
-```
-
 ## Install Build Dependencies
 
 ```bash
@@ -75,24 +69,24 @@ brew install helmfile
 
 ## Configure Plugins
 
-#TODO: UPDATE THIS SECTION!
-
 HyperFeeder is made to be easily configurable and extensible with plugins. You can easily use existing plugins in different configurations by either modifying the plugins used in each step of the podcast generation process manually in the `.config.env` file or you can run the `configurePlugins.sh` script to use preset plugin configurations for generating a podcast based on any of the available plugins. 
-
-<!-- TODO: UPDATE EXAMPLE GIF FOR NEW WORKFLOW ![Config Demo GIF](./config_demo.gif) -->
 
 Different plugins require specific data sources and configuration options to be set in `.config.env` to work properly. 
 Check the plugin directories for details on what each plugin requires in the `.config.env` file to be run. 
 
 We use Helm to configure these values and to ensure that requiremets for each plugin are met when modifying the script.
 
+You can find helmfile and helm installation instructions here:
+https://helm.sh/docs/intro/install/
+https://github.com/helmfile/helmfile
+
 To update general publication settings modify:
 [podcastTextGenerationApp/charts/values/base.yaml](podcastTextGenerationApp/charts/values/base.yaml)
 
-To update which plugins are active modify:
+To update which plugins are active  modify:
 [podcastTextGenerationApp/charts/helmfile.yaml](podcastTextGenerationApp/charts/helmfile.yaml)
 
-When you have made changes then run ./configurePlugins.sh
+When you have made changes then run ./configurePlugins.sh to regenerate the .config.env file based on the helmfile configuration.
 
 ## Dependencies
 
@@ -137,7 +131,7 @@ python podcastTextGenerator.py
 Every output produced by each plugin is saved in the output directory under a folder with the name of the current Date Time when the script was run. In order to retry the podcast generation simply pass the name of the folder created in the output directory like so:
 
 ```bash
-./generatePodcast.sh Podcast-Jul01-2023-07AM
+./generatePodcast.sh Podcast-Dec15-2024-05AM
 ```
 
 ## podcastTextGenerationApp Details
@@ -155,23 +149,6 @@ When the app is run by the generatePodcast.py script it will proceed to generate
 - [podcastSegmentWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastSegmentWriterPlugins): These plugins generate the final text that will be used to produce spoken audio for the podcast. The output of this plugin will be written to the podcast's `segment_text` directory.
 
 - [podcastOutroWriterPlugins](https://github.com/normand1/HyperFeeder/tree/master/podcastTextGenerationApp/podcastOutroWriterPlugins): These plugins generate a the outro to the podcast. This is another good place to inject some personality or branding to the podcast based on your choice of plugins or modification to existing plugins.
-
-## Retaining Memory Between Runs
-
-In order to build a useful long term podcast you're going to need to be able to store some state about stories covered in the past. 
-To ensure the rest of this application can remain stateless to allow greater deployability options any state that plugins need to access should be stored in a simple Firebase Realtime DB. However, this app should work without firebase as a dependency and any firebase dependencies will remain optional for anyone wanting to run this app.
-Firebase is extremely simple to setup in your project by following a few simple steps:
-
-1. Go to your Firebase Console and add a new project: https://console.firebase.google.com/
-2. Once you've created your new project, go to "Project Settings" and open the "Service Accounts" Tab.
-3. Click the "Generate New Private Key" button
-4. Add the newly downloaded private key file to the `/secrets` folder in this directory.
-This folder should be ignored by git, but you should ensure this file is not uploaded to a git repository or anywhere public.
-5. Update the `FIREBASE_SERVICE_ACCOUNT_KEY_PATH` variable in this directory's `.config.env` with a path to the private key file.
-6. Finally open the Realtime Database page in your new Firebase Project and copy the Database Reference Url ending with `.firebaseio.com`
-7. Also add this url to the same `.config.env` file with the key `FIREBASE_DATABASE_URL`.
-
-## Plugins That Can Retain Memory Between Runs
 
 The `NewsletterRSSFeedPlugin` fetches stories from newsletters in RSS feed format and uses Firebase to store the timestamp of the last fetched story for each feed. If a Firebase `FIREBASE_DATABASE_URL` environment variable is not defined then this plugin simply returns a list of the most recent <X> newsletter items in the RSS Feed.
 

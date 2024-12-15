@@ -40,6 +40,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Podcast generation and upload script")
     parser.add_argument("-f", "--folder", help="Folder name for the podcast", default=None)
     parser.add_argument("-u", "--upload-only", action="store_true", help="Perform upload only")
+    parser.add_argument("--initial-query", nargs="+", help="Override INITIAL_QUERY env var with a comma separated list of these values")
     return parser.parse_args()
 
 
@@ -47,6 +48,9 @@ def main():
     load_env()
 
     args = parse_arguments()
+
+    if args.initial_query and len(args.initial_query) > 0:
+        os.environ["INITIAL_QUERY"] = ",".join(args.initial_query)
 
     upload_only = args.upload_only
     print(f"UPLOAD_ONLY: {upload_only}")
@@ -67,26 +71,20 @@ def main():
 
     os.makedirs(folder, exist_ok=True)
 
-    # Import and run podcast text generation app
     app = PodcastTextGenerator()
-    app.run(folder_clean)
+    segmentText = app.run(folder_clean)
+    if segmentText:
+        return segmentText
 
-    # Use the TTS_SCRIPT environment variable to determine which script to run
     tts_script = os.environ.get("TTS_SCRIPT", "ttsLocalScript.sh")
     run_command(f"audioScripts/{tts_script} {folder}")
-
     run_command(f"audioScripts/generateIntroWithMusic.sh ./{folder}")
     run_command(f"audioScripts/combineAudioFiles.sh ./{folder}")
 
-    # Import and run podcast chapter file generation
     chapter_gen = GeneratePodcastChapterFile()
     chapter_gen.main(folder)
-    # These scripts are still run as shell commands
     run_command(f"podcastMetaInfoScripts/generatePodcastDescriptionText.sh ./{folder}")
     run_command(f"podcastMetaInfoScripts/generateUploadJsonBody.sh output/{folder}")
-
-    # TODO: Fix Podcast Upload
-    # upload(f"output/{folder}")
 
     print("All operations completed successfully.")
 
@@ -96,8 +94,6 @@ def upload(folder):
     with open(f"{folder}/uploadJsonBody.json", "r", encoding="utf-8") as f:
         config = json.load(f)
         print(f"config: {config}")
-
-        # Run npm commands
         subprocess.run("npm --prefix podcastUploader install", shell=True, check=True)
         subprocess.run(
             f"npm --prefix podcastUploader run upload -- '{json.dumps(config)}'",
@@ -107,4 +103,10 @@ def upload(folder):
 
 
 if __name__ == "__main__":
-    main()
+    result = main()
+    if result:
+        if isinstance(result, str):
+            sys.stdout.write(result)
+        elif isinstance(result, bytes):
+            sys.stdout.buffer.write(result)
+        sys.exit(0)

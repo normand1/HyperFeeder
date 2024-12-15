@@ -8,7 +8,7 @@ from colorama import Fore, Style
 from podcastDataSourcePlugins.models.warpcastStory import WarpcastStory
 
 
-class WarpcastSearchPlugin(BaseDataSourcePlugin):
+class WarpcastDataSourcePlugin(BaseDataSourcePlugin):
     def __init__(self):
         super().__init__()
         self._neynarApiManager = NeynarAPIManager()
@@ -21,7 +21,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
             return "🔍 Warpcast Search Plugin"
 
     @staticmethod
-    @tool(name_or_callable="WarpcastSearchPlugin-_-searchCasts")
+    @tool(name_or_callable="WarpcastDataSourcePlugin-_-searchCasts")
     def searchCasts(searchQuery: str = None) -> list[WarpcastStory]:
         """
         Search for casts (tweets) on the crypto social media platform Warpcast
@@ -35,7 +35,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
 
         segments = []
         for cast in search_results["casts"]:
-            cast = WarpcastSearchPlugin.filterCast(cast)
+            cast = WarpcastDataSourcePlugin.filterCast(cast)
             # Convert the cast dict to a WarpcastStory object
             storyDict = {
                 "content": json.dumps(cast),
@@ -58,7 +58,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         return {key: subStoryContent[key] for key in keysToKeep if key in subStoryContent}
 
     @staticmethod
-    @tool(name_or_callable="WarpcastSearchPlugin-_-getUserByUsername")
+    @tool(name_or_callable="WarpcastDataSourcePlugin-_-getUserByUsername")
     def getUserByUsername(username: str):
         """
         Get user information from Warpcast by their username
@@ -67,7 +67,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         userInfo = neynarApiManager.get_user_by_username(username)
 
         print(f"{Fore.GREEN}{Style.BRIGHT}Fetched user info for {username} from Warpcast{Style.RESET_ALL}")
-        userInfo = WarpcastSearchPlugin.filterUserResponse(userInfo)
+        userInfo = WarpcastDataSourcePlugin.filterUserResponse(userInfo)
         storyDict = {
             "content": json.dumps(userInfo),
             "url": f"https://warpcast.com/{userInfo.get('username')}",
@@ -77,7 +77,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         return WarpcastStory.from_dict(storyDict)
 
     @staticmethod
-    @tool(name_or_callable="WarpcastSearchPlugin-_-getTrendingFeed")
+    @tool(name_or_callable="WarpcastDataSourcePlugin-_-getTrendingFeed")
     def getTrendingFeed(limit: int = 10, time_window: str = "24h", channel_id: str = None):
         """
         Get trending casts from Warpcast within a specified time window
@@ -88,7 +88,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         """
         neynarApiManager = NeynarAPIManager()
         trending_feed = neynarApiManager.get_trending_feed(limit=limit, time_window=time_window, channel_id=channel_id)
-        trending_feed = WarpcastSearchPlugin.filterTrendingFeedResponse(trending_feed)
+        trending_feed = WarpcastDataSourcePlugin.filterTrendingFeedResponse(trending_feed)
         segments = []
         for cast in trending_feed:
             storyDict = {
@@ -106,7 +106,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         return story.content
 
     @staticmethod
-    @tool(name_or_callable="WarpcastSearchPlugin-_-getChannelFeed")
+    @tool(name_or_callable="WarpcastDataSourcePlugin-_-getChannelFeed")
     def getChannelFeed(channel_ids: str, limit: int = 5, with_recasts: bool = True, with_replies: bool = True, members_only: bool = True) -> list[WarpcastStory]:
         """
         Get feed from specific Warpcast channels
@@ -119,7 +119,7 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         """
         neynarApiManager = NeynarAPIManager()
         channel_feed = neynarApiManager.get_channel_feed(channel_ids=channel_ids, limit=limit, with_recasts=with_recasts, with_replies=with_replies, members_only=members_only)
-        channel_feed = WarpcastSearchPlugin.filterChannelFeedResponse(channel_feed)
+        channel_feed = WarpcastDataSourcePlugin.filterChannelFeedResponse(channel_feed)
         segments = []
         for cast in channel_feed:
             # Convert the cast dict to a WarpcastStory object
@@ -232,4 +232,4 @@ class WarpcastSearchPlugin(BaseDataSourcePlugin):
         return filtered_casts
 
 
-plugin = WarpcastSearchPlugin()
+plugin = WarpcastDataSourcePlugin()

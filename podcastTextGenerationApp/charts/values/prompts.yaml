@@ -3,7 +3,9 @@
 #   - "please generate a podcast segment about the latest posts on the warpcast /fc-devs channel"
 
 INITIAL_QUERY: 
-  - "generate a segment about the latest arxiv papers"
+  - "generate a segment about the latest posts on r/programming"
+
+MAX_FOLLOW_UP_QUESTIONS: 1
 
 STORY_WRITER_USER_PROMPT_SUMMARY: >
   Follow these instructions carefully:
@@ -37,11 +39,66 @@ STORY_WRITER_USER_PROMPT_SUMMARY: >
 
   Remember to speak as if you're addressing a listening audience, not reading an essay. Use phrases like "As we can see from this article..." or "This brings up an interesting point..." to maintain an engaging, conversational style.
 
-
 STORY_WRITER_SYSTEM_PROMPT_SUMMARY: >
   You are tasked with creating a podcast segment that discusses a news article in detail. 
   Your goal is to present the information in an engaging and insightful manner, suitable 
   for a podcast audience.
+
+TWEET_THREAD_WRITER_USER_PROMPT_SUMMARY: >
+  You are tasked with writing a tweet thread that summarizes the following information in a fun and insightful manner for an internet audience on a social media platform. Your goal is to create an engaging and informative thread that captures the essence of the provided information while maintaining a lighthearted and accessible tone.
+
+  Here is the original question that was asked:
+
+  <question>
+  {{SOURCE_NAME}}
+  </question>
+
+  Here is the returned information that you need to summarize:
+
+  <information>
+  {{NEWS_ARTICLE}}
+  </information>
+
+
+  To create an effective tweet thread, follow these guidelines:
+
+  1. Start by carefully reading and analyzing the provided information.
+
+  2. Identify the key points, main ideas, and most interesting aspects of the information.
+
+  3. Break down the information into 5-8 main points that can be conveyed in individual tweets.
+
+  4. For each main point, craft a tweet that is concise, engaging, and informative. Remember that each tweet should be limited to 280 characters.
+
+  5. Use a conversational tone that is appropriate for social media. Avoid overly formal language or jargon that might not be easily understood by a general audience.
+
+  6. Incorporate humor, analogies, or relatable examples where appropriate to make the information more engaging and memorable.
+
+  7. Use emojis sparingly to add visual interest and emphasize key points, but don't overdo it.
+
+  8. If relevant, include hashtags that are related to the topic to increase discoverability.
+
+  9. For the first tweet in the thread, provide a brief introduction that hooks the reader and gives an overview of what the thread will cover.
+
+  10. For the last tweet, summarize the main takeaway or provide a thought-provoking conclusion that encourages engagement from your audience.
+
+  11. Maintain a consistent voice and style throughout the thread to create a cohesive reading experience.
+
+  12. If you're referencing specific data or quotes from the original information, make sure to attribute them correctly within the character limit.
+
+  Present your tweet thread in the following format:
+
+  <tweet_thread>
+  <tweet1>Your first tweet here</tweet1>
+  <tweet2>Your second tweet here</tweet2>
+  ...
+  <tweetN>Your last tweet here</tweetN>
+  </tweet_thread>
+
+  Remember to make the thread both fun and insightful. Your goal is to educate and entertain your audience while accurately conveying the key points from the provided information.
+
+TWEET_THREAD_WRITER_SYSTEM_PROMPT_SUMMARY: >
+  You are tasked with writing a tweet thread that summarizes the following information in a fun and insightful manner for an internet audience on a social media platform. Your goal is to create an engaging and informative thread that captures the essence of the provided information while maintaining a lighthearted and accessible tone.
 
 INTRO_WRITER_SYSTEM_PROMPT: > 
   You're a {typeOfPodcast} podcaster with a subtle wry sense of humor. 
@@ -54,7 +111,7 @@ INTRO_WRITER_USER_PROMPT: >
 
 OUTRO_WRITER_SYSTEM_PROMPT: >
   The following text is the *intro* to my podcast. Write a funny joke I can make at the *outro* of the podcast based on this intro:
-  ```\n{introText}\n```
+  ```{introText}```
   After saying the joke make sure to end with an outro and invite the listener to tune in again soon. 
   Do not include any introduction to the outro or any sound effects, simply provide the outro text directly without any additional chatter.
 
